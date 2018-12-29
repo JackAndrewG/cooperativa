@@ -11,6 +11,6 @@ var CuentaSchema = Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Persona"
     }
-});
+}, false);
 
 module.exports = mongoose.model("Cuenta", CuentaSchema);
