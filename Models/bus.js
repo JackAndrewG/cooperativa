@@ -10,5 +10,5 @@ var BusSchema=Schema({
   numeroAsientos: Numeric,
   estado: {type: Boolean, default: true}
 }, false);
-
+//comentando esto
 module.exports=mongoose.model('Bus', BusSchema);
