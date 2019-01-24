@@ -1,0 +1,46 @@
+module.exports = function (sequelize, Sequelize) {
+    var rol = require('../models/rol');
+    var Rol = new rol(sequelize, Sequelize);
+    var Persona = sequelize.define('Persona', {
+        id: {
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+        },
+        external_id: {
+            type: Sequelize.UUID
+        },
+        cedula: {
+            type: Sequelize.STRING(10),
+            allowNull: false,
+            unique: true
+        },
+         apellido: {
+            type: Sequelize.STRING(50)
+        },
+        nombre: {
+            type: Sequelize.STRING(50)
+        },
+        direccion: {
+            type: Sequelize.STRING(50)
+        },
+        telefono: {
+            type: Sequelize.STRING(50)
+        },
+        estado: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        },
+
+    }, {freezeTableName: true,
+        createdAt: 'fecha_registro',
+        updateAt: 'fecha_modificacion'
+    });
+
+    Persona.belongsTo(Rol, {
+        foreingkey: 'id_rol',
+        constraints: false
+    });
+
+    return Persona;
+};

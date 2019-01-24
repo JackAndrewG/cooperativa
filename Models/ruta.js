@@ -1,13 +1,31 @@
-'use strict';
-var mongoose =require('mongoose');
-var Schema = mongoose.Schema;
-var RutaSchema=Schema({
-  id: mongoose.Schema.Types.ObjectId,
-  external_id: String,
-  origen: String,
-  destino: String,
-  valor: Numeric,
-  estado: {type: Boolean, default: true}
-}, false);
+module.exports = function (sequelize, Sequelize) {
+    var Ruta = sequelize.define('Ruta', {
+        id: {
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+        },
+        external_id: {
+            type: Sequelize.UUID
+        },
+        origen: {
+            type: Sequelize.STRING(10),
+        },
+         destino: {
+            type: Sequelize.STRING(50)
+        },
+        valor: {
+            type: Sequelize.Number(10);
+        },
+        estado: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        },
 
-module.exports=mongoose.model('Ruta', RutaSchema);
+    }, {freezeTableName: true,
+        createdAt: 'fecha_registro',
+        updateAt: 'fecha_modificacion'
+    });
+
+    return Ruta;
+};

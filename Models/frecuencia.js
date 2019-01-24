@@ -1,19 +1,38 @@
-'use strict';
-var mongoose =require('mongoose');
-var Schema = mongoose.Schema;
-var FrecuenciaSchema=Schema({
-  id: mongoose.Schema.Types.ObjectId,
-  external_id: String,
-  horario: String,
-  ruta: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Ruta'
-  },
-  bus: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Bus'
-  },
-  estado: {type: Boolean, default: true}
-}, false);
+module.exports = function (sequelize, Sequelize) {
+    var bus = require('../models/bus');
+    var Bus = new bus(sequelize, Sequelize);
+    var ruta = require('../models/ruta');
+    var Ruta = new ruta(sequelize, Sequelize);
+    var Frecuencia = sequelize.define('Frecuencia', {
+        id: {
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+        },
+        external_id: {
+            type: Sequelize.UUID
+        },
+        horario: {
+            type: Sequelize.STRING(10),
+        },
+        estado: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        },
 
-module.exports=mongoose.model('Frecuencia', FrecuenciaSchema);
+    }, {freezeTableName: true,
+        createdAt: 'fecha_registro',
+        updateAt: 'fecha_modificacion'
+    });
+
+   Frecuencia.belongsTo(Bus, {
+        foreingkey: 'id_bus',
+        constraints: false
+    });
+    Frecuencia.belongsTo(Ruta, {
+        foreingkey: 'id_ruta',
+        constraints: false
+    });
+
+    return Frecuenca;
+};

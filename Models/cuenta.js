@@ -1,16 +1,36 @@
-'use strict';
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var CuentaSchema = Schema({
-    id: mongoose.Schema.Types.ObjectId,
-    external_id: String,
-    estado: {type: Boolean, default: true},
-    correo: String,
-    clave: String,
-    persona: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Persona"
-    }
-}, false);
+module.exports = function (sequelize, Sequelize) {
+    var persona = require('./persona');
+    var Persona = new persona(sequelize, Sequelize);
+    var Cuenta = sequelize.define('cuenta', {
+        id: {
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+        },
+        external_id: {
+            type: Sequelize.UUID
+        },
+        usuario: {
+            type: Sequelize.STRING(30)
+        },
+        clave: {
+            type: Sequelize.STRING
+        },
 
-module.exports = mongoose.model("Cuenta", CuentaSchema);
+        estado: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        }
+
+    }, {freezeTableName: true,
+        createdAt: "fecha_registro",
+        updateAt: 'fecha_modificacion'
+    });
+
+    Cuenta.belongsTo(Persona, {
+        foreignKey: 'id_persona',
+        constraints: false
+
+    });
+    return Cuenta;
+};
