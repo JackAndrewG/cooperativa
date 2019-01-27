@@ -1,0 +1,48 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/minicart/3.0.5/minicart.min.js"></script>
+
+<div class="gallery">
+<h1>hola PayPal</h1>
+
+<form class="gallery" target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" >
+<input type="hidden" name="cmd" value="_cart">
+<input type="hidden" name="business" value="jack_andres@outlook.com">
+<input type="hidden" name="lc" value="AL">
+<input type="hidden" name="item_name" value="Boleto de Transporte">
+<input type="hidden" name="item_number" value="1">
+<input type="hidden" name="button_subtype" value="products">
+<input type="hidden" name="no_note" value="0">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="add" value="1">
+<input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_LG.gif:NonHostedGuest">
+<table>
+<tr><td><input type="hidden" name="on0" value="Tipo">Tipo</td></tr><tr><td><select name="os0">
+	<option value="Normal">Normal $7,50 USD</option>
+	<option value="VIP">VIP $9,50 USD</option>
+	<option value="Premium">Premium $12,50 USD</option>
+</select> </td></tr>
+</table>
+<input type="hidden" name="option_select0" value="Normal">
+<input type="hidden" name="option_amount0" value="7.50">
+<input type="hidden" name="option_select1" value="VIP">
+<input type="hidden" name="option_amount1" value="9.50">
+<input type="hidden" name="option_select2" value="Premium">
+<input type="hidden" name="option_amount2" value="12.50">
+<input type="hidden" name="option_index" value="0">
+<input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
+<img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+
+</div>
+<script>
+    paypal.minicart.render({
+      strings: {
+          button: "Pagar",
+          buttonAlt: "Total:",
+          discount: "Descuento:"
+      }
+  });
+</script>
+<script>
+    paypal.minicart.reset();
+</script>
