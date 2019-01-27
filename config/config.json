@@ -1,0 +1,16 @@
+{
+    "development":{
+        "username": "root",
+        "password": "albert123",
+        "database": "cooperativa",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "staging":{
+        "username": "root",
+        "password": "albert123",
+        "database": "cooperativa",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}

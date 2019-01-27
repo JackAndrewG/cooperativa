@@ -4,14 +4,40 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+var passport = require('passport');
+var port = process.env.PORT || 8042;
+var flash = require('connect-flash');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+//configurar aplicacion express
+app.use(morgan('dev')); // registrar cada solicitud en la consola
+app.use(cookieParser()); // leer las cookies (necesarias para la autenticación)
+//app.use(bodyParser()); // get information from html forms
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+app.use(session({
+    secret: 'Cooperativa de buses...',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(flash()); // connect-flash para mensajes flash almacenados en la sesión
+app.use(passport.initialize()); 
+app.use(passport.session()); // sesiones de inicio de sesión persistentes
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,8 +45,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//rutas
+var router = require('./config/routes.js');
+app.use('/', router);
+//modelos
+var models = require('./models/');
+models.sequelize.sync().then( () => {
+    console.log('Se ha conectado a la Base de datos');
+}).catch(err => {console.log(err, "Hubo un error");}) ;
+
+require('./config/pasaporte/passport.js')(passport, models.cuenta, models.persona, models.rol); 
+
+//launch ======================================================================
+app.listen(port);
+console.log('The magic happens on port ' + port);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

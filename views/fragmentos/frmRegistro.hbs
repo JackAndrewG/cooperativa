@@ -28,72 +28,80 @@
 
 
 <div class="limiter">
-  <div class="container-login100">
-    <div class="wrap-login100 p-t-100 p-b-20">
-<form class="login100-form validate-form" method='POST' action='/registro'>
-  <span class="login100-form-title p-b-50">
-    Registro
-  </span>
-  <span class="login100-form-avatar">
-    <img src="images/avatar-01.png" alt="AVATAR">
-  </span>
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-100 p-b-20">
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese una cedula valida" >
-    <input class="input100" type="text" name="cedula">
-    <span class="focus-input100" data-placeholder="Cedula"></span>
-  </div>
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus nombres">
-    <input class="input100" type="text" name="nombres">
-    <span class="focus-input100" data-placeholder="Nombres"></span>
-  </div>
+    
+            <form class="login100-form validate-form" method='POST' action='/registro/guardar'>
+                <span class="login100-form-title p-b-50">
+                    Registro
+                </span>
+                <span class="login100-form-avatar">
+                    <img src="images/avatar-01.png" alt="AVATAR">
+                </span>
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus apellidos">
-    <input class="input100" type="text" name="apellidos">
-    <span class="focus-input100" data-placeholder="Apellidos"></span>
-  </div>
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese una cedula valida" >
+                    <input class="input100" type="text" name="cedula">
+                    <span class="focus-input100" data-placeholder="Cedula"></span>
+                </div>
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su direccion">
-    <textarea class="input100" type="text" name="direccion"></textarea>
-    <span class="focus-input100" data-placeholder="Direccion"></span>
-  </div>
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus nombres">
+                    <input class="input100" type="text" name="nombres">
+                    <span class="focus-input100" data-placeholder="Nombres"></span>
+                </div>
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su telefono">
-    <input class="input100" type="text" name="telefono">
-    <span class="focus-input100" data-placeholder="Telefono"></span>
-  </div>
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus apellidos">
+                    <input class="input100" type="text" name="apellidos">
+                    <span class="focus-input100" data-placeholder="Apellidos"></span>
+                </div>
 
-  <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese un correo valido">
-    <input class="input100" type="email" name="correo">
-    <span class="focus-input100" data-placeholder="Correo"></span>
-  </div>
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su direccion">
+                    <textarea class="input100" type="text" name="direccion"></textarea>
+                    <span class="focus-input100" data-placeholder="Direccion"></span>
+                </div>
 
-  <div class="container-login100-form-btn">
-    <button class="login100-form-btn">
-      Registrarse
-    </button>
-  </div>
-  <ul class="login-more p-t-40">
-    <li>
-      <a href="/" class="txt2">Pagina Principal</a>
-    </li>
-  </ul>
-</form>
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su telefono">
+                    <input class="input100" type="text" name="telefono">
+                    <span class="focus-input100" data-placeholder="Telefono"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese un correo valido">
+                    <input class="input100" type="email" name="correo">
+                    <span class="focus-input100" data-placeholder="Correo"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su contraseña">
+                    <input class="input100" type="password" name="clave">
+                    <span class="focus-input100" data-placeholder="Clave"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">
+                        Registrarse
+                    </button>
+                </div>
+                <ul class="login-more p-t-40">
+                    <li>
+                        <a href="/" class="txt2">Pagina Principal</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 <div id="dropDownSelect1"></div>
 <!--===============================================================================================-->
-	<script src="vendor/animsition/js/animsition.min.js"></script>
+<script src="vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
+<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/countdowntime/countdowntime.js"></script>
+<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
+<script src="js/main.js"></script>
