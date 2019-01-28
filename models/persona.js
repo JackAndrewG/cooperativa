@@ -38,15 +38,15 @@ module.exports = function (sequelize, Sequelize) {
     });
 
     Persona.belongsTo(Rol, {
-        foreingkey: 'id_rol',
+        foreignKey: 'id_rol',
         constraints: false
     });
-    
+
     Persona.associate = function (models) {
         models.persona.hasOne(models.cuenta, {
             foreignKey: 'id_persona'
         });
-    }; 
+    };
 
     return Persona;
 };
