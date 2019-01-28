@@ -16,6 +16,14 @@ router.get('/administrador/buses', function(req, res, next) {
 });
 
 /*RUTAS USUARIO*/
+/* Obtener Destinos */
+router.get('/destinos', function(req, res, next) {
+  res.render('fragmentos/vistaUsuario/frmDestino', { titulo: 'Destinos de Viaje'});
+});
+/* Obtener Contactenos */
+router.get('/contactenos', function(req, res, next) {
+  res.render('fragmentos/vistaUsuario/frmContactenos', { titulo: 'Contactenos'});
+});
 /* Obtener Compra */
 router.get('/comprar', function(req, res, next) {
   res.render('fragmentos/vistaUsuario/frmCompra', { titulo: 'Compra de Boletos'});

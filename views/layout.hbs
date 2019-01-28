@@ -25,13 +25,15 @@
 
       <header class="header">
         <div class="header_inner d-flex flex-row align-items-center justify-content-start">
-          <div class="logo"><a href="/">TransNIC</a></div>
+          <div class="logo">
+               <a href="/"> <img src="/images/icons/logo.png" style="width: 75px" alt="">TransNIC</a>
+        </div>
           <nav class="main_nav">
             <ul>
               <li><a href="/">Inicio</a></li>
               <li><a href="/administrador/destinos">Destinos</a></li>
               <li><a href="/administrador/buses">Unidades</a></li>
-              <li><a href="contact.html">Contactenos</a></li>
+              <li><a href="/contactenos">Contactenos</a></li>
             </ul>
           </nav>
           <div class="header_content ml-auto">
@@ -45,7 +47,7 @@
               <!-- Cart -->
               <a href="/comprar">
                 <div class="cart">
-                  <img src="images/shopping-bag.svg" alt="">
+                  <img src="/images/shopping-bag.svg" alt="">
                   <div class="cart_num_container">
                     <div class="cart_num_inner">
                       <div class="cart_num">1</div>
@@ -56,7 +58,7 @@
               <!-- Star -->
               <a href="/temp">
                 <div class="star">
-                  <img src="images/star.svg" alt="">
+                  <img src="/images/star.svg" alt="">
                   <div class="star_num_container">
                     <div class="star_num_inner">
                       <div class="star_num">0</div>
@@ -67,7 +69,7 @@
               <!-- Avatar -->
               <a href="/registro">
                 <div class="avatar">
-                  <img src="images/avatar.png" alt="">
+                  <img src="/images/avatar.png" alt="">
                 </div>
               </a>
             </div>
@@ -98,8 +100,10 @@
         </div>
         <nav class="menu_nav">
           <ul class="menu_mm">
-            <li class="menu_mm"><a href="#">Temporal</a></li>
-            <li class="menu_mm"><a href="#">Temporal</a></li>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/administrador/destinos">Destinos</a></li>
+            <li><a href="/administrador/buses">Unidades</a></li>
+            <li><a href="/contactenos">Contactenos</a></li>
           </ul>
         </nav>
       </div>
@@ -126,6 +130,11 @@
                 <li><a href="#"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a></li>
                 <li><a href="https://github.com/JackAndrewG/cooperativa"><i class="fa fa-github" aria-hidden="true"></i></a></li>
               </ul>
+              <div class="fb-page"
+              data-href="https://www.facebook.com/Trans-NIC-358548688260924/"
+              data-width="380"
+              data-hide-cover="false"
+              data-show-facepile="false"></div>
             </div>
             <div class="copyright">
               <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -145,10 +154,23 @@
     <script src="/plugins/easing/easing.js"></script>
     <script src="/plugins/parallax-js-master/parallax.min.js"></script>
     <script src="/plugins/colorbox/jquery.colorbox-min.js"></script>
+    <!--AOS-->
     <script type="text/javascript" src="/js/aos.js"> </script>
     <script type="text/javascript">
       AOS.init();
     </script>
     <script src="/js/custom.js"></script>
+    <!--facebook-->
+    <div id="fb-root"></div>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
   </body>
 </html>
