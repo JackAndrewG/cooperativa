@@ -31,8 +31,11 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-100 p-b-20">
 
+                  <div class="alert alert-warning">
+                      {{ error }}
+                  </div>
 
-    
+
             <form class="login100-form validate-form" method='POST' action='/registro/guardar'>
                 <span class="login100-form-title p-b-50">
                     Registro
@@ -84,6 +87,10 @@
                 <ul class="login-more p-t-40">
                     <li>
                         <a href="/" class="txt2">Pagina Principal</a>
+                    </li>
+                    <li>
+                        <span>¿Ya tienes una cuenta? </span>
+                        <a href="/inicio_sesion" class="txt2">Inicia Sesión</a>
                     </li>
                 </ul>
             </form>

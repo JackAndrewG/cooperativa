@@ -43,6 +43,8 @@
                 <button type="submit" id="search_button" class="search_button"><img src="images/magnifying-glass.svg" alt=""></button>
               </form>
             </div>
+            </div>
+
             <div class="shopping">
               <!-- Cart -->
               <a href="/comprar">
@@ -67,12 +69,20 @@
                 </div>
               </a>
               <!-- Avatar -->
-              <a href="/registro">
-                <div class="avatar">
-                  <img src="/images/avatar.png" alt="">
+              <ul class="navbar-nav">
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="avatar">
+                    <img src="/images/avatar.png" alt="">
+                  </div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/inicio_sesion">Inciar Sesión</a>
+                  <a class="dropdown-item" href="/registro">Registrarse</a>
                 </div>
-              </a>
-            </div>
+              </li>
+            </ul>
           </div>
 
           <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">

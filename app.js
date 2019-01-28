@@ -12,9 +12,6 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
 
 app.use(bodyParser.json());
@@ -36,7 +33,7 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(flash()); // connect-flash para mensajes flash almacenados en la sesión
-app.use(passport.initialize()); 
+app.use(passport.initialize());
 app.use(passport.session()); // sesiones de inicio de sesión persistentes
 
 app.use(logger('dev'));
@@ -54,7 +51,7 @@ models.sequelize.sync().then( () => {
     console.log('Se ha conectado a la Base de datos');
 }).catch(err => {console.log(err, "Hubo un error");}) ;
 
-require('./config/pasaporte/passport.js')(passport, models.cuenta, models.persona, models.rol); 
+require('./config/pasaporte/passport.js')(passport, models.cuenta, models.persona, models.rol);
 
 //launch ======================================================================
 app.listen(port);

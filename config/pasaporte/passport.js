@@ -17,7 +17,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                 console.log(cuenta.external_id);
                 console.log(cuenta.persona.external_id);
                 console.log(cuenta.persona.apellido + " " + cuenta.persona.nombre);
-                console.log(cuenta.persona.rol.nombre);
+                //console.log(cuenta.persona.rol.nombre);
                 var userinfo = {
                     id: cuenta.id,
                     id_cuenta: cuenta.external_id,
@@ -105,7 +105,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                                          clave: userPassword,
                                          id_persona: newPersona.id
                                          };
-                                         
+
                                          Cuenta.create(data).then(function (newCuenta, created) {
                                          if (!newCuenta) {
                                          return done(null, false);
@@ -159,4 +159,3 @@ module.exports = function (passport, cuenta, persona, rol) {
             }
     ));
 }
-
