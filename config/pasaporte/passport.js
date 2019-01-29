@@ -29,6 +29,8 @@ module.exports = function (passport, cuenta, persona, rol) {
         });
 
     });
+//probando atom 1
+
     //registro de usuarios por passport
     passport.use('local-signup', new LocalStrategy(
             {
