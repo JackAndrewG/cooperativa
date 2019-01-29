@@ -1,5 +1,6 @@
 var bCrypt = require('bcrypt-nodejs');
 const uuidv4 = require('uuid/v4');
+// probando atom con master
 module.exports = function (passport, cuenta, persona, rol) {
     var Cuenta = cuenta;//modelo
     var Persona = persona;//modelo

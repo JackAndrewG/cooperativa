@@ -54,4 +54,6 @@ router.get('/comprar', function(req, res, next) {
  res.render('fragmentos/vistaUsuario/frmCompra', { titulo: 'Compra de Boletos'});
 });
 
+//probando atom master
+
 module.exports = router;
