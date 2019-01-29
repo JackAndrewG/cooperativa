@@ -40,7 +40,7 @@ router.get('/inicio_sesion', function(req, res, next) {
 
 // Registrar nuevo usuario
 router.post('/registro/guardar',
-        passport.authenticate('local-signup', {successRedirect: '/',
+        passport.authenticate('local-signup', {successRedirect: '/inicio_sesion',
             failureRedirect: '/registro', failureFlash: true}
         ));
 
@@ -80,7 +80,7 @@ router.post('/inicio_sesion/iniciar',
                     failureFlash: true}
         ));
 
-//en caso de que ya haya iniciado sesion presentará una nueva vista 
+//en caso de que ya haya iniciado sesion presentará una nueva vista
 router.get('/inicio', auth, function(req, res, next) {
          res.render('fragmentos/plantilla_sesion_iniciada', { titulo: 'Bienvenido'});
         });
