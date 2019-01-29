@@ -127,8 +127,8 @@ module.exports = function (passport, cuenta, persona, rol) {
     //inicio de sesion
     passport.use('local-signin', new LocalStrategy(
             {
-                usernameField: 'correo',
-                passwordField: 'clave',
+                usernameField: 'correo', //lo que esta como name en el input del login
+                passwordField: 'clave', //lo que esta como name en el input del login
                 passReqToCallback: true // allows us to pass back the entire request to the callback
             },
             function (req, email, password, done) {
@@ -136,7 +136,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                 var isValidPassword = function (userpass, password) {
                     return bCrypt.compareSync(password, userpass);
                 }
-                Cuenta.findOne({where: {correo: email}}).then(function (cuenta) {
+                Cuenta.findOne({where: {usuario: email}}).then(function (cuenta) {
                     if (!cuenta) {
                         return done(null, false, {message: req.flash('err_cred', 'Cuenta no existe')});
                     }
@@ -144,7 +144,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                     if (!isValidPassword(cuenta.clave, password)) {
                         return done(null, false, {message: req.flash('err_cred', 'Clave incorrecta')});
                     }
-
+                    console.log("Sesion iniciada");
                     var userinfo = cuenta.get();
                     //console.log(userinfo);
                     return done(null, userinfo);
