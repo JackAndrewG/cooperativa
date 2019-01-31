@@ -72,6 +72,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                                             id_rol: rol.id
                                         };
 
+//verificar si cedula existe
                                 Persona.findOne({
                                     where: {
                                         cedula: req.body.cedula
