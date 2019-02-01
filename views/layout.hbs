@@ -78,8 +78,14 @@
                   </div>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/inicio_sesion">Iniciar Sesión</a>
-                  <a class="dropdown-item" href="/registro">Registrarse</a>
+
+                  {{#if session }}
+                  <a class="dropdown-item" href="/cerrar_sesion">Cerrar Sesión</a>
+                  {{else}}
+                    <a class="dropdown-item" href="/inicio_sesion">Iniciar Sesión</a>
+                    <a class="dropdown-item" href="/registro">Registrarse</a>
+                  {{/if}}
+
                 </div>
               </li>
             </ul>

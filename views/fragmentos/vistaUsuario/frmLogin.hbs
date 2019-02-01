@@ -31,10 +31,13 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-100 p-b-20">
 
+          {{#if error }}
           <div class="alert alert-warning">
               {{ error }}
           </div>
-          
+          {{/if}}
+
+
             <form class="login100-form validate-form" method='POST' action='/inicio_sesion/iniciar'>
                 <span class="login100-form-title p-b-50">
                     Inicio de Sesion

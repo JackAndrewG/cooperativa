@@ -31,9 +31,11 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-100 p-b-20">
 
-                  <div class="alert alert-warning">
-                      {{ error }}
-                  </div>
+          {{#if error }}
+          <div class="alert alert-warning">
+              {{ error }}
+          </div>
+          {{/if}}
 
 
             <form class="login100-form validate-form" method='POST' action='/registro/guardar'>

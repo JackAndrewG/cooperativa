@@ -18,7 +18,10 @@ router.get('/', function(req, res, next) {
   if (req.isAuthenticated()) {
           res.redirect('/inicio');
       } else {
-          res.render('fragmentos/frmInicio', { titulo: 'TransNIC Cooperativa'});
+          res.render('fragmentos/frmInicio', {
+            titulo: 'TransNIC Cooperativa',
+            session: req.isAuthenticated()
+          });
       }
 });
 
@@ -82,8 +85,18 @@ router.post('/inicio_sesion/iniciar',
 
 //en caso de que ya haya iniciado sesion presentará una nueva vista
 router.get('/inicio', auth, function(req, res, next) {
-         res.render('fragmentos/plantilla_sesion_iniciada', { titulo: 'Bienvenido'});
+         res.render('fragmentos/plantilla_sesion_iniciada', {
+           titulo: 'Bienvenido',
+           usuario: req.user.nombre,
+           session: req.isAuthenticated()
+         });
         });
+
+router.get('/cerrar_sesion', function(req, res, next){
+  req.session.destroy();
+  res.redirect('/')
+});
+
 
 
 
