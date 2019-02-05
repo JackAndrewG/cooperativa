@@ -3,7 +3,7 @@ module.exports = function (sequelize, Sequelize) {
     var Bus = new bus(sequelize, Sequelize);
     var ruta = require('../models/ruta');
     var Ruta = new ruta(sequelize, Sequelize);
-    var Frecuencia = sequelize.define('Frecuencia', {
+    var Frecuencia = sequelize.define('frecuencia', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -25,12 +25,14 @@ module.exports = function (sequelize, Sequelize) {
         updateAt: 'fecha_modificacion'
     });
 
-   Frecuencia.belongsTo(Bus, {
-        foreingkey: 'id_bus',
+    
+    Frecuencia.belongsTo(Ruta, {
+        foreignKey: 'id_ruta',
         constraints: false
     });
-    Frecuencia.belongsTo(Ruta, {
-        foreingkey: 'id_ruta',
+    
+    Frecuencia.belongsTo(Bus, {
+        foreignKey: 'id_bus',
         constraints: false
     });
 

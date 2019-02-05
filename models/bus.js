@@ -1,5 +1,5 @@
 module.exports = function (sequelize, Sequelize) {
-      var Bus = sequelize.define('Bus', {
+      var Bus = sequelize.define('bus', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -13,7 +13,7 @@ module.exports = function (sequelize, Sequelize) {
             allowNull: false,
             unique: true
         },
-         placa: {
+        placa: {
             type: Sequelize.STRING(50),
             allowNull: false,
             unique: true
@@ -33,6 +33,12 @@ module.exports = function (sequelize, Sequelize) {
         createdAt: 'fecha_registro',
         updateAt: 'fecha_modificacion'
     });
+    
+    Bus.associate = function (models) {
+        models.bus.hasMany(models.frecuencia, {
+            foreignKey: 'id_bus'
+        });
+    }; 
 
     return Bus;
 };

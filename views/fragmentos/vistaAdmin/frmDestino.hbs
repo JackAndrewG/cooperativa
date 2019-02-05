@@ -1,142 +1,167 @@
 <title>{{titulo}}</title>
 
 <div class="gallery">
-  <div class="jumbotron">
-    <h1  class="display-4">Frecuencias y Rutas</h1>
-    <p class="lead">Aqui podrá administrar todas las Rutas y Horarios que posee la cooperativa <br>
-       Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
-  </div>
+    <div class="jumbotron">
+        <h1  class="display-4">Frecuencias y Rutas</h1>
+        <p class="lead">Aqui podrá administrar todas las Rutas y Horarios que posee la cooperativa <br>
+            Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
+    </div>
 </div>
 <div class="container">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <h2>Rutas</h2>
-      </div>
-      <div class="col-sm">
-        <h2>Fecuencias</h2>
-      </div>
-    </div>
-  </div>
-
-<div data-aos='fade-up' class="container">
-  <div class="row justify-content-md-center">
-    <!-- Rutas -->
-    <div class="col-6">
-      <form id="formRuta" method="post">
-        <input type="hidden" name="external" value="0" id="external">
-        <h3 class="bg-light">Indique la Ruta</h3>
-        <div class="form-group">
-          <small> Ingrese el Origen </small>
-          <input class="form-control" type="text" name="origen" id="origen"><br>
-        </div>
-        <div class="form-group">
-          <small> Ingrese el Destino </small>
-          <input class="form-control" type="text" name="destino" id="destino"><br>
-        </div>
-        <div class="form-group">
-          <small> Ingrese el valor del boleto </small>
-          <input class="form-control" type="text" name="valor" id="valor">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h2>Rutas</h2>
+            </div>
+            <div class="col-sm">
+                <h2>Frecuencias</h2>
+            </div>
         </div>
     </div>
 
-    <!-- Frecuencias -->
-    <div class="col-6">
-      <h3 class="bg-light">Indique la Frecuencia</h3>
-      <div class="form-group">
-        <small> Ingrese hora de Salida </small>
-        <input class="form-control" type="time" name="horaI" id="horaF"><br>
-      </div>
-      <div class="form-group">
-        <small> Ingrese hora de Llegada </small>
-        <input class="form-control" type="time" name="horaF" id="horaF"><br>
-      </div>
-    </div>
+    <div data-aos='fade-up' class="container">
+        <form id="formRuta" action="/guardar_destino" method="post">
+            <div class="row justify-content-md-center">
+                <!-- Rutas -->
 
-    <div class="col-12">
-      <div class="form-group">
-        <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
-        <div id="divBaja" style='visibility:hidden;'>
-          <input type="checkbox" value='true' id="estado" name="estado" onclick="clicBaja()">
-          <label for="estado">Reactivar / Dar de Baja</label>
-          <input type="radio" value="0" id="eliminar" name="opcion" onclick="clicEliminar()">Eliminar
-          <input type="radio" value="editar" name="opcion" onclick="clicEditar()">Editar
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <small>Seleccione para reactivar o deje desmarcado para desactivar la frecuencia</small>
-          </div>
-        </div>
-      </div>
-      <script>
-        function clicEliminar() {
-      $('#eliminar').val('1');
-      $('#btn').html('Eliminar');
-    };
-    $("#estado").on('change', function() {
-      $('#eliminar').val('0');
-      if ($(this).is(':checked')) {
-        $('#btn').html('Reactivar');
-        $(this).attr('value', 'true');
-      } else {
-        $('#btn').html('Dar de Baja');
-        $(this).attr('value', 'false');
-      }
-      $('#estado').text($('#estado').val());
-    });
+                <div class="col-6">
 
-    function clicEditar() {
-      $('#btn').html('Editar');
-      $('#eliminar').val('0');
-    };
-    $().ready(function() {
-      $("#btn").click(function() {
-        var external = $("#external").val();
-        var eliminar = $('#eliminar').val();
-        if (external == "0") {
-          $('#formfrecuencia').attr('action', '/guardarfrecuencia');
-        } else if (eliminar == '1') {
-          $('#formfrecuencia').attr('action', '/eliminarfrecuencia');
-        } else {
-          $('#formfrecuencia').attr('action', '/editarfrecuencia');
-        }
-      });
-    });
-  </script>
-      </form>
+                    <input type="hidden" name="external" value="0" id="external">
+                    <h3 class="bg-light">Indique la Ruta</h3>
+                    <div class="form-group">
+                        <small> Ingrese el Origen </small>
+                        <input class="form-control" type="text" name="origen" id="origen"><br>
+                    </div>
+                    <div class="form-group">
+                        <small> Ingrese el Destino </small>
+                        <input class="form-control" type="text" name="destino" id="destino"><br>
+                    </div>
+                    <div class="form-group">
+                        <small> Ingrese el valor del boleto </small>
+                        <input class="form-control" type="text" name="valor" id="valor">
+                    </div>
+
+                    <!--<div class="form-group">
+                        <small> Ingrese la hora de salida (frecuencia)</small>
+                        <select name="frecuencia" id="frecuencia">
+                    <!--  <% personas.forEach(function(persona, i) { %> 
+                      <option value="<%= persona.id %>"><%= persona.nombre %> <%= persona.apellido %> </option>
+                      <% }); %> 
+                    <option value="Frecuencias">FRECUENCIAS</option>
+                  </select>
+              </div> -->
+
+
+                </div>
+
+                <!-- Frecuencias -->
+                <div class="col-6">
+                    <h3 class="bg-light">Indique la Frecuencia</h3>
+                    <div class="form-group">
+                        <small> Ingrese hora de Salida </small>
+                        <input class="form-control" type="time" name="hora_salida" id="horaF"><br>
+                    </div>
+
+
+
+
+
+
+                    <!--<div class="form-group">
+                      <small> Ingrese hora de Llegada </small>
+                      <input class="form-control" type="time" name="horaF" id="horaF"><br>
+                    </div> -->
+                </div> 
+
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
+                        <div id="divBaja" style='visibility:hidden;'>
+                            <input type="checkbox" value='true' id="estado" name="estado" onclick="clicBaja()">
+                            <label for="estado">Reactivar / Dar de Baja</label>
+                            <input type="radio" value="0" id="eliminar" name="opcion" onclick="clicEliminar()">Eliminar
+                            <input type="radio" value="editar" name="opcion" onclick="clicEditar()">Editar
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <small>Seleccione para reactivar o deje desmarcado para desactivar la frecuencia</small>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        function clicEliminar() {
+                            $('#eliminar').val('1');
+                            $('#btn').html('Eliminar');
+                        }
+                        ;
+                        $("#estado").on('change', function () {
+                            $('#eliminar').val('0');
+                            if ($(this).is(':checked')) {
+                                $('#btn').html('Reactivar');
+                                $(this).attr('value', 'true');
+                            } else {
+                                $('#btn').html('Dar de Baja');
+                                $(this).attr('value', 'false');
+                            }
+                            $('#estado').text($('#estado').val());
+                        });
+
+                        function clicEditar() {
+                            $('#btn').html('Editar');
+                            $('#eliminar').val('0');
+                        }
+                        ;
+                        $().ready(function () {
+                            $("#btn").click(function () {
+                                var external = $("#external").val();
+                                var eliminar = $('#eliminar').val();
+                                if (external == "0") {
+                                    $('#formfrecuencia').attr('action', '/guardarfrecuencia');
+                                } else if (eliminar == '1') {
+                                    $('#formfrecuencia').attr('action', '/eliminarfrecuencia');
+                                } else {
+                                    $('#formfrecuencia').attr('action', '/editarfrecuencia');
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div class="col-12">
+                    <%- locals.flash%>
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col col-lg-2">
+                                <form action="/listarRutas" method="get">
+                                    <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
+                                </form>
+                            </div>
+                            <div class="col col-lg-2">
+                                <form action="/listarRutasActivas" method="post">
+                                    <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
-    <div class="col-12">
-          <%- locals.flash%>
-      <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col col-lg-2">
-            <form action="/listarRutas" method="get">
-              <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
-            </form>
-          </div>
-          <div class="col col-lg-2">
-            <form action="/listarRutasActivas" method="post">
-              <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<table data-aos='fade-down' class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
-      <th scope="col">Salida</th><th scope="col">Llegada</th><th scope="col">Estado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Loja</td>
-      <td>Quito</td>
-      <td>08:30</td>
-      <td>09:45</td>
-      <td>Activo</td>
-    </tr>
-  </tbody>
-</table>
+    
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
+                <th scope="col">Salida</th><th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Loja</td>
+                <td>Quito</td>
+                <td>08:30</td>
+                <td>Activo</td>
+            </tr>
+        </tbody>
+    </table>
