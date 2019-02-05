@@ -19,30 +19,30 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="formBus" method="post">
+        <form id="formBus" method="post" action="/administrador/buses/guardar">
           <input type="hidden" name="external" value="0" id="external">
-          <h3 class="bg-light">Proporcione los datos de la nueva unidad</h3>
+          <h3 class="bg-light">Datos cliente</h3>
           <div class="form-group">
-            <small> Ingrese su numero: </small>
-            <input class="form-control" type="text" name="origen" id="origen"><br>
+            <small> Numero de bus :</small>
+            <input class="form-control" type="text" name="numerobus" id="numerobus"><br>
           </div>
           <div class="form-group">
-            <small> Ingrese su placa: </small>
-            <input class="form-control" type="text" name="destino" id="destino"><br>
+            <small> Placa: </small>
+            <input class="form-control" type="text" name="placa" id="placa"><br>
           </div>
           <div class="form-group">
-            <small> Ingrese su propietario: </small>
-            <input class="form-control" type="text" name="valor" id="valor">
+            <small> Propietario: </small>
+            <input class="form-control" type="text" name="propietario" id="propietario">
           </div>
           <div class="form-group">
             <small> Ingrese el numero de asientos: </small>
-            <input class="form-control" type="text" name="asientos" id="asientos">
+            <input class="form-control" type="text" name="numeroasientos" id="numeroasientos">
           </div>
         </form>
       </div>
@@ -72,21 +72,25 @@
         </div>
       </div>
     </div>
-<table data-aos='fade-down' class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col"># Unidad</th><th scope="col">Placa</th><th scope="col">Propietario</th>
-      <th scope="col">Asientos</th><th scope="col">Estado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">69</th>
-      <td>LAF-003</td>
-      <td>Pedro Maite</td>
-      <td>50</td>
-      <td>Activo</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+    <table data-aos='fade-down' class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Numero Bus</th>
+          <th scope="col">Placa</th>
+          <th scope="col">Propietario</th>
+          <th scope="col">Numero Asientos</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>001</td>
+          <td>LCK-1054</td>
+          <td>Juan Casas</td>
+          <td>40 Asientos</td>
+          <td>True</td>
+        </tr>
+      </tbody>
+    </table>
