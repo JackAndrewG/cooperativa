@@ -19,8 +19,9 @@
         </div>
     </div>
 
-    <div data-aos='fade-up' class="container">
-        <form id="formRuta" action="/guardar_destino" method="post">
+    <form id="formRuta" action="/guardar_destino" method="post">
+        <div data-aos='fade-up' class="container">
+
             <div class="row justify-content-md-center">
                 <!-- Rutas -->
 
@@ -41,6 +42,8 @@
                         <input class="form-control" type="text" name="valor" id="valor">
                     </div>
 
+                   
+
                     <!--<div class="form-group">
                         <small> Ingrese la hora de salida (frecuencia)</small>
                         <select name="frecuencia" id="frecuencia">
@@ -60,6 +63,15 @@
                     <div class="form-group">
                         <small> Ingrese hora de Salida </small>
                         <input class="form-control" type="time" name="hora_salida" id="horaF"><br>
+                    </div>
+                    
+                     <div class="form-group">
+                        <small> Ingrese el numero del bus </small>
+                        <select name="bus" id="bus">
+                            {{#each buses }}
+                            <option value="{{ id }}">{{ numeroBus }}</option>
+                            {{/each}}
+                        </select>
                     </div>
 
 
@@ -144,24 +156,30 @@
                     </div>
                 </div>
             </div>
-        </form>
 
-    </div>
-    
+        </div>
+
+    </form>
+
+
     <table data-aos='fade-down' class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
-                <th scope="col">Salida</th><th scope="col">Estado</th>
+                <th scope="col">Salida</th><th scope="col">Valor</th><th scope="col">Bus</th><th scope="col">Estado</th>
             </tr>
         </thead>
         <tbody>
+            {{#each frecuencias as |frecuencia i| }}
             <tr>
                 <th scope="row">1</th>
-                <td>Loja</td>
-                <td>Quito</td>
-                <td>08:30</td>
+                <td>{{ frecuencia.rutum.origen }}</td>
+                <td>{{ frecuencia.rutum.destino }}</td>
+                <td>{{ frecuencia.horario }}</td>
+                <td>${{ frecuencia.rutum.valor }}</td>
+                <td>{{ frecuencia.bus.numeroBus }}</td>
                 <td>Activo</td>
             </tr>
+            {{/each}}
         </tbody>
     </table>

@@ -2,6 +2,7 @@
 var models = require('../models');
 var Ruta = models.ruta;
 var Frecuencia = models.frecuencia;
+var Bus = models.bus;
 const uuidv4 = require('uuid/v4');
 
 class rutaControlador {
@@ -18,7 +19,8 @@ class rutaControlador {
                 Frecuencia.create({
                     external_id: uuidv4(),
                     horario: req.body.hora_salida,
-                    id_ruta: newRuta.id
+                    id_ruta: newRuta.id,
+                    id_bus: req.body.bus
                 }).then(function (newFrecuencia, created) {
                     if (newFrecuencia) {
                         //req.flash('info', 'Se ha creado correctamente');
@@ -34,6 +36,33 @@ class rutaControlador {
             }
         });
 
+
+
+    }
+
+    verRutas(req, res) {
+
+
+        Bus.findAll({where: {estado: true}}).then(function (buses) {
+            Frecuencia.findAll({include: {model: Ruta}}, {include: {model: Bus}}, {where: {estado: true}}).then(function (frecuencias) {
+            /*   frecuencias.forEach(element =>{
+                    console.log(element);
+                }); */
+            //console.log(frecuencias.ruta)
+                res.render('fragmentos/vistaAdmin/frmDestino',
+                        {titulo: 'Administrar Destinos',
+                            frecuencias: frecuencias,
+                            buses: buses,
+                            session: req.isAuthenticated()
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/destinos');
+            });
+        });
 
 
     }

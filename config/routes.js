@@ -2,15 +2,13 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-<<<<<<< HEAD
 
 var ruta = require('../controladores/rutaControlador');
 var rutaControlador = new ruta();
 
-=======
-//var unidades = require('../controladores/unidadesController');
-//var unidadesController = new unidades();
->>>>>>> 087074755897804b5b95d774f9079d8cefe6a9fe
+var unidad = require('../controladores/unidadesControlador');
+var unidadesControlador = new unidad();
+
 //solo dejara ver la diferentes secciones si ha iniciado sesion
 var auth = function middleWare(req, res, next) {
     if (req.isAuthenticated()) {
@@ -51,51 +49,28 @@ router.get('/inicio_sesion', function(req, res, next) {
 });
 
 // Registrar nuevo usuario
-
-
-
 router.post('/registro/guardar',
         passport.authenticate('local-signup', {successRedirect: '/inicio_sesion',
             failureRedirect: '/registro', failureFlash: true}
         ));
-// registrar un nuevo bus
-//router.post('/administrador/buses/guardar', auth, UnidadesController.guardar);
 
 // Obtener Registro de Usuario
 
 /*RUTAS ADMINISTRADOR*/
 /* Obtener Destinos */
-<<<<<<< HEAD
-router.get('/destinos', auth, function(req, res, next) {
+
+router.get('/destinos', auth, rutaControlador.verRutas);
+
+
+/*router.get('/destinos', auth, function(req, res, next) {
     //if (req.user.rol === "administrador") {} <- utilizar
     
     
  res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
  session: req.isAuthenticated()});
-=======
-router.get('/administrador/destinos', auth, function(req, res, next) {
- res.render('fragmentos/vistaAdmin/frmEditar', { titulo: 'Administrar Destinos'});
->>>>>>> 087074755897804b5b95d774f9079d8cefe6a9fe
-});
+}); */
 /* Obtener Buses */
-/*
-router.get('/administrador/buses', auth, function(req, res, next) {
- res.render('fragmentos/vistaAdmin/frmBus', { titulo: 'Administrar Unidades de Transporte'});
-});
-
-*/
-
-router.get('/administrador/buses', auth, function(req, res, next) {
-     res.render('fragmentos/vistaAdmin/frmBus', { titulo: 'Administrar Unidades de Transporte'});
-    });
-
-/*
-router.get('/usuario/busesi', auth, function(req, res, next) {
-   res.render('fragmentos/vistaUsuario/frmVistaUnidades', { titulo: 'Administrar Unidades de Transporte'});
-  });
-*/
-
-
+router.get('/administrador/buses', auth, unidadesControlador.verBuses);
 
 /*RUTAS USUARIO*/
 /* Obtener Destinos */
@@ -134,11 +109,14 @@ router.get('/inicio', auth, function(req, res, next) {
 //cerrar sesion
 router.get('/cerrar_sesion', function(req, res, next){
   req.session.destroy();
-  res.redirect('/')
+  res.redirect('/');
 });
 
 //registro de frecuencias
 router.post('/guardar_destino', auth, rutaControlador.guardar);
+
+//registro de buses
+router.post('/guardar_bus', auth, unidadesControlador.guardar);
 
 
 

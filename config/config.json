@@ -2,14 +2,14 @@
     "development":{
         "username": "root",
         "password": "albert123",
-        "database": "cooperativa",
+        "database": "TransNIC",
         "host": "localhost",
         "dialect": "mysql"
     },
     "staging":{
         "username": "root",
         "password": "albert123",
-        "database": "cooperativa",
+        "database": "TransNIC",
         "host": "localhost",
         "dialect": "mysql"
     }
