@@ -22,3 +22,7 @@ class CuentaController {
 
 }
 module.exports = CuentaController;
+
+// no se utiliza
+
+

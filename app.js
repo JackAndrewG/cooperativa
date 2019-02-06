@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+//sdsdsd
 require('dotenv').config();
 var passport = require('passport');
 var port = process.env.PORT || 8042;
@@ -55,7 +55,7 @@ require('./config/pasaporte/passport.js')(passport, models.cuenta, models.person
 
 //launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('La magia ocurre en el puerto: ' + port);
 
 
 

@@ -1,92 +1,101 @@
 <title>{{titulo}}</title>
 
 <div class="gallery">
-  <div class="jumbotron">
-    <h1  class="display-4">Buses</h1>
-    <p class="lead">Aqui podrá administrar todas las Unidades que posee la cooperativa <br>
-       Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
-  </div>
+    <div class="jumbotron">
+        <h1  class="display-4">Buses</h1>
+        <p class="lead">Aqui podrá administrar todas las Unidades que posee la cooperativa <br>
+            Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
+    </div>
 </div>
 
 <div class="container">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Registrar
-</button>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Registrar
+    </button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="formBus" method="post">
-          <input type="hidden" name="external" value="0" id="external">
-          <h3 class="bg-light">Proporcione los datos de la nueva unidad</h3>
-          <div class="form-group">
-            <small> Ingrese su numero: </small>
-            <input class="form-control" type="text" name="origen" id="origen"><br>
-          </div>
-          <div class="form-group">
-            <small> Ingrese su placa: </small>
-            <input class="form-control" type="text" name="destino" id="destino"><br>
-          </div>
-          <div class="form-group">
-            <small> Ingrese su propietario: </small>
-            <input class="form-control" type="text" name="valor" id="valor">
-          </div>
-          <div class="form-group">
-            <small> Ingrese el numero de asientos: </small>
-            <input class="form-control" type="text" name="asientos" id="asientos">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
+    <!-- Modal -->
+    <form id="formBus" method="post" action="/guardar_bus">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="external" value="0" id="external">
+                        <h3 class="bg-light">Datos cliente</h3>
+                        <div class="form-group">
+                            <small> Numero de bus :</small>
+                            <input class="form-control" type="text" name="numerobus" id="numerobus"><br>
+                        </div>
+                        <div class="form-group">
+                            <small> Placa: </small>
+                            <input class="form-control" type="text" name="placa" id="placa"><br>
+                        </div>
+                        <div class="form-group">
+                            <small> Propietario: </small>
+                            <input class="form-control" type="text" name="propietario" id="propietario">
+                        </div>
+                        <div class="form-group">
+                            <small> Ingrese el numero de asientos: </small>
+                            <input class="form-control" type="text" name="numeroasientos" id="numeroasientos">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
 
 
     <div class="col-12">
-          <%- locals.flash%>
-      <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col col-lg-2">
-            <form action="/listarRutas" method="get">
-              <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
-            </form>
-          </div>
-          <div class="col col-lg-2">
-            <form action="/listarRutasActivas" method="post">
-              <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
-            </form>
-          </div>
+        <%- locals.flash%>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-2">
+                    <form action="/listarRutas" method="get">
+                        <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
+                    </form>
+                </div>
+                <div class="col col-lg-2">
+                    <form action="/listarRutasActivas" method="post">
+                        <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-<table data-aos='fade-down' class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col"># Unidad</th><th scope="col">Placa</th><th scope="col">Propietario</th>
-      <th scope="col">Asientos</th><th scope="col">Estado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">69</th>
-      <td>LAF-003</td>
-      <td>Pedro Maite</td>
-      <td>50</td>
-      <td>Activo</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Numero Bus</th>
+                <th scope="col">Placa</th>
+                <th scope="col">Propietario</th>
+                <th scope="col">Numero Asientos</th>
+                <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+             {{#each buses as |bus i|}}
+          <tr>
+              <th scope="row">{{ i }}</th>
+              <td>{{ bus.numeroBus }}</td>
+              <td>{{ bus.placa }}</td>
+              <td>{{ bus.propietario }}</td>
+              <td>{{ bus.numeroAsientos }}</td>
+              <td>True</td>
+          </tr>
+           {{/each}}
+        </tbody>
+    </table>

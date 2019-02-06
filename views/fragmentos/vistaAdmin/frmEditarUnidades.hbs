@@ -1,0 +1,68 @@
+<title>{{titulo}}</title>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formBus" method="post" action="">
+          <input type="hidden" name="external" value="0" id="external">
+          <h3 class="bg-light">Datos cliente</h3>
+          <div class="form-group">
+            <small> Numero de bus :</small>
+            <input class="form-control" type="text" name="numerobus" id="numerobus"><br>
+          </div>
+          <div class="form-group">
+            <small> Placa: </small>
+            <input class="form-control" type="text" name="placa" id="placa"><br>
+          </div>
+          <div class="form-group">
+            <small> Propietario: </small>
+            <input class="form-control" type="text" name="propietario" id="propietario">
+          </div>
+          <div class="form-group">
+            <small> Ingrese el numero de asientos: </small>
+            <input class="form-control" type="text" name="numeroasientos" id="numeroasientos">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ul class="dropdown-menu" role="menu">
+   <li><a data-toggle="modal" data-target="#exampleModalCenter">Nuevo Cliente </a></li>
+   <li><a>Dar de baja </a></li>
+   <li><a data-toggle="modal" data-target="#exampleModalCenter">Editar </a></li>
+
+ </ul>
+
+<table data-aos='fade-down' class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Numero Bus</th>
+      <th scope="col">Placa</th>
+      <th scope="col">Propietario</th>
+      <th scope="col">Numero Asientos</th>
+      <th scope="col">Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>001</td>
+      <td>LCK-1054</td>
+      <td>Juan Casas</td>
+      <td>40 Asientos</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>

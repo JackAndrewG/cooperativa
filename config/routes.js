@@ -2,6 +2,13 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
+
+var ruta = require('../controladores/rutaControlador');
+var rutaControlador = new ruta();
+
+var unidad = require('../controladores/unidadesControlador');
+var unidadesControlador = new unidad();
+
 //solo dejara ver la diferentes secciones si ha iniciado sesion
 var auth = function middleWare(req, res, next) {
     if (req.isAuthenticated()) {
@@ -51,22 +58,30 @@ router.post('/registro/guardar',
 
 /*RUTAS ADMINISTRADOR*/
 /* Obtener Destinos */
-router.get('/administrador/destinos', auth, function(req, res, next) {
- res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos'});
-});
+
+router.get('/destinos', auth, rutaControlador.verRutas);
+
+
+/*router.get('/destinos', auth, function(req, res, next) {
+    //if (req.user.rol === "administrador") {} <- utilizar
+
+
+ res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
+ session: req.isAuthenticated()});
+}); */
 /* Obtener Buses */
-router.get('/administrador/buses', auth, function(req, res, next) {
- res.render('fragmentos/vistaAdmin/frmBus', { titulo: 'Administrar Unidades de Transporte'});
-});
+router.get('/administrador/buses', auth, unidadesControlador.verBuses);
 
 /*RUTAS USUARIO*/
 /* Obtener Destinos */
+/*
 router.get('/destinos', auth, function(req, res, next) {
  res.render('fragmentos/vistaUsuario/frmDestino', { titulo: 'Destinos de Viaje'});
-});
+}); */
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function(req, res, next) {
- res.render('fragmentos/vistaUsuario/frmContactenos', { titulo: 'Contactenos'});
+ res.render('fragmentos/vistaUsuario/frmContactenos', { titulo: 'Contactenos',
+session: req.isAuthenticated()});
 });
 /* Obtener Compra */
 router.get('/comprar', auth, function(req, res, next) {
@@ -92,10 +107,17 @@ router.get('/inicio', auth, function(req, res, next) {
          });
         });
 
+//cerrar sesion
 router.get('/cerrar_sesion', function(req, res, next){
   req.session.destroy();
-  res.redirect('/')
+  res.redirect('/');
 });
+
+//registro de frecuencias
+router.post('/guardar_destino', auth, rutaControlador.guardar);
+
+//registro de buses
+router.post('/guardar_bus', auth, unidadesControlador.guardar);
 
 
 

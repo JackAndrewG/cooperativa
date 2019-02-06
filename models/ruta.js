@@ -1,5 +1,6 @@
 module.exports = function (sequelize, Sequelize) {
-    var Ruta = sequelize.define('Ruta', {
+    
+    var Ruta = sequelize.define('ruta', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -15,7 +16,7 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.STRING(50)
         },
         valor: {
-            type: Sequelize.DOUBLE(3,2)
+            type: Sequelize.DOUBLE(10,2)
         },
         estado: {
             type: Sequelize.BOOLEAN,
@@ -26,6 +27,14 @@ module.exports = function (sequelize, Sequelize) {
         createdAt: 'fecha_registro',
         updateAt: 'fecha_modificacion'
     });
+    
+    Ruta.associate = function (models) {
+        models.ruta.hasMany(models.frecuencia, {
+            foreignKey: 'id_ruta'
+        });
+    }; 
 
     return Ruta;
 };
+
+//una frecuencia tiene muchas rutas

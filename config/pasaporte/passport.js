@@ -1,6 +1,7 @@
 var bCrypt = require('bcrypt-nodejs');
 const uuidv4 = require('uuid/v4');
 // probando atom con master
+//probando netbeans
 module.exports = function (passport, cuenta, persona, rol) {
     var Cuenta = cuenta;//modelo
     var Persona = persona;//modelo
@@ -19,7 +20,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                     id: cuenta.id,
                     id_cuenta: cuenta.external_id,
                     id_persona: cuenta.persona.external_id,
-                    nombre: cuenta.persona.apellido + " " + cuenta.persona.nombre,
+                    nombre: cuenta.persona.nombre + " " + cuenta.persona.apellido,
                     rol: cuenta.persona.rol.nombre
                 };
                 console.log(userinfo);
