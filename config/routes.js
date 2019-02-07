@@ -2,22 +2,19 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 64e0f0849801e10d629f877c735054d75a552373
 var ruta = require('../controladores/rutaControlador');
 var rutaControlador = new ruta();
 
 var unidad = require('../controladores/unidadesControlador');
 var unidadesControlador = new unidad();
 
-<<<<<<< HEAD
-//solo dejara ver la diferentes secciones si ha iniciado sesion
-=======
+
+
+
 
 //Control de Sesion
->>>>>>> 64e0f0849801e10d629f877c735054d75a552373
+
 var auth = function middleWare(req, res, next) {
     if (req.isAuthenticated()) {
         next();
@@ -40,7 +37,7 @@ router.get('/', function(req, res, next) {
       }
 });
 
-<<<<<<< HEAD
+
 /* Obtener Registro de Usuario */
 router.get('/registro', function(req, res, next) {
   res.render('fragmentos/vistaUsuario/frmRegistro', {
@@ -68,11 +65,11 @@ router.post('/registro/guardar',
 /*RUTAS ADMINISTRADOR*/
 /* Obtener Destinos */
 
-=======
+
 /*RUTAS ADMINISTRADOR*/
 
 /* Obtener Destinos */
->>>>>>> 64e0f0849801e10d629f877c735054d75a552373
+
 router.get('/destinos', auth, rutaControlador.verRutas);
 
 /*router.get('/destinos', auth, function(req, res, next) {
@@ -92,15 +89,15 @@ router.get('/destinos', auth, rutaControlador.verRutas);
 router.get('/administrador/buses', auth, unidadesControlador.verBuses);
 
 /*RUTAS USUARIO*/
-<<<<<<< HEAD
+
 /* Obtener Destinos */
 /*
 router.get('/destinos', auth, function(req, res, next) {
  res.render('fragmentos/vistaUsuario/frmDestino', { titulo: 'Destinos de Viaje'});
 }); */
-=======
 
->>>>>>> 64e0f0849801e10d629f877c735054d75a552373
+
+
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function(req, res, next) {
  res.render('fragmentos/vistaUsuario/frmContactenos', { titulo: 'Contactenos',
@@ -128,8 +125,7 @@ router.get('/inicio', auth, function(req, res, next) {
          });
         });
 
-<<<<<<< HEAD
-=======
+
         /* Obtener Registro de Usuario */
         router.get('/registro', function(req, res, next) {
           res.render('fragmentos/vistaUsuario/frmRegistro', {
@@ -152,7 +148,7 @@ router.get('/inicio', auth, function(req, res, next) {
                     failureRedirect: '/registro', failureFlash: true}
                 ));
 
->>>>>>> 64e0f0849801e10d629f877c735054d75a552373
+
 //cerrar sesion
 router.get('/cerrar_sesion', function(req, res, next){
   req.session.destroy();
