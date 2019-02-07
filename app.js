@@ -55,7 +55,7 @@ require('./config/pasaporte/passport.js')(passport, models.cuenta, models.person
 
 //launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('La magia ocurre en el puerto: ' + port);
 
 
 

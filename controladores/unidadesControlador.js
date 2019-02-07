@@ -27,7 +27,12 @@ class unidadesControlador {
 
             res.render('fragmentos/vistaAdmin/frmBus',
                     {titulo: 'Administrar Unidades de Transporte',
+<<<<<<< HEAD
                         buses: buses
+=======
+                        buses: buses,
+                        session: req.isAuthenticated()
+>>>>>>> 64e0f0849801e10d629f877c735054d75a552373
                                 //info: (req.flash('info') != '') ? req.flash('info') : '',
                                 //error: (req.flash('error') != '') ? req.flash('error') : ''
                     });
@@ -42,4 +47,8 @@ class unidadesControlador {
 
 }
 
+<<<<<<< HEAD
 module.exports = unidadesControlador;
+=======
+module.exports = unidadesControlador;
+>>>>>>> 64e0f0849801e10d629f877c735054d75a552373

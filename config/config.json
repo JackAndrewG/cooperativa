@@ -1,15 +1,25 @@
 {
     "development":{
         "username": "root",
+<<<<<<< HEAD
         "password": "albert123",
         "database": "TransNIC",
+=======
+        "password": "jack",
+        "database": "cooperativa",
+>>>>>>> 64e0f0849801e10d629f877c735054d75a552373
         "host": "localhost",
         "dialect": "mysql"
     },
     "staging":{
         "username": "root",
+<<<<<<< HEAD
         "password": "albert123",
         "database": "TransNIC",
+=======
+        "password": "jack",
+        "database": "cooperativa",
+>>>>>>> 64e0f0849801e10d629f877c735054d75a552373
         "host": "localhost",
         "dialect": "mysql"
     }
