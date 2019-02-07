@@ -40,8 +40,29 @@ class rutaControlador {
 
     }
 
-    verRutas(req, res) {
+    editar(req, res) {
 
+        Ruta.update({
+            valor: req.body.valor
+        }, {where: {external_id: req.body.external}}).then(function (newRuta, created) {
+            if (newRuta) {
+                //req.flash('info', 'Registro Modificado Correctamente');
+                Frecuencia.update({
+                    horario: req.body.hora_salida,
+                    id_bus: req.body.bus
+                }, {where: {external_id: req.body.externalFrecuencia}}).then(function (newFrecuencia, created) {
+                    if (newFrecuencia) {
+                        //req.flash('info', 'Frecuencia Modificada Correctamente');
+                        console.log("Se ha MODIFICADO correctamente");
+                        res.redirect('/destinos');
+                    }
+                });
+            }
+        });
+    }
+
+
+    verRutas(req, res) {
 
         Bus.findAll({where: {estado: true}}).then(function (buses) {
             Frecuencia.findAll({include: {model: Ruta}}, {include: {model: Bus}}, {where: {estado: true}}).then(function (frecuencias) {

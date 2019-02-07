@@ -3,11 +3,11 @@
 <div class="gallery">
     <div class="jumbotron">
         <h1  class="display-4">Frecuencias y Rutas</h1>
-        <p class="lead">Aqui podrá administrar todas las Rutas y Horarios que posee la cooperativa <br>
+        <p class="lead" id="texto">Aqui podrá administrar todas las Rutas y Horarios que posee la cooperativa <br>
             Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
     </div>
 </div>
-<div class="container">
+<div class="container" >
     <div class="container">
         <div class="row">
             <div class="col-sm">
@@ -19,15 +19,14 @@
         </div>
     </div>
 
-    <form id="formRuta" action="/guardar_destino" method="post">
+    <form id="formDestino" method="post">
         <div data-aos='fade-up' class="container">
-
+            <input type="hidden" name="external" value="0" id="external">
+            <input type="hidden" name="externalFrecuencia" value="0" id="externalFrecuencia">
             <div class="row justify-content-md-center">
                 <!-- Rutas -->
 
                 <div class="col-6">
-
-                    <input type="hidden" name="external" value="0" id="external">
                     <h3 class="bg-light">Indique la Ruta</h3>
                     <div class="form-group">
                         <small> Ingrese el Origen </small>
@@ -50,7 +49,7 @@
                     <h3 class="bg-light">Indique la Frecuencia</h3>
                     <div class="form-group">
                         <small> Ingrese hora de Salida </small>
-                        <input class="form-control" type="time" name="hora_salida" id="horaF"><br>
+                        <input class="form-control" type="time" name="hora_salida" id="horaS"><br>
                     </div>
 
                      <div class="form-group">
@@ -61,14 +60,8 @@
                             {{/each}}
                         </select>
                     </div>
-
-
-                </div> 
-
                 </div>
-
-
-
+                </div>
                 <div class="col-12">
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
@@ -110,11 +103,11 @@
                                 var external = $("#external").val();
                                 var eliminar = $('#eliminar').val();
                                 if (external == "0") {
-                                    $('#formfrecuencia').attr('action', '/guardarfrecuencia');
+                                    $('#formDestino').attr('action', '/guardar_destino');
                                 } else if (eliminar == '1') {
-                                    $('#formfrecuencia').attr('action', '/eliminarfrecuencia');
+                                    $('#formDestino').attr('action', '/eliminarfrecuencia');
                                 } else {
-                                    $('#formfrecuencia').attr('action', '/editarfrecuencia');
+                                    $('#formDestino').attr('action', '/editarDestino');
                                 }
                             });
                         });
@@ -149,19 +142,33 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
-                <th scope="col">Salida</th><th scope="col">Valor</th><th scope="col">Bus</th><th scope="col">Estado</th>
+                <th scope="col">Salida</th><th scope="col">Valor</th><th scope="col">Bus</th>
+                <th scope="col">Estado</th><th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
             {{#each frecuencias as |frecuencia i| }}
             <tr>
-                <th scope="row">1</th>
+                <td>{{i}}</td>
                 <td>{{ frecuencia.rutum.origen }}</td>
                 <td>{{ frecuencia.rutum.destino }}</td>
                 <td>{{ frecuencia.horario }}</td>
                 <td>${{ frecuencia.rutum.valor }}</td>
                 <td>{{ frecuencia.bus.numeroBus }}</td>
                 <td>Activo</td>
+                <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a> </td>
+                <script>
+                  $("#bEditar{{i}}").click(function() {
+                      $("#external").val('{{frecuencia.rutum.external_id}}');
+                      $("#externalFrecuencia").val('{{frecuencia.external_id}}');
+                      $("#origen").val('{{ frecuencia.rutum.origen }}');
+                      $("#destino").val('{{ frecuencia.rutum.destino }}');
+                      $("#horaS").val('{{ frecuencia.horario }}');
+                      $("#valor").val('{{ frecuencia.rutum.valor }}');
+                      $("#bus").val('{{ frecuencia.bus.numeroBus }}');
+                      $("#divBaja").attr('style', 'visibility:visible;');
+                  });
+                </script>
             </tr>
             {{/each}}
         </tbody>
