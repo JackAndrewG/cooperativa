@@ -20,6 +20,7 @@
     </div>
 
     <form id="formDestino" method="post">
+
         <div data-aos='fade-up' class="container">
             <input type="hidden" name="external" value="0" id="external">
             <input type="hidden" name="externalFrecuencia" value="0" id="externalFrecuencia">
@@ -52,7 +53,7 @@
                         <input class="form-control" type="time" name="hora_salida" id="horaS"><br>
                     </div>
 
-                     <div class="form-group">
+                    <div class="form-group">
                         <small> Ingrese el numero del bus </small>
                         <select name="bus" id="bus">
                             {{#each buses }}
@@ -61,115 +62,120 @@
                         </select>
                     </div>
                 </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
-                        <div id="divBaja" style='visibility:hidden;'>
-                            <input type="checkbox" value='true' id="estado" name="estado" onclick="clicBaja()">
-                            <label for="estado">Reactivar / Dar de Baja</label>
-                            <input type="radio" value="0" id="eliminar" name="opcion" onclick="clicEliminar()">Eliminar
-                            <input type="radio" value="editar" name="opcion" onclick="clicEditar()">Editar
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <small>Seleccione para reactivar o deje desmarcado para desactivar la frecuencia</small>
-                            </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
+                    <div id="divBaja" style='visibility:hidden;'>
+                        <input type="checkbox" value='true' id="estado" name="estado" onclick="clicBaja()">
+                        <label for="estado">Reactivar / Dar de Baja</label>
+                        <input type="radio" value="0" id="eliminar" name="opcion" onclick="clicEliminar()">Eliminar
+                        <input type="radio" value="editar" name="opcion" onclick="clicEditar()">Editar
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <small>Seleccione para reactivar o deje desmarcado para desactivar la frecuencia</small>
                         </div>
                     </div>
-                    <script>
-                        function clicEliminar() {
-                            $('#eliminar').val('1');
-                            $('#btn').html('Eliminar');
-                        }
-                        ;
-                        $("#estado").on('change', function () {
-                            $('#eliminar').val('0');
-                            if ($(this).is(':checked')) {
-                                $('#btn').html('Reactivar');
-                                $(this).attr('value', 'true');
-                            } else {
-                                $('#btn').html('Dar de Baja');
-                                $(this).attr('value', 'false');
-                            }
-                            $('#estado').text($('#estado').val());
-                        });
-
-                        function clicEditar() {
-                            $('#btn').html('Editar');
-                            $('#eliminar').val('0');
-                        };
-                        
-                        $().ready(function () {
-                            $("#btn").click(function () {
-                                var external = $("#external").val();
-                                var eliminar = $('#eliminar').val();
-                                if (external == "0") {
-                                    $('#formDestino').attr('action', '/guardar_destino');
-                                } else if (eliminar == '1') {
-                                    $('#formDestino').attr('action', '/eliminarfrecuencia');
-                                } else {
-                                    $('#formDestino').attr('action', '/editarDestino');
-                                }
-                            });
-                        });
-                    </script>
                 </div>
+                <script>
+                    function clicEliminar() {
+                        $('#eliminar').val('1');
+                        $('#btn').html('Eliminar');
+                    }
+                    ;
+                    $("#estado").on('change', function () {
+                        $('#eliminar').val('0');
+                        if ($(this).is(':checked')) {
+                            $('#btn').html('Reactivar');
+                            $(this).attr('value', 'true');
+                        } else {
+                            $('#btn').html('Dar de Baja');
+                            $(this).attr('value', 'false');
+                        }
+                        $('#estado').text($('#estado').val());
+                    });
 
-                <div class="col-12">
-                    <%- locals.flash%>
-                    <div class="container">
-                        <div class="row justify-content-md-center">
-                            <div class="col col-lg-2">
-                                <form action="/listarRutas" method="get">
-                                    <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
-                                </form>
-                            </div>
-                            <div class="col col-lg-2">
-                                <form action="/listarRutasActivas" method="post">
-                                    <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
-                                </form>
-                            </div>
+                    function clicEditar() {
+                        $('#btn').html('Editar');
+                        $('#eliminar').val('0');
+                    }
+                    ;
+
+                    $().ready(function () {
+                        $("#btn").click(function () {
+                            var external = $("#external").val();
+                            var eliminar = $('#eliminar').val();
+                            if (external == "0") {
+                                $('#formDestino').attr('action', '/guardar_destino');
+                            } else if (eliminar == '1') {
+                                $('#formDestino').attr('action', '/eliminarfrecuencia');
+                            } else {
+                                $('#formDestino').attr('action', '/editarDestino');
+                            }
+                        });
+                    });
+                </script>
+            </div>
+
+            <div class="col-12">
+                {{#if info }}
+                <div class="alert alert-success">
+                    {{ info }}
+                </div>
+                {{/if}}
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="col col-lg-2">
+                            <form action="/listarRutas" method="get">
+                                <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
+                            </form>
+                        </div>
+                        <div class="col col-lg-2">
+                            <form action="/listarRutasActivas" method="post">
+                                <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
-    </form>
+</div>
+
+</form>
 
 
-    <table data-aos='fade-down' class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
-                <th scope="col">Salida</th><th scope="col">Valor</th><th scope="col">Bus</th>
-                <th scope="col">Estado</th><th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each frecuencias as |frecuencia i| }}
-            <tr>
-                <td>{{i}}</td>
-                <td>{{ frecuencia.rutum.origen }}</td>
-                <td>{{ frecuencia.rutum.destino }}</td>
-                <td>{{ frecuencia.horario }}</td>
-                <td>${{ frecuencia.rutum.valor }}</td>
-                <td>{{ frecuencia.bus.numeroBus }}</td>
-                <td>Activo</td>
-                <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a> </td>
-                <script>
-                  $("#bEditar{{i}}").click(function() {
-                      $("#external").val('{{frecuencia.rutum.external_id}}');
-                      $("#externalFrecuencia").val('{{frecuencia.external_id}}');
-                      $("#origen").val('{{ frecuencia.rutum.origen }}');
-                      $("#destino").val('{{ frecuencia.rutum.destino }}');
-                      $("#horaS").val('{{ frecuencia.horario }}');
-                      $("#valor").val('{{ frecuencia.rutum.valor }}');
-                      $("#bus").val('{{ frecuencia.bus.numeroBus }}');
-                      $("#divBaja").attr('style', 'visibility:visible;');
-                  });
-                </script>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+<table data-aos='fade-down' class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
+            <th scope="col">Salida</th><th scope="col">Valor</th><th scope="col">Bus</th>
+            <th scope="col">Estado</th><th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each frecuencias as |frecuencia i| }}
+        <tr>
+            <td>{{i}}</td>
+            <td>{{ frecuencia.rutum.origen }}</td>
+            <td>{{ frecuencia.rutum.destino }}</td>
+            <td>{{ frecuencia.horario }}</td>
+            <td>${{ frecuencia.rutum.valor }}</td>
+            <td>{{ frecuencia.bus.numeroBus }}</td>
+            <td>Activo</td>
+            <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a> </td>
+    <script>
+        $("#bEditar{{i}}").click(function () {
+            $("#external").val('{{frecuencia.rutum.external_id}}');
+            $("#externalFrecuencia").val('{{frecuencia.external_id}}');
+            $("#origen").val('{{ frecuencia.rutum.origen }}');
+            $("#destino").val('{{ frecuencia.rutum.destino }}');
+            $("#horaS").val('{{ frecuencia.horario }}');
+            $("#valor").val('{{ frecuencia.rutum.valor }}');
+            $("#bus").val('{{ frecuencia.bus.numeroBus }}');
+            $("#divBaja").attr('style', 'visibility:visible;');
+        });
+    </script>
+</tr>
+{{/each}}
+</tbody>
+</table>

@@ -15,7 +15,7 @@ class rutaControlador {
             valor: req.body.valor
         }).then(function (newRuta, created) {
             if (newRuta) {
-                //req.flash('info', 'Se ha creado correctamente');
+                req.flash('info_correcto', 'Se ha guardado correctamente');
                 Frecuencia.create({
                     external_id: uuidv4(),
                     horario: req.body.hora_salida,
@@ -46,18 +46,18 @@ class rutaControlador {
             valor: req.body.valor
         }, {where: {external_id: req.body.external}}).then(function (newRuta, created) {
             if (newRuta) {
-                //req.flash('info', 'Registro Modificado Correctamente');
                 Frecuencia.update({
                     horario: req.body.hora_salida,
                     id_bus: req.body.bus
                 }, {where: {external_id: req.body.externalFrecuencia}}).then(function (newFrecuencia, created) {
                     if (newFrecuencia) {
-                        //req.flash('info', 'Frecuencia Modificada Correctamente');
+                        req.flash('info_correcto', 'Se ha modificado correctamente la información');
                         console.log("Se ha MODIFICADO correctamente");
                         res.redirect('/destinos');
                     }
                 });
             }
+           
         });
     }
 
@@ -65,7 +65,11 @@ class rutaControlador {
     verRutas(req, res) {
 
         Bus.findAll({where: {estado: true}}).then(function (buses) {
-            Frecuencia.findAll({include: {model: Ruta}}, {include: {model: Bus}}, {where: {estado: true}}).then(function (frecuencias) {
+            Frecuencia.findAll({
+                include: [
+                            {model: Ruta},
+                            {model: Bus}
+                ], where: {estado: true}}).then(function (frecuencias) {
             /*   frecuencias.forEach(element =>{
                     console.log(element);
                 }); */
@@ -74,7 +78,8 @@ class rutaControlador {
                         {titulo: 'Administrar Destinos',
                             frecuencias: frecuencias,
                             buses: buses,
-                            session: req.isAuthenticated()
+                            session: req.isAuthenticated(),
+                            info: req.flash("info_correcto")
                                     //info: (req.flash('info') != '') ? req.flash('info') : '',
                                     //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });

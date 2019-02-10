@@ -1,15 +1,15 @@
 {
     "development":{
         "username": "root",
-        "password": "jack",
-        "database": "cooperativa",
+        "password": "albert123",
+        "database": "transnic",
         "host": "localhost",
         "dialect": "mysql"
     },
     "staging":{
         "username": "root",
-        "password": "jack",
-        "database": "cooperativa",
+        "password": "albert123",
+        "database": "transnic",
         "host": "localhost",
         "dialect": "mysql"
     }
