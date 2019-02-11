@@ -39,7 +39,8 @@ class unidadesControlador {
           numeroBus: req.body.numerobus,
           placa: req.body.placa,
           propietario: req.body.propietario,
-          numeroAsientos: req.body.numeroasientos
+          numeroAsientos: req.body.numeroasientos,
+          estado: req.body.estado
         }, {where: {external_id: req.body.external}}).then(function (editado, err) {
             if (editado) {
                         req.flash('alerta', 'DATOS MODIFICADOS CORRECTAMENTE');

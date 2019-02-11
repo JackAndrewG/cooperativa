@@ -46,9 +46,13 @@
                             <small> Ingrese el numero de asientos: </small>
                             <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="10" max="99">
                         </div>
+                        <div class="form-group" id="divBaja" style="visibility: hidden;">
+                            <small> Seleccione si desea Dar de Baja: </small>
+                            <input  type="checkbox" name="estado" id="estado" value="1" onclick="clicEliminar"/>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
                         <button type="submit" class="btn btn-success" id="btn">Guardar</button>
                     </div>
                 </div>
@@ -58,17 +62,35 @@
 
 
 <script>
+
+$("#estado").on('change', function () {
+    if ($(this).is(':checked')) {
+        $('#btn').html('Dar de Baja');
+        $(this).attr('value', '0');
+    } else {
+        $('#btn').html('Editar');
+        $(this).attr('value', '1');
+    }
+    $('#estado').text($('#estado').val());
+});
+
 $().ready(function () {
     $("#btn").click(function () {
         var external = $("#external").val();
-        var eliminar = $('#eliminar').val();
         if (external == "0") {
             $('#formBus').attr("action", "/guardar_bus");
-        //} else if (eliminar == '1') {
-            //$('#formBus').attr('action', '/eliminarfrecuencia');
         }else {
             $('#formBus').attr("action", "/editarBus");
         }
+    });
+    $("#cancelar").click(function () {
+        $("#external").val('0');
+        $("#numeroBus").val('');
+        $("#placa").val('');
+        $("#propietario").val('');
+        $("#numeroAsientos").val('');
+        $("#estado").val('');
+        $("#divBaja").attr('style', 'visibility:hidden;');
     });
 });
 
@@ -145,7 +167,7 @@ setTimeout( function() { noti.close() }, 10000)
                   $("#propietario").val('{{ bus.propietario }}');
                   $("#numeroAsientos").val('{{ bus.numeroAsientos }}');
                   $("#estado").val('{{ bus.estado }}');
-                  //$("#divBaja").attr('style', 'visibility:visible;');
+                  $("#divBaja").attr('style', 'visibility:visible;');
               });
               </script>
           </tr>
