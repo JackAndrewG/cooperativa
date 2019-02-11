@@ -9,13 +9,14 @@
 </div>
 
 <div class="container">
+
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Registrar
     </button>
 
     <!-- Modal -->
-    <form id="formBus" method="post" action="/guardar_bus">
+    <form id="formBus" method="post" >
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -31,24 +32,24 @@
                         <h3 class="bg-light">Datos cliente</h3>
                         <div class="form-group">
                             <small> Numero de bus :</small>
-                            <input class="form-control" type="text" name="numerobus" id="numerobus"><br>
+                            <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="500"><br>
                         </div>
                         <div class="form-group">
                             <small> Placa: </small>
-                            <input class="form-control" type="text" name="placa" id="placa"><br>
+                            <input class="form-control" type="text" name="placa" id="placa" placeholder="Placa de Bus Unica" required minlength="7" maxlength="8"><br>
                         </div>
                         <div class="form-group">
                             <small> Propietario: </small>
-                            <input class="form-control" type="text" name="propietario" id="propietario">
+                            <input class="form-control" type="text" name="propietario" id="propietario" placeholder="Nombre Apellido" required maxlength="50">
                         </div>
                         <div class="form-group">
                             <small> Ingrese el numero de asientos: </small>
-                            <input class="form-control" type="text" name="numeroasientos" id="numeroasientos">
+                            <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="10" max="99">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="submit" class="btn btn-success" id="btn">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -56,10 +57,44 @@
     </form>
 
 
+<script>
+$().ready(function () {
+    $("#btn").click(function () {
+        var external = $("#external").val();
+        var eliminar = $('#eliminar').val();
+        if (external == "0") {
+            $('#formBus').attr("action", "/guardar_bus");
+        //} else if (eliminar == '1') {
+            //$('#formBus').attr('action', '/eliminarfrecuencia');
+        }else {
+            $('#formBus').attr("action", "/editarBus");
+        }
+    });
+});
 
+
+</script>
+
+{{#if mensaje }}
+<div class="alert alert-warning">
+    {{ mensaje }}
+</div>
+{{/if}}
+
+{{#if exito }}
+<script>
+var title = "Administración Buses"
+var extra = {
+icon: "/images/icons/logo.png",
+body: "{{ exito }}"
+}
+// Lanzamos la notificación
+var noti = new Notification( title, extra)
+setTimeout( function() { noti.close() }, 10000)
+</script>
+{{/if}}
 
     <div class="col-12">
-        <%- locals.flash%>
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col col-lg-2">
@@ -84,6 +119,7 @@
                 <th scope="col">Propietario</th>
                 <th scope="col">Numero Asientos</th>
                 <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -94,7 +130,24 @@
               <td>{{ bus.placa }}</td>
               <td>{{ bus.propietario }}</td>
               <td>{{ bus.numeroAsientos }}</td>
-              <td>True</td>
+              <td>{{ bus.estado}}</td>
+              <td>
+                <!-- Modal Editar -->
+                <button type="button" id="bEditar{{i}}" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+                    Editar
+                </button>
+              </td>
+              <script>
+              $("#bEditar{{i}}").click(function() {
+                  $("#external").val('{{bus.external_id}}');
+                  $("#numeroBus").val('{{ bus.numeroBus }}');
+                  $("#placa").val('{{ bus.placa }}');
+                  $("#propietario").val('{{ bus.propietario }}');
+                  $("#numeroAsientos").val('{{ bus.numeroAsientos }}');
+                  $("#estado").val('{{ bus.estado }}');
+                  //$("#divBaja").attr('style', 'visibility:visible;');
+              });
+              </script>
           </tr>
            {{/each}}
         </tbody>
