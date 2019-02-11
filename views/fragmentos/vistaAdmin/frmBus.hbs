@@ -1,6 +1,6 @@
 <title>{{titulo}}</title>
 
-<div class="gallery">
+<div class="gallery" >
     <div class="jumbotron">
         <h1  class="display-4">Buses</h1>
         <p class="lead">Aqui podrá administrar todas las Unidades que posee la cooperativa <br>
@@ -32,7 +32,7 @@
                         <h3 class="bg-light">Datos cliente</h3>
                         <div class="form-group">
                             <small> Numero de bus :</small>
-                            <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="500"><br>
+                            <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="999"><br>
                         </div>
                         <div class="form-group">
                             <small> Placa: </small>
@@ -120,12 +120,12 @@ setTimeout( function() { noti.close() }, 10000)
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col col-lg-2">
-                    <form action="/listarRutas" method="get">
+                    <form action="/administrador/buses" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
                     </form>
                 </div>
                 <div class="col col-lg-2">
-                    <form action="/listarRutasActivas" method="post">
+                    <form action="/administrador/busesActivos" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
                     </form>
                 </div>

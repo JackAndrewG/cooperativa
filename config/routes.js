@@ -88,7 +88,7 @@ router.post('/editarDestino', auth, rutaControlador.editar);
 
 /* BUSES */
 router.get('/administrador/buses', auth, unidadesControlador.verBuses);
-
+router.get('/administrador/busesActivos', auth, unidadesControlador.verBusesActivos);
 router.post('/guardar_bus', auth, unidadesControlador.guardar);
 router.post('/editarBus', auth, unidadesControlador.editar);
 
