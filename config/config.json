@@ -1,0 +1,19 @@
+
+{
+    "development":{
+        "username": "root",
+        "password": "albert123",
+        "database": "transnic",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "staging":{
+        "username": "root",
+        "password": "albert123",
+        "database": "transnic",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}
+
+//probando
