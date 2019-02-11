@@ -26,13 +26,9 @@ class rutaControlador {
                         //req.flash('info', 'Se ha creado correctamente');
 
                         console.log("Se ha creado correctamente");
-                        res.redirect('/destinos');
+                        res.redirect('/destinosActivos');
                     }
                 });
-
-
-                console.log("Se ha creado correctamente");
-                res.redirect('/destinos');
             }
         });
 
@@ -54,7 +50,7 @@ class rutaControlador {
                     if (newFrecuencia) {
                         req.flash('info_correcto', 'Se ha modificado correctamente la información');
                         console.log("Se ha MODIFICADO correctamente");
-                        res.redirect('/destinos');
+                        res.redirect('/destinosActivos');
                     }
                 });
             }
@@ -118,7 +114,7 @@ class rutaControlador {
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
-                res.redirect('/destinos');
+                res.redirect('/destinosActivos');
             });
         });
         
