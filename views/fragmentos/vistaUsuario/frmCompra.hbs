@@ -17,17 +17,44 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 block-display">
                             <div class="input-group" >
                                 <div class="input-group-addon">Origen</div>
-                                <input type="text" class="form-control" name="origen_buscar" required>
+                                <input type="text" class="form-control" name="origen_buscar" >
                                 <span class="error-msg"></span>
                             </div>
                             <div class="input-group" >
                                 <div class="input-group-addon">Destino</div>
-                                <input type="text" class="form-control" name="destino_buscar" required>
+                                <input type="text" class="form-control" name="destino_buscar" >
                                 <span class="error-msg"></span>
                             </div>
                         </div>
+<<<<<<< HEAD
 
 
+=======
+                        
+                      <!--   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 block-display">
+                            <div class="input-group" >
+                                <div class="input-group-addon">Origen</div>
+                                <select name="origen_buscar" id="destino_buscar">
+                                    {{#each frecuencias as |frecuencia i| }}
+                                    <option value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="error-msg"></span>
+                            </div>
+                            <div class="input-group" >
+                                <div class="input-group-addon">Destino</div>
+                                <select name="destino_buscar" id="destino_buscar">
+                                    {{#each frecuencias as |frecuencia i| }}
+                                    <option value="{{ frecuencia.rutum.destino }}">{{ frecuencia.rutum.destino }}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="error-msg"></span>
+                            </div>
+                        </div> -->
+                        
+                       
+                        
+>>>>>>> 0e5b7c8455c3beb85ec22605500f76039a3315de
                         <div class="col-lg-12 col-md-12 ">
                             <div class="input-group" >
                                 <button type="submit" class="btn btn-primary mb-2">Busca tu pasaje</button>

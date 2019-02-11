@@ -39,39 +39,56 @@ class compraControlador {
     }
 
     buscar(req, res) {
-        
-        Frecuencia.findAll({
+
+        if (req.body.origen_buscar === '' || req.body.destino_buscar === '') {
+            Frecuencia.findAll({
                 include: [
-                    {model: Ruta, where: {origen: req.body.origen_buscar, destino: req.body.destino_buscar}},
+                    {model: Ruta, where: {
+                            $or: {
+                                origen: req.body.origen_buscar, destino: req.body.destino_buscar
+                            }}
+                    },
                     {model: Bus}
                 ]}).then(function (busqueda) {
                 res.render('fragmentos/vistaUsuario/frmCompra',
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                            // info: req.flash("info_editar")
-                            //info: (req.flash('info') != '') ? req.flash('info') : '',
-                            //error: (req.flash('error') != '') ? req.flash('error') : ''
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
+                      //  res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
                 res.redirect('/comprar');
             });
-        
-       /* Ruta.findAll( {where: {origen: req.body.nombre_buscar}}, (err, busqueda) => {
-            res.render('fragmentos/vistaUsuario/frmCompra',
-                    {titulo: 'Compra de Boletos',
-                        frecuencias: busqueda,
-                        //  buses: buses,
-                        session: req.isAuthenticated()
-
-                                // info: req.flash("info_editar")
-                                //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                //error: (req.flash('error') != '') ? req.flash('error') : ''
-                    });
-
-        }); */
+        } else {
+            Frecuencia.findAll({
+                include: [
+                    {model: Ruta, where: {
+                            $and: {
+                                origen: req.body.origen_buscar, destino: req.body.destino_buscar
+                            }
+                        }},
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmCompra',
+                        {titulo: 'Compra de Boletos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+                  //      res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/comprar');
+            });
+        }
     }
 }
 
