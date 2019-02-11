@@ -6,7 +6,7 @@
         <p class="lead" id="texto">Aqui podrá administrar todas las Rutas y Horarios que posee la cooperativa <br>
             Podrá constatar y registrar nuevas rutas y horarios, editar, eliminar y dar de baja</p>
     </div>
-</div>
+
 <div class="container" >
     <div class="container">
         <div class="row">
@@ -31,15 +31,15 @@
                     <h3 class="bg-light">Indique la Ruta</h3>
                     <div class="form-group">
                         <small> Ingrese el Origen </small>
-                        <input class="form-control" type="text" name="origen" id="origen"><br>
+                        <input class="form-control" type="text" name="origen" id="origen" required><br>
                     </div>
                     <div class="form-group">
                         <small> Ingrese el Destino </small>
-                        <input class="form-control" type="text" name="destino" id="destino"><br>
+                        <input class="form-control" type="text" name="destino" id="destino" required><br>
                     </div>
                     <div class="form-group">
                         <small> Ingrese el valor del boleto </small>
-                        <input class="form-control" type="text" name="valor" id="valor">
+                        <input class="form-control" type="number" name="valor" id="valor" required min="1" step=".01">
                     </div>
 
 
@@ -50,12 +50,12 @@
                     <h3 class="bg-light">Indique la Frecuencia</h3>
                     <div class="form-group">
                         <small> Ingrese hora de Salida </small>
-                        <input class="form-control" type="time" name="hora_salida" id="horaS"><br>
+                        <input class="form-control" type="time" name="hora_salida" id="horaS" required><br>
                     </div>
 
                     <div class="form-group">
                         <small> Ingrese el numero del bus </small>
-                        <select name="bus" id="bus">
+                        <select required name="bus" id="bus">
                             {{#each buses }}
                             <option value="{{ id }}">{{ numeroBus }}</option>
                             {{/each}}
@@ -178,3 +178,4 @@
 {{/each}}
 </tbody>
 </table>
+</div>

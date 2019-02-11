@@ -60,8 +60,9 @@ class rutaControlador {
 
 
     verRutas(req, res) {
-
-        Bus.findAll().then(function (buses) {
+        
+        if (req.user.rol === "administrador") {
+            Bus.findAll().then(function (buses) {
             Frecuencia.findAll({
                 include: [
                             {model: Ruta},
@@ -86,13 +87,19 @@ class rutaControlador {
                 res.redirect('/destinos');
             });
         });
+        } else {
+            res.redirect('/destinosActivos');
+        }
+
+        
 
 
     }
     
     verRutasActivas(req, res) {
         
-        Bus.findAll({where: {estado: true}}).then(function (buses) {
+        if (req.user.rol === "administrador") {
+            Bus.findAll({where: {estado: true}}).then(function (buses) {
             Frecuencia.findAll({
                 include: [
                             {model: Ruta},
@@ -117,6 +124,32 @@ class rutaControlador {
                 res.redirect('/destinosActivos');
             });
         });
+        } else {
+            
+            Frecuencia.findAll({
+                include: [
+                            {model: Ruta},
+                            {model: Bus}
+                ], where: {estado: true}}).then(function (frecuencias) {
+            /*   frecuencias.forEach(element =>{
+                    console.log(element);
+                }); */
+            //console.log(frecuencias.ruta)
+                res.render('fragmentos/vistaUsuario/frmDestino',
+                        {titulo: 'Destinos',
+                            frecuencias: frecuencias,
+                            session: req.isAuthenticated()
+                            //info: req.flash("info_correcto")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+            }).catch(function (err) {
+                console.log("Error:", err);
+                res.redirect('/destinosActivos');
+            });
+        }
+        
+        
         
         
         

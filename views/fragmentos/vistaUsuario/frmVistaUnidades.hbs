@@ -1,68 +1,35 @@
-<div class="home">
+<title>{{titulo}}</title>
 
-  <!-- Home Slider -->
 
-  <div class="home_slider_container">
-    <div class="owl-carousel owl-theme home_slider">
 
-      <!-- Home Slider Item -->
-      <div class="owl-item">
-        <div class="home_slider_background" style="background-image:url(images/d.png)"></div>
-        <div class="home_slider_content">
-          <div class="home_slider_content_inner">
-            <div class="home_slider_subtitle">TRANS NIC</div>
-            <div class="home_slider_title">Nuevas Unidades</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Home Slider Item -->
-      <div class="owl-item">
-        <div class="home_slider_background" style="background-image:url(images/home_slider_2.jpg)"></div>
-        <div class="home_slider_content">
-          <div class="home_slider_content_inner">
-            <div class="home_slider_subtitle">VIP</div>
-            <div class="home_slider_title">Viaje Comodo</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Home Slider Item -->
-      <div class="owl-item">
-        <div class="home_slider_background" style="background-image:url(images/home_slider_3.jpg)"></div>
-        <div class="home_slider_content">
-          <div class="home_slider_content_inner">
-            <div class="home_slider_subtitle">Reservaciones</div>
-            <div class="home_slider_title">Boletos en Línea</div>
-          </div>
-        </div>
-      </div>
-
+<div class="gallery" >
+    <div class="jumbotron">
+        <h1  class="display-4">Buses</h1>
+        <p class="lead">Aqui podrá revisar todas las Unidades que posee la cooperativa <br></p>
     </div>
 
-    <!-- Home Slider Nav -->
 
-    <div class="home_slider_next d-flex flex-column align-items-center justify-content-center"><img src="images/arrow_r.png" alt=""></div>
-
-    <!-- Home Slider Dots -->
-
-    <div class="home_slider_dots_container">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="home_slider_dots">
-              <ul id="home_slider_custom_dots" class="home_slider_custom_dots">
-                <li class="home_slider_custom_dot active">01.<div></div>
-                </li>
-                <li class="home_slider_custom_dot">02.<div></div>
-                </li>
-                <li class="home_slider_custom_dot">03.<div></div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Numero Bus</th>
+                <th scope="col">Placa</th>
+                <th scope="col">Propietario</th>
+                <th scope="col">Numero Asientos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each buses as |bus i|}}
+            <tr>
+                <th scope="row">{{ i }}</th>
+                <td>{{ bus.numeroBus }}</td>
+                <td>{{ bus.placa }}</td>
+                <td>{{ bus.propietario }}</td>
+                <td>{{ bus.numeroAsientos }}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
+
