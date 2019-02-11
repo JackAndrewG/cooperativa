@@ -81,8 +81,10 @@ router.get('/cerrar_sesion', function (req, res, next) {
 /*RUTAS ADMINISTRADOR*/
 /* DESTINOS */
 router.get('/destinos', auth, rutaControlador.verRutas);
+router.get('/destinosActivos', auth, rutaControlador.verRutasActivas);
 router.post('/guardar_destino', auth, rutaControlador.guardar);
 router.post('/editarDestino', auth, rutaControlador.editar);
+
 /* BUSES */
 router.get('/administrador/buses', auth, unidadesControlador.verBuses);
 

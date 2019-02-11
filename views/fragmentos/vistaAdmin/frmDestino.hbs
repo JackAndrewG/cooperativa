@@ -72,7 +72,7 @@
                         <input type="radio" value="0" id="eliminar" name="opcion" onclick="clicEliminar()">Eliminar
                         <input type="radio" value="editar" name="opcion" onclick="clicEditar()">Editar
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <small>Seleccione para reactivar o deje desmarcado para desactivar la frecuencia</small>
+                            <small>Seleccione unicamente si desea Dar de Baja, caso contrario deje desmarcado</small>
                         </div>
                     </div>
                 </div>
@@ -83,31 +83,28 @@
                     }
                     ;
                     $("#estado").on('change', function () {
-                        $('#eliminar').val('0');
                         if ($(this).is(':checked')) {
-                            $('#btn').html('Reactivar');
-                            $(this).attr('value', 'true');
-                        } else {
                             $('#btn').html('Dar de Baja');
-                            $(this).attr('value', 'false');
+                            $(this).attr('value', '0');
+                        } else {
+                            $('#btn').html('Editar');
+                            $(this).attr('value', '1');
                         }
                         $('#estado').text($('#estado').val());
                     });
 
                     function clicEditar() {
                         $('#btn').html('Editar');
-                        $('#eliminar').val('0');
+                        $('#external').val('1');
                     }
                     ;
 
                     $().ready(function () {
                         $("#btn").click(function () {
                             var external = $("#external").val();
-                            var eliminar = $('#eliminar').val();
+                            //  var eliminar = $('#eliminar').val();
                             if (external == "0") {
                                 $('#formDestino').attr('action', '/guardar_destino');
-                            } else if (eliminar == '1') {
-                                $('#formDestino').attr('action', '/eliminarfrecuencia');
                             } else {
                                 $('#formDestino').attr('action', '/editarDestino');
                             }
@@ -115,23 +112,25 @@
                     });
                 </script>
             </div>
+            </form>
 
-            <div class="col-12">
-                {{#if info }}
+             {{#if info }}
                 <div class="alert alert-success">
                     {{ info }}
                 </div>
                 {{/if}}
+            
+            <div class="col-12">
                 <div class="container">
                     <div class="row justify-content-md-center">
                         <div class="col col-lg-2">
-                            <form action="/listarRutas" method="get">
-                                <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
+                            <form action="/destinosActivos" method="get">
+                                <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
                             </form>
                         </div>
                         <div class="col col-lg-2">
-                            <form action="/listarRutasActivas" method="post">
-                                <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
+                            <form action="/destinos" method="get">
+                                <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
                             </form>
                         </div>
                     </div>
@@ -141,7 +140,7 @@
 
 </div>
 
-</form>
+
 
 
 <table data-aos='fade-down' class="table">
@@ -161,7 +160,7 @@
             <td>{{ frecuencia.horario }}</td>
             <td>${{ frecuencia.rutum.valor }}</td>
             <td>{{ frecuencia.bus.numeroBus }}</td>
-            <td>Activo</td>
+            <td>{{ frecuencia.estado }}</td>
             <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a> </td>
     <script>
         $("#bEditar{{i}}").click(function () {
