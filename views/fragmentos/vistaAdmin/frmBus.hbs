@@ -1,6 +1,6 @@
 <title>{{titulo}}</title>
 
-<div class="gallery">
+<div class="gallery" >
     <div class="jumbotron">
         <h1  class="display-4">Buses</h1>
         <p class="lead">Aqui podrá administrar todas las Unidades que posee la cooperativa <br>
@@ -29,10 +29,10 @@
                     <div class="modal-body">
 
                         <input type="hidden" name="external" value="0" id="external">
-                        <h3 class="bg-light">Datos cliente</h3>
+                        <h3 class="bg-light" id="tituloFormulario">Formulario de Registro</h3>
                         <div class="form-group">
                             <small> Numero de bus :</small>
-                            <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="500"><br>
+                            <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="999"><br>
                         </div>
                         <div class="form-group">
                             <small> Placa: </small>
@@ -46,9 +46,14 @@
                             <small> Ingrese el numero de asientos: </small>
                             <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="10" max="99">
                         </div>
+                        <div class="form-group" id="divBaja" style="visibility: hidden;">
+                            <label for="estado">Activar / Dar Baja</label>
+                            <input  type="checkbox" name="estado" id="estado" value="1" onclick="clicEliminar"/><br>
+                            <small> Seleccione unicamente si desea Dar de Baja, caso contrario deje desmarcado </small>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
                         <button type="submit" class="btn btn-success" id="btn">Guardar</button>
                     </div>
                 </div>
@@ -58,17 +63,36 @@
 
 
 <script>
+
+$("#estado").on('change', function () {
+    if ($(this).is(':checked')) {
+        $('#btn').html('Dar de Baja');
+        $(this).attr('value', '0');
+    } else {
+        $('#btn').html('Editar');
+        $(this).attr('value', '1');
+    }
+    $('#estado').text($('#estado').val());
+});
+
 $().ready(function () {
     $("#btn").click(function () {
         var external = $("#external").val();
-        var eliminar = $('#eliminar').val();
         if (external == "0") {
             $('#formBus').attr("action", "/guardar_bus");
-        //} else if (eliminar == '1') {
-            //$('#formBus').attr('action', '/eliminarfrecuencia');
         }else {
             $('#formBus').attr("action", "/editarBus");
         }
+    });
+    $("#cancelar").click(function () {
+        $("#tituloFormulario").html('Formulario de Registro');
+        $("#external").val('0');
+        $("#numeroBus").val('');
+        $("#placa").val('');
+        $("#propietario").val('');
+        $("#numeroAsientos").val('');
+        $("#estado").val('');
+        $("#divBaja").attr('style', 'visibility:hidden;');
     });
 });
 
@@ -98,12 +122,12 @@ setTimeout( function() { noti.close() }, 10000)
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col col-lg-2">
-                    <form action="/listarRutas" method="get">
+                    <form action="/administrador/buses" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
                     </form>
                 </div>
                 <div class="col col-lg-2">
-                    <form action="/listarRutasActivas" method="post">
+                    <form action="/administrador/busesActivos" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
                     </form>
                 </div>
@@ -139,13 +163,14 @@ setTimeout( function() { noti.close() }, 10000)
               </td>
               <script>
               $("#bEditar{{i}}").click(function() {
+                  $("#tituloFormulario").html('Formulario de Modificación');
                   $("#external").val('{{bus.external_id}}');
                   $("#numeroBus").val('{{ bus.numeroBus }}');
                   $("#placa").val('{{ bus.placa }}');
                   $("#propietario").val('{{ bus.propietario }}');
                   $("#numeroAsientos").val('{{ bus.numeroAsientos }}');
                   $("#estado").val('{{ bus.estado }}');
-                  //$("#divBaja").attr('style', 'visibility:visible;');
+                  $("#divBaja").attr('style', 'visibility:visible;');
               });
               </script>
           </tr>

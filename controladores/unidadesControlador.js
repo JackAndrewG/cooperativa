@@ -39,7 +39,8 @@ class unidadesControlador {
           numeroBus: req.body.numerobus,
           placa: req.body.placa,
           propietario: req.body.propietario,
-          numeroAsientos: req.body.numeroasientos
+          numeroAsientos: req.body.numeroasientos,
+          estado: req.body.estado
         }, {where: {external_id: req.body.external}}).then(function (editado, err) {
             if (editado) {
                         req.flash('alerta', 'DATOS MODIFICADOS CORRECTAMENTE');
@@ -48,32 +49,37 @@ class unidadesControlador {
         });
     }
 
-    verBuses(req, res) {
-
-
+    verBusesActivos(req, res) {
         Bus.findAll({where: {estado: true}}).then(function (buses) {
-
-
             res.render('fragmentos/vistaAdmin/frmBus',
                     {titulo: 'Administrar Unidades de Transporte',
-
-
                         buses: buses,
                         session: req.isAuthenticated(),
                         mensaje: req.flash("alerta"),
                         exito: req.flash("exito")
-                                //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                //error: (req.flash('error') != '') ? req.flash('error') : ''
+                    });
+        }).catch(function (err) {
+            console.log("Error:", err);
+            //req.flash('error', 'Hubo un error');
+            res.redirect('/administrador/busesActivos');
+        });
+    }
+
+    verBuses(req, res) {
+        Bus.findAll({}).then(function (buses) {
+            res.render('fragmentos/vistaAdmin/frmBus',
+                    {titulo: 'Administrar Unidades de Transporte',
+                        buses: buses,
+                        session: req.isAuthenticated(),
+                        mensaje: req.flash("alerta"),
+                        exito: req.flash("exito")
                     });
         }).catch(function (err) {
             console.log("Error:", err);
             //req.flash('error', 'Hubo un error');
             res.redirect('/administrador/buses');
         });
-
-
     }
-
 }
 
 

@@ -85,6 +85,9 @@ router.post('/guardar_destino', auth, rutaControlador.guardar);
 router.post('/editarDestino', auth, rutaControlador.editar);
 /* BUSES */
 router.get('/administrador/buses', auth, unidadesControlador.verBuses);
+
+router.get('/administrador/busesActivos', auth, unidadesControlador.verBusesActivos);
+
 router.post('/guardar_bus', auth, unidadesControlador.guardar);
 router.post('/editarBus', auth, unidadesControlador.editar);
 /* Obtener Contactenos */
@@ -104,8 +107,8 @@ router.post('/compra_buscar', auth, compraControlador.buscar);
 
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
- 
- 
+
+
  res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
  session: req.isAuthenticated()});
  }); */
