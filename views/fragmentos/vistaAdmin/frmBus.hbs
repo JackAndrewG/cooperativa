@@ -29,7 +29,7 @@
                     <div class="modal-body">
 
                         <input type="hidden" name="external" value="0" id="external">
-                        <h3 class="bg-light">Datos cliente</h3>
+                        <h3 class="bg-light" id="tituloFormulario">Formulario de Registro</h3>
                         <div class="form-group">
                             <small> Numero de bus :</small>
                             <input class="form-control" type="number" name="numerobus" id="numeroBus" placeholder="Numero de Bus Unico" required min="0" max="999"><br>
@@ -47,8 +47,9 @@
                             <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="10" max="99">
                         </div>
                         <div class="form-group" id="divBaja" style="visibility: hidden;">
-                            <small> Seleccione si desea Dar de Baja: </small>
-                            <input  type="checkbox" name="estado" id="estado" value="1" onclick="clicEliminar"/>
+                            <label for="estado">Activar / Dar Baja</label>
+                            <input  type="checkbox" name="estado" id="estado" value="1" onclick="clicEliminar"/><br>
+                            <small> Seleccione unicamente si desea Dar de Baja, caso contrario deje desmarcado </small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -84,6 +85,7 @@ $().ready(function () {
         }
     });
     $("#cancelar").click(function () {
+        $("#tituloFormulario").html('Formulario de Registro');
         $("#external").val('0');
         $("#numeroBus").val('');
         $("#placa").val('');
@@ -161,6 +163,7 @@ setTimeout( function() { noti.close() }, 10000)
               </td>
               <script>
               $("#bEditar{{i}}").click(function() {
+                  $("#tituloFormulario").html('Formulario de Modificación');
                   $("#external").val('{{bus.external_id}}');
                   $("#numeroBus").val('{{ bus.numeroBus }}');
                   $("#placa").val('{{ bus.placa }}');
