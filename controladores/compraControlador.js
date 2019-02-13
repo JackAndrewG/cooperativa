@@ -24,6 +24,7 @@ class compraControlador {
                             frecuencias: frecuencias,
                             //  buses: buses,
                             session: req.isAuthenticated(),
+                            usuario: req.user.nombre
                             // info: req.flash("info_editar")
                             //info: (req.flash('info') != '') ? req.flash('info') : '',
                             //error: (req.flash('error') != '') ? req.flash('error') : ''
@@ -97,4 +98,3 @@ class compraControlador {
 
 
 module.exports = compraControlador;
-

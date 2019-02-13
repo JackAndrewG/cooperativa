@@ -20,11 +20,14 @@
                                 <select name="origen_buscar" id="destino_buscar">
                                    <option value="">Seleccione...</option>
                                     {{#each frecuencias as |frecuencia i| }}
-                                    {{#unless frecuencia.rutum.origen}}
-                                    <option value="">hola</option>
-                                    {{else}}
-                                      <option id="opOrigen" value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>
-                                    {{/unless}}
+                                    <option id="opOrigen{{i}}" value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>
+                                    <script>
+                                      var html='';
+                                      if ($('#opOrigen{{i}}').val("{{ frecuencia.rutum.origen }}") != $('#opOrigen{{i-1}}').val("{{ frecuencia.rutum.origen }}")) {
+                                          html='<option id="opOrigen{{i}}" value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>';
+                                      }
+                                      $('#destino_buscar').html(html);
+                                    </script>
                                     {{/each}}
                                 </select>
                                 <span class="error-msg"></span>
@@ -54,6 +57,63 @@
             </div>
         </div>
 
+        <!-- Modal Comprar -->
+        <form id="formBus" method="post" >
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" name="external" value="0" id="external">
+                            <h3 class="bg-light" id="tituloFormulario">COMPRA DE BOLETOS</h3>
+                            <div class="form-group">
+                                <small> Nombre de Cliente :</small>
+                                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombres Apellidos" required value="{{usuario}}"><br>
+                            </div>
+                            <div class="form-group">
+                                <label for="origen">Ruta</label><br>
+                                <small> Origen: </small>
+                                <input class="form-control" type="text" name="origen" id="origen" placeholder="Ciudad de Partida" required minlength="3" maxlength="50" readonly><br>
+                                <small> Destino: </small>
+                                <input class="form-control" type="text" name="destino" id="destino" placeholder="Ciudad de Llegada" required minlength="3" maxlength="50" readonly><br>
+                            </div>
+                            <div class="form-group">
+                              <label for="fecha">Fecha y Hora</label><br>
+                                <small> Fecha: </small>
+                                <input class="form-control" type="date" name="fecha" id="fecha" required>
+                                <small> Hora: </small>
+                                <input class="form-control" type="time" name="hora" id="hora" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <small> Unidad de transporte: </small>
+                                <input class="form-control" type="number" name="numeroBus" id="numeroBus" placeholder="00" required min="1" max="999" readonly>
+                            </div>
+                            <div class="form-group">
+                                <small> Cantidad de Asientos: </small>
+                                <input onchange="cambio()" class="form-control" type="number" name="asientos" id="asientos" placeholder="00" required min="1" max="50">
+                            </div>
+                            <div class="form-fields">
+                              <div class="textbox-wrap">
+                              <label for="total"> <b>Total: </b> </label>
+                              <i class="fa fa-dollar"> </i>
+                              <input class="number" type="text" name="total" id="total" disabled>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
+                            <button type="submit" class="btn btn-success" id="btn">Pagar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="card" style="width: 50rem;">
             <div class="card-header"> <b>    Viajes Disponibles!</b> </div>
             <div class="card-body">
@@ -113,8 +173,26 @@
                                 <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
                                 </form>
                                 </div>
-
+                                <a href="#" id="bComprar{{i}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Comprar</a>
                             </td>
+                            <script>
+                            $("#bComprar{{i}}").click(function() {
+                                $("#external").val('{{frecuencia.external_id}}');
+                                $("#origen").val('{{ frecuencia.rutum.origen }}');
+                                $("#destino").val('{{ frecuencia.rutum.destino }}');
+                                $("#hora").val('{{ frecuencia.horario }}');
+                                $("#numeroBus").val('{{ frecuencia.bus.numeroBus }}');
+                                $("#total").val('{{ frecuencia.rutum.valor }}');
+                            });
+                            var cantidad=0;
+                            var suma=0;
+                            var tot={{ frecuencia.rutum.valor }}*1;
+                        function cambio(){
+                            cantidad=$('#asientos').val()*1;
+                            suma=tot*cantidad;
+                            $('#total').val(suma.toFixed(2));
+                        }
+                            </script>
                         </tr>
                         {{/each}}
                     </tbody>
