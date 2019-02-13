@@ -5,13 +5,13 @@ exports.sendEmail = function(req, res){
 var transporter = nodemailer.createTransport({
    service: 'Gmail',
    auth: {
-       user: 'carlos.a.cuenca.c@unl.edu.ec',
-       pass: 'andres199700'
+       user: req.body.remitente,
+       pass: req.body.clave
    }
 });
 // Definimos el email
 var mailOptions = {
-       from: 'carlos97cc123@gmail.com',
+       from: req.body.remitente ,
        to: req.body.email,
        subject: req.body.asunto,
        text: req.body.message
