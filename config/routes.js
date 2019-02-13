@@ -95,8 +95,12 @@ router.post('/editarBus', auth, unidadesControlador.editar);
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {
     res.render('fragmentos/vistaUsuario/frmContactenos', {titulo: 'Contactenos',
-        session: req.isAuthenticated()});
+        session: req.isAuthenticated(), info: req.flash('info_correcta')});
 });
+var EnviarCorreo = require('../controladores/enviarCorreo');
+//email route
+router.post('/contactenos', EnviarCorreo.sendEmail);
+
 /* Obtener Compra */
 router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
