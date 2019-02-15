@@ -44,7 +44,7 @@ router.post('/registro/guardar',
         passport.authenticate('local-signup', {successRedirect: '/inicio_sesion',
             failureRedirect: '/registro', failureFlash: true}
         )
-);
+        );
 /* INICIO DE SESION */
 router.get('/inicio_sesion', function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -104,6 +104,7 @@ router.post('/contactenos', EnviarCorreo.sendEmail);
 /* Obtener Compra */
 router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
+router.post('/comprar', compraControlador.comprar);
 /*RUTAS ADMINISTRADOR*/
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
@@ -113,8 +114,8 @@ router.post('/compra_buscar', auth, compraControlador.buscar);
 
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
-
-
+ 
+ 
  res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
  session: req.isAuthenticated()});
  }); */

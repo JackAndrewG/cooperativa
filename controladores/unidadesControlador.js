@@ -8,12 +8,12 @@ class unidadesControlador {
         Bus.findOne({where: {numeroBus: req.body.numerobus}}).then(function (existeN, placa) {
             if (existeN) {
                 req.flash('alerta', 'ERROR AL GUARDAR, EL NUMERO DE BUS YA EXISTE');
-                res.redirect('/administrador/buses');
+                res.redirect('/busesActivos');
             } else {
                 Bus.findOne({where: {placa: req.body.placa}}).then(function (existeP, nuevo) {
                     if (existeP) {
                         req.flash('alerta', 'ERROR AL GUARDAR, LA PLACA YA ESTA REGISTRADA');
-                        res.redirect('/administrador/buses');
+                        res.redirect('/busesActivos');
                     } else {
                         Bus.create({
                             external_id: uuidv4(),
@@ -25,7 +25,7 @@ class unidadesControlador {
                             if (newBus) {
                                 req.flash('exito', 'DATOS GUARDADOS CORRECTAMENTE');
                             }
-                            res.redirect('/administrador/buses');
+                            res.redirect('/busesActivos');
                         });
                     }
                 });
@@ -44,7 +44,7 @@ class unidadesControlador {
         }, {where: {external_id: req.body.external}}).then(function (editado, err) {
             if (editado) {
                 req.flash('alerta', 'DATOS MODIFICADOS CORRECTAMENTE');
-                res.redirect('/administrador/buses');
+                res.redirect('/busesActivos');
             }
         });
     }
@@ -63,7 +63,7 @@ class unidadesControlador {
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
-                res.redirect('/administrador/busesActivos');
+                res.redirect('/busesActivos');
             });
         } else {
             Bus.findAll({where: {estado: true}}).then(function (buses) {
@@ -75,7 +75,7 @@ class unidadesControlador {
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
-                res.redirect('/administrador/busesActivos');
+                res.redirect('/busesActivos');
             });
 
         }
@@ -97,7 +97,7 @@ class unidadesControlador {
         }).catch(function (err) {
             console.log("Error:", err);
             //req.flash('error', 'Hubo un error');
-            res.redirect('/administrador/buses');
+            res.redirect('/busesActivos');
         });
         } else {
             res.redirect('/busesActivos');

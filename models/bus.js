@@ -22,8 +22,10 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.STRING(50)
         },
         numeroAsientos: {
-            type: Sequelize.STRING(50)
+            //type: Sequelize.STRING(50)
+            type: Sequelize.INTEGER
         },
+        
         estado: {
             type: Sequelize.BOOLEAN,
             defaultValue: true

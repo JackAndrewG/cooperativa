@@ -16,19 +16,24 @@ class rutaControlador {
         }).then(function (newRuta, created) {
             if (newRuta) {
                 req.flash('info_correcto', 'Se ha guardado correctamente');
-                Frecuencia.create({
-                    external_id: uuidv4(),
-                    horario: req.body.hora_salida,
-                    id_ruta: newRuta.id,
-                    id_bus: req.body.bus
-                }).then(function (newFrecuencia, created) {
-                    if (newFrecuencia) {
-                        //req.flash('info', 'Se ha creado correctamente');
+                Bus.findOne({where: {id: req.body.bus}}).then(function (bus) {
+                    Frecuencia.create({
+                        external_id: uuidv4(),
+                        horario: req.body.hora_salida,
+                        asientosDisponibles: bus.numeroAsientos,
+                        fecha: req.body.fecha,
+                        id_ruta: newRuta.id,
+                        id_bus: req.body.bus
+                    }).then(function (newFrecuencia, created) {
+                        if (newFrecuencia) {
+                            //req.flash('info', 'Se ha creado correctamente');
 
-                        console.log("Se ha creado correctamente");
-                        res.redirect('/destinosActivos');
-                    }
+                            console.log("Se ha creado correctamente");
+                            res.redirect('/destinosActivos');
+                        }
+                    });
                 });
+
             }
         });
 
@@ -38,6 +43,8 @@ class rutaControlador {
 
     editar(req, res) {
 
+        //crear boletos vendidos en frecuencia para poder modificar los asientos disponibles en caso de que se cambie el bus
+    
         Ruta.update({
             valor: req.body.valor
         }, {where: {external_id: req.body.external}}).then(function (newRuta, created) {
@@ -54,92 +61,91 @@ class rutaControlador {
                     }
                 });
             }
-           
+
         });
     }
 
-
     verRutas(req, res) {
-        
+
         if (req.user.rol === "administrador") {
             Bus.findAll().then(function (buses) {
-            Frecuencia.findAll({
-                include: [
-                            {model: Ruta},
-                            {model: Bus}
-                ] }).then(function (frecuencias) {
-            /*   frecuencias.forEach(element =>{
-                    console.log(element);
-                }); */
-            //console.log(frecuencias.ruta)
-                res.render('fragmentos/vistaAdmin/frmDestino',
-                        {titulo: 'Administrar Destinos',
-                            frecuencias: frecuencias,
-                            buses: buses,
-                            session: req.isAuthenticated(),
-                            info: req.flash("info_correcto")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
-                        });
-            }).catch(function (err) {
-                console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
-                res.redirect('/destinos');
+                Frecuencia.findAll({
+                    include: [
+                        {model: Ruta},
+                        {model: Bus}
+                    ]}).then(function (frecuencias) {
+                    /*   frecuencias.forEach(element =>{
+                     console.log(element);
+                     }); */
+                    //console.log(frecuencias.ruta)
+                    res.render('fragmentos/vistaAdmin/frmDestino',
+                            {titulo: 'Administrar Destinos',
+                                frecuencias: frecuencias,
+                                buses: buses,
+                                session: req.isAuthenticated(),
+                                info: req.flash("info_correcto")
+                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
+                            });
+                }).catch(function (err) {
+                    console.log("Error:", err);
+                    //req.flash('error', 'Hubo un error');
+                    res.redirect('/destinos');
+                });
             });
-        });
         } else {
             res.redirect('/destinosActivos');
         }
 
-        
+
 
 
     }
-    
+
     verRutasActivas(req, res) {
-        
+
         if (req.user.rol === "administrador") {
             Bus.findAll({where: {estado: true}}).then(function (buses) {
-            Frecuencia.findAll({
-                include: [
-                            {model: Ruta},
-                            {model: Bus}
-                ], where: {estado: true}}).then(function (frecuencias) {
-            /*   frecuencias.forEach(element =>{
-                    console.log(element);
-                }); */
-            //console.log(frecuencias.ruta)
-                res.render('fragmentos/vistaAdmin/frmDestino',
-                        {titulo: 'Administrar Destinos',
-                            frecuencias: frecuencias,
-                            buses: buses,
-                            session: req.isAuthenticated(),
-                            info: req.flash("info_correcto")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
-                        });
-            }).catch(function (err) {
-                console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
-                res.redirect('/destinosActivos');
+                Frecuencia.findAll({
+                    include: [
+                        {model: Ruta},
+                        {model: Bus}
+                    ], where: {estado: true}}).then(function (frecuencias) {
+                    /*   frecuencias.forEach(element =>{
+                     console.log(element);
+                     }); */
+                    //console.log(frecuencias.ruta)
+                    res.render('fragmentos/vistaAdmin/frmDestino',
+                            {titulo: 'Administrar Destinos',
+                                frecuencias: frecuencias,
+                                buses: buses,
+                                session: req.isAuthenticated(),
+                                info: req.flash("info_correcto")
+                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
+                            });
+                }).catch(function (err) {
+                    console.log("Error:", err);
+                    //req.flash('error', 'Hubo un error');
+                    res.redirect('/destinosActivos');
+                });
             });
-        });
         } else {
-            
+
             Frecuencia.findAll({
                 include: [
-                            {model: Ruta},
-                            {model: Bus}
+                    {model: Ruta},
+                    {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
-            /*   frecuencias.forEach(element =>{
-                    console.log(element);
-                }); */
-            //console.log(frecuencias.ruta)
+                /*   frecuencias.forEach(element =>{
+                 console.log(element);
+                 }); */
+                //console.log(frecuencias.ruta)
                 res.render('fragmentos/vistaUsuario/frmDestino',
                         {titulo: 'Destinos',
                             frecuencias: frecuencias,
                             session: req.isAuthenticated()
-                            //info: req.flash("info_correcto")
+                                    //info: req.flash("info_correcto")
                                     //info: (req.flash('info') != '') ? req.flash('info') : '',
                                     //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
@@ -148,14 +154,8 @@ class rutaControlador {
                 res.redirect('/destinosActivos');
             });
         }
-        
-        
-        
-        
-        
-        
-     
     }
 }
 
 module.exports = rutaControlador;
+

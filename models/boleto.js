@@ -1,9 +1,11 @@
 module.exports = function (sequelize, Sequelize) {
-    var persona = require('../models/persona');
-    var Persona = new persona(sequelize, Sequelize);
+    //var persona = require('../models/persona');
+    //var Persona = new persona(sequelize, Sequelize);
     var frecuencia = require('../models/frecuencia');
     var Frecuencia = new frecuencia(sequelize, Sequelize);
-    var Boleto = sequelize.define('Boleto', {
+    var compra = require('../models/compra');
+    var Compra = new compra(sequelize, Sequelize);
+    var Boleto = sequelize.define('boleto', {
         id: {
             autoIncrement: true,
             primaryKey: true,
@@ -12,36 +14,43 @@ module.exports = function (sequelize, Sequelize) {
         external_id: {
             type: Sequelize.UUID
         },
-        codigo: {
+        /*codigo: {
             type: Sequelize.INTEGER(20),
             allowNull: false,
             unique: true
+        }, */
+        fechaViaje: {
+            type: Sequelize.DATE //se crea como datetime, cambiar en la base de datos por date, posiblemente borrar por que en frecuencia ya esta 
         },
-         NumeroAsiento: {
+        NumeroAsiento: {
             type: Sequelize.STRING(80)
         },
         cantidadAsientos: {
             type: Sequelize.INTEGER(2)
         },
         valorTotal: {
-            type: Sequelize.DOUBLE(4,2)
+            type: Sequelize.DOUBLE(10,2)
         },
         estado: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
-        },
+        }
 
     }, {freezeTableName: true,
         createdAt: 'fecha_registro',
         updateAt: 'fecha_modificacion'
     });
 
-    Boleto.belongsTo(Persona, {
-        foreingkey: 'id_persona',
+    /*Boleto.belongsTo(Persona, {
+        foreignKey: 'id_persona',
+        constraints: false
+    }); */
+    Boleto.belongsTo(Frecuencia, {
+        foreignKey: 'id_frecuencia',
         constraints: false
     });
-    Boleto.belongsTo(Frecuencia, {
-        foreingkey: 'id_frecuencia',
+    Boleto.belongsTo(Compra, {
+        foreignKey: 'id_compra',
         constraints: false
     });
 

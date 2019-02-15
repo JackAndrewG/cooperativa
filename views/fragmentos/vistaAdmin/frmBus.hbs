@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <small> Ingrese el numero de asientos: </small>
-                            <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="10" max="99">
+                            <input class="form-control" type="number" name="numeroasientos" id="numeroAsientos" placeholder="00" required min="1" max="99">
                         </div>
                         <div class="form-group" id="divBaja" style="visibility: hidden;">
                             <label for="estado">Activar / Dar Baja</label>
@@ -122,12 +122,12 @@ setTimeout( function() { noti.close() }, 10000)
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col col-lg-2">
-                    <form action="/administrador/buses" method="get">
+                    <form action="/buses" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR TODOS</button>
                     </form>
                 </div>
                 <div class="col col-lg-2">
-                    <form action="/administrador/busesActivos" method="get">
+                    <form action="/busesActivos" method="get">
                         <button type="submit" class="btn btn-warning">LISTAR ACTIVOS</button>
                     </form>
                 </div>

@@ -49,6 +49,10 @@
                 <div class="col-6">
                     <h3 class="bg-light">Indique la Frecuencia</h3>
                     <div class="form-group">
+                        <small> Ingrese la fecha del viaje </small>
+                        <input class="form-control" type="date" name="fecha" id="fecha" required><br>
+                    </div>
+                    <div class="form-group">
                         <small> Ingrese hora de Salida </small>
                         <input class="form-control" type="time" name="hora_salida" id="horaS" required><br>
                     </div>
@@ -56,8 +60,9 @@
                     <div class="form-group">
                         <small> Ingrese el numero del bus </small>
                         <select required name="bus" id="bus">
+                            <option>Seleccione...</option>
                             {{#each buses }}
-                            <option value="{{ id }}">{{ numeroBus }}</option>
+                            <option name="bus" id="bus" value="{{ id }}">{{ numeroBus }}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -168,9 +173,10 @@
             $("#externalFrecuencia").val('{{frecuencia.external_id}}');
             $("#origen").val('{{ frecuencia.rutum.origen }}');
             $("#destino").val('{{ frecuencia.rutum.destino }}');
+            $("#fecha").val('{{ frecuencia.fecha }}');
             $("#horaS").val('{{ frecuencia.horario }}');
             $("#valor").val('{{ frecuencia.rutum.valor }}');
-            $("#bus").val('{{ frecuencia.bus.numeroBus }}');
+            $("#bus").val('{{ frecuencia.bus.id }}');
             $("#divBaja").attr('style', 'visibility:visible;');
         });
     </script>

@@ -13,7 +13,13 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.UUID
         },
         horario: {
-            type: Sequelize.STRING(10),
+            type: Sequelize.STRING(10)
+        },
+        fecha: {
+            type: Sequelize.DATE //se crea como datetime, cambiar en la base de datos por date
+        },
+        asientosDisponibles: {
+            type: Sequelize.INTEGER
         },
         estado: {
             type: Sequelize.BOOLEAN,
@@ -35,6 +41,13 @@ module.exports = function (sequelize, Sequelize) {
         foreignKey: 'id_bus',
         constraints: false
     });
+    
+    Frecuencia.associate= function (models){
+        models.frecuencia.hasMany(models.boleto, {
+            foreignKey: 'id_frecuencia'
+        });
+    };
+    
 
     return Frecuencia;
 };
