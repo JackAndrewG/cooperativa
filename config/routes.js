@@ -105,6 +105,7 @@ router.post('/contactenos', EnviarCorreo.sendEmail);
 router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
 router.post('/comprar', compraControlador.comprar);
+router.get('/boleto', auth, compraControlador.buscarBoleto);
 /*RUTAS ADMINISTRADOR*/
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
@@ -114,8 +115,8 @@ router.post('/comprar', compraControlador.comprar);
 
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
- 
- 
+
+
  res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
  session: req.isAuthenticated()});
  }); */

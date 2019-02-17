@@ -1,5 +1,5 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/minicart/3.0.5/minicart.min.js"></script>
-
+<script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=E541A0846631E1BCCEBFCCA07F7E4FC2.uat01-vm-tx01"></script>
 <div class="gallery">
     <div class="jumbotron">
         <h1 class="card-title">Comprar Boletos</h1>
@@ -64,78 +64,135 @@
 
             </div>
         </div>
+<!--  este form de aqui sirve para realizar el pago con tarjeta, es un servicio web lo pueden consultar desde el script que se encuentra al princiopio de esta vista-->
+        <div class="modal fade" id="ModalPago" tabindex="-1" role="dialog" aria-labelledby="ModalPagoTitle" aria-hidden="true" tyle="overflow-y: scroll;">
+          <form style="background-color:#f6f6f5;" action="http://localhost:3000/pagar" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
+        </div>
+                <!-- Modal Comprar -->
+                <form id="formBus"  action="/comprar" method="post" >
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
 
-        <!-- Modal Comprar -->
-        <form id="formBus" method="post" action="/comprar" >
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+                                    <input type="hidden" name="external" value="0" id="external">
+                                    <input type="hidden" name="id_frecuencia" id="id_frecuencia" value="4">
+                                    <input type="hidden" name="asientos" id="asientos">
+                                    <h3 class="bg-light" id="tituloFormulario">COMPRA DE BOLETOS</h3>
+                                    <div class="form-group">
+                                        <small> Nombre de Cliente :</small>
+                                        <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombres Apellidos" required value="{{usuario}}"><br>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="origen">Ruta</label><br>
+                                        <small> Origen: </small>
+                                        <input class="form-control" type="text" name="origen" id="origen" placeholder="Ciudad de Partida" required minlength="3" maxlength="50" readonly><br>
+                                        <small> Destino: </small>
+                                        <input class="form-control" type="text" name="destino" id="destino" placeholder="Ciudad de Llegada" required minlength="3" maxlength="50" readonly><br>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="fecha">Fecha y Hora</label><br>
+                                        <small> Fecha: </small>
+                                        <input class="form-control" type="date" name="fecha" id="fecha" required readonly>
+                                        <small> Hora: </small>
+                                        <input class="form-control" type="time" name="hora" id="hora" required readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> Unidad de transporte: </small>
+                                        <input class="form-control" type="number" name="numeroBus" id="numeroBus" placeholder="00" required min="1" max="999" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <small> Cantidad de Asientos: </small>
+                                        <input class="form-control" type="number" name="cantidad_asientos" id="cantidad_asientos" placeholder="00" required min="1" max="40">
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="textbox-wrap">
+                                      <label for="total"> <b>Total: </b> </label>
+                                      <i class="fa fa-dollar"> </i>
+                                      <input class="number" type="text" name="total" id="total" readonly>
+                                      </div>
+                                    </div>
+                                    <!-- lo siguiente crea 40 asientos separados por columnas de 10 filas -->
+                                    <script>
+                                    function crearAsientos() {
+                                        var html = "";
+                                        var n=1; //n es el valor de cada asiento
+                                          for (var h = 0; h < 4; h++) {
+                                            html += '<ul style="float:left;">';
+                                            for (var i = 0; i < 10; i++) {
+                                              if (h>0) {
+                                                n=2;
+                                                if (h>1) {
+                                                  n=3;
+                                                  if (h>2) {
+                                                    n=4;
+                                                  }
+                                                }
+                                              }
+                                              if (i>0) {
+                                                n=i*4+n;
+                                              }
+                                              html += '<li>';
+                                                html += '<a class="btn btn-secondary fa fa-stop" id="bt'+n+'" onclick="seleccion('+n+')">';
+                                                  html += '<b>'+n+'</b>';
+                                                html += '</a>';
+                                              html += '</li>';
+                                              n=1;
+                                            }
+                                            html += '</ul>';
+                                          }
+                                        $("#espacioAsientos div").html(html);
+                                    }
+                                      var arregloAsientos=[];
+                                      //funcion que permite ir almacenando en el arregloAsientos cada asiento seleccionado
+                                    function seleccion(numeroAsiento){
+                                          arregloAsientos.push(numeroAsiento);
+                                          $('#bt'+numeroAsiento).attr('hidden', 'true');
+                                          $("#cantidad_asientos").val(arregloAsientos.length);
+                                          var aux='';
+                                          //esta parte sirve para almacenar cada elemento del arreglo en un input hidden para su guardado
+                                          for (var i = 0; i < arregloAsientos.length; i++) {
+                                            aux=aux+arregloAsientos[i]+',';
+                                            $("#asientos").val(aux);
+                                          }
+                                      console.log(arregloAsientos);
+                                    };
+                                    $(document).ready(function () {
 
-                            <input type="hidden" name="external" value="0" id="external">
-                            <h3 class="bg-light" id="tituloFormulario">COMPRA DE BOLETOS</h3>
-                            <div class="form-group">
-                                <input type="hidden" name="id_frecuencia" id="id_frecuencia">
-                            </div>
-                            <div class="form-group">
-                                <small> Nombre de Cliente :</small>
-                                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombres Apellidos" required value="{{usuario}}"><br>
-                            </div>
-                            <div class="form-group">
-                                <label for="origen">Ruta</label><br>
-                                <small> Origen: </small>
-                                <input class="form-control" type="text" name="origen" id="origen" placeholder="Ciudad de Partida" required minlength="3" maxlength="50" readonly><br>
-
-                                <small> Destino: </small>
-                                <input class="form-control" type="text" name="destino" id="destino" placeholder="Ciudad de Llegada" required minlength="3" maxlength="50" readonly><br>
-
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha">Fecha y Hora</label><br>
-                                <small> Fecha: </small>
-                                <input class="form-control" type="date" name="fecha" id="fecha" required readonly>
-                                <small> Hora: </small>
-                                <input class="form-control" type="time" name="hora" id="hora" required readonly>
-                            </div>
-                            <div class="form-group">
-                                <small> Unidad de transporte: </small>
-                                <input class="form-control" type="number" name="numeroBus" id="numeroBus" placeholder="00" required min="1" max="999" readonly>
-                            </div>
-                            <div class="form-group">
-                                <small> Cantidad de Asientos: </small>
-                                <input class="form-control" type="number" name="cantidad_asientos" id="cantidad_asientos" placeholder="00" required min="1" max="50">
-                            </div>
-                            <div class="form-group">
-                                <small>Asientos: </small>
-                                <input class="form-control" type="text" name="asientos" id="asientos" placeholder="1, 2, 3" required>
-                            </div>
-                            <div class="form-fields">
-                                <div class="textbox-wrap">
-                                    <label for="total"> <b>Total: </b> </label>
-                                    <i class="fa fa-dollar"> </i>
-                                    <input class="number" type="text" name="total" id="total" readonly>
+                                      var asientosOcupados=[];
+                                      //para cada string de numeroAsiento lo almacena en un arreglo asientosOcupados
+                                      {{#each boletos as |boleto i|}}
+                                      asientosOcupados=asientosOcupados+"{{boleto.NumeroAsiento}}".split(",");
+                                      {{/each}}
+                                      //almacena tambien las comas por eso hay que hacer otro split para obtener un arreglo limpio *SE PUEDE MEJORAR ESTO
+                                      console.log(asientosOcupados.split(','));
+                                        crearAsientos();
+                                        //para cada elemento del arreglo va poniendo la propiedad hidden a los asientos
+                                        for (var i = 0; i < asientosOcupados.split(',').length; i++) {
+                                          $('#bt'+(asientosOcupados.split(',')[i])).attr('hidden', 'true');
+                                        }
+                                    });
+                                    </script>
+                                    <div id="espacioAsientos">
+                                        <small> Seleccione los asientos deseados </small>
+                                        <div></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
+                                    <button type="submit" class="btn btn-success" id="btn">Pagar</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
-                            <script>
-                                $("#cancelar").click(function () {
-                                    $("#cantidad_asientos").val('0');
-                                });
-                            </script>
-                            <button type="submit" class="btn btn-success" id="btn">Pagar</button>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </form>
+                </form>
+
         <div class="card" style="width: 50rem;">
             <div class="card-header"> <b>    Viajes Disponibles!</b> </div>
             <div class="card-body">
@@ -160,49 +217,14 @@
                             <td>{{i}}</td>
                             <td>{{ frecuencia.rutum.origen }}</td>
                             <td>{{ frecuencia.rutum.destino }}</td>
-                            <td>{{ frecuencia.fecha }}</td>
+                            <td name="f{{i}}">{{ frecuencia.fecha }}</td>
                             <td>{{ frecuencia.horario }}</td>
                             <td>${{ frecuencia.rutum.valor }}</td>
                             <td>{{ frecuencia.bus.numeroBus }}</td>
-
-                            <!--     <td>
-      
-                                      <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" >
-                                          <input type="hidden" name="cmd" value="_cart">
-                                          <input type="hidden" name="business" value="jack_andres@outlook.com">
-                                          <input type="hidden" name="lc" value="AL">
-                                          <input type="hidden" name="item_name" value="Boleto de Transporte">
-                                          <input type="hidden" name="item_number" value="1">
-                                          <input type="hidden" name="button_subtype" value="products">
-                                          <input type="hidden" name="no_note" value="0">
-                                          <input type="hidden" name="currency_code" value="USD">
-                                          <input type="hidden" name="add" value="1">
-                                          <input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_LG.gif:NonHostedGuest">
-                                          <input type="hidden" name="option_select0" value="Normal">
-                                          <input type="hidden" name="option_amount0" value="7.50">
-                                          <input type="hidden" name="option_select1" value="VIP">
-                                          <input type="hidden" name="option_amount1" value="9.50">
-                                          <input type="hidden" name="option_select2" value="Premium">
-                                          <input type="hidden" name="option_amount2" value="12.50">
-                                          <input type="hidden" name="option_index" value="0">
-                                          <input type="hidden" name="on0" value="Tipo">
-                                          <select name="os0">
-                                              <option value="Normal">Normal $7,50 USD</option>
-                                              <option value="VIP">VIP $9,50 USD</option>
-                                              <option value="Premium">Premium $12,50 USD</option>
-                                          </select></td>  -->
-                            <td> 
-                                <!--
-                                                                <input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_cart_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
-                                                                <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
-                                                                </form>
-                                                                </div> -->
-
-                                <a href="#" id="bComprar{{i}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Comprar</a>
+                            <td>
+                                  <a href="/boletos" id="bComprar{{i}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Comprar</a>
                             </td>
                     <script>
-
-
                         $("#bComprar{{i}}").click(function () {
                             $("#external").val('{{frecuencia.external_id}}');
                             $("#id_frecuencia").val('{{frecuencia.id}}');
@@ -214,8 +236,8 @@
                             $("#total").val('{{ frecuencia.rutum.valor }}');
                             var cantidad = 0;
                             var suma = 0;
-                            var tot = $('#total').val() * 1;
-                            $("#cantidad_asientos").change(function () {
+                            var tot = {{ frecuencia.rutum.valor }} * 1;
+                            $("#cantidad_asientos").change(function () { //hay que mejorar la manera de calcular el total, ya que no se actualiza el total automaticamente al ir seleccionando asientos
                                 calculos();
                             });
                             function calculos() {
@@ -223,35 +245,13 @@
                                 suma = tot * cantidad;
                                 $('#total').val(suma.toFixed(2));
                             }
-
-
                         });
-
-
-
                     </script>
                     </tr>
                     {{/each}}
                     </tbody>
                 </table>
+                  <a href='/boleto' type="button">Activar</a>
             </div>
         </div>
-
     </div>
-
-
-
-
-
-    <script>
-        paypal.minicart.render({
-            strings: {
-                button: "Pagar",
-                buttonAlt: "Total:",
-                discount: "Descuento:"
-            }
-        });
-    </script>
-    <script>
-        paypal.minicart.reset();
-    </script>

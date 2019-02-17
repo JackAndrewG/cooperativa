@@ -7,7 +7,7 @@ var Boleto = models.boleto;
 var Compra = models.compra;
 var Persona = models.persona;
 const uuidv4 = require('uuid/v4');
-
+var frecuenciasA;
 
 class compraControlador {
     verRutas(req, res) {
@@ -18,6 +18,7 @@ class compraControlador {
                     {model: Ruta},
                     {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
+                  frecuenciasA=frecuencias;
                 /*   frecuencias.forEach(element =>{
                  console.log(element);
                  }); */
@@ -38,8 +39,8 @@ class compraControlador {
                 //req.flash('error', 'Hubo un error');
                 res.redirect('/destinos');
             });
-        });
 
+      });
 
     }
 
@@ -193,12 +194,29 @@ class compraControlador {
         //para la capacidad ir restando segun la cantidad de boletos vendidos
 
 
-        //recorer todos los boletos con un select y solamente que se muestren los que estan disponibles 
+        //recorer todos los boletos con un select y solamente que se muestren los que estan disponibles
         //ir creando mas inputs para poner ahi el nro de asiento en caso de que la cantidad de asientos sea mayor a uno
         //el nro de asiento de cada input concatenarlo y guardarlo en la bd
 
     }
 
+    buscarBoleto(req, res){
+      Boleto.findAll({where: {id_frecuencia: /*req.body.id_frecuencia*/ "4"}}).then(function (boletos) {
+          //res.send({boletos: boletos});
+          res.render('fragmentos/vistaUsuario/frmCompra',
+                  {titulo: 'Compra de Boletos',
+                      frecuencias: frecuenciasA,
+                      boletos: boletos,
+                      session: req.isAuthenticated(),
+                      usuario: req.user.nombre,
+                      info: req.flash("info")
+                              // info: req.flash("info_editar")
+                              //info: (req.flash('info') != '') ? req.flash('info') : '',
+                              //error: (req.flash('error') != '') ? req.flash('error') : ''
+                  });
+                            console.log(boletos);
+        });
+      }
 }
 
 
