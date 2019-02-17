@@ -18,7 +18,7 @@ class compraControlador {
                     {model: Ruta},
                     {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
-                  frecuenciasA=frecuencias;
+                frecuenciasA = frecuencias;
                 /*   frecuencias.forEach(element =>{
                  console.log(element);
                  }); */
@@ -40,7 +40,7 @@ class compraControlador {
                 res.redirect('/destinos');
             });
 
-      });
+        });
 
     }
 
@@ -99,12 +99,11 @@ class compraControlador {
 
     comprar(req, res) {
 
-
-
-
+        var frecuencia_id = req.params.idFrecuencia;
+        console.log(frecuencia_id);
 
         Frecuencia.findOne({
-            where: {id: req.body.id_frecuencia}}).then(function (frecuencia) {
+            where: {id: frecuencia_id}}).then(function (frecuencia) {
             if (frecuencia) {
                 var asientos_solicitados = req.body.cantidad_asientos;
                 var asientos_disponibles = frecuencia.asientosDisponibles;
@@ -120,7 +119,7 @@ class compraControlador {
                     Boleto.findOne({
                         where: {
                             $and: {
-                                id_frecuencia: req.body.id_frecuencia, NumeroAsiento: req.body.asientos
+                                id_frecuencia: frecuencia_id, NumeroAsiento: req.body.asientos
                             }
                         }}).then(function (asientoOcupado) {
                         if (asientoOcupado) {
@@ -156,18 +155,18 @@ class compraControlador {
                                                 cantidadAsientos: req.body.cantidad_asientos,
                                                 valorTotal: req.body.total,
                                                 id_compra: newCompra.id,
-                                                id_frecuencia: req.body.id_frecuencia
+                                                id_frecuencia: frecuencia_id
                                             }).then(function (newBoleto, err) {
                                                 if (newBoleto) {
                                                     console.log("Nuevo boleto creado");
                                                     //req.flash('exito', 'DATOS GUARDADOS CORRECTAMENTE');
                                                     Frecuencia.findOne({
-                                                        where: {id: req.body.id_frecuencia}}).then(function (frecuenciaEncontrada) {
+                                                        where: {id: frecuencia_id}}).then(function (frecuenciaEncontrada) {
                                                         if (frecuenciaEncontrada) {
 
                                                             console.log('Frecuencia encontrada');
                                                             Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (req.body.cantidad_asientos)},
-                                                                    {where: {id: req.body.id_frecuencia}});
+                                                                    {where: {id: frecuencia_id}});
                                                             console.log('Frecuencia actualizada');
                                                             req.flash('info', 'La compra se ha realizado con éxito');
                                                             res.redirect('/comprar');
@@ -200,24 +199,62 @@ class compraControlador {
 
     }
 
-    buscarBoleto(req, res){
-      var frecuencia = req.params.idFrecuencia;
-      Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
-          //res.send({boletos: boletos});
-          res.render('fragmentos/vistaUsuario/frmCompra',
-                  {titulo: 'Compra de Boletos',
-                      frecuencias: frecuenciasA,
-                      boletos: boletos,
-                      session: req.isAuthenticated(),
-                      usuario: req.user.nombre,
-                      info: req.flash("info")
-                              // info: req.flash("info_editar")
-                              //info: (req.flash('info') != '') ? req.flash('info') : '',
-                              //error: (req.flash('error') != '') ? req.flash('error') : ''
-                  });
-                            console.log(boletos);
+    buscarBoleto(req, res) {
+        var frecuencia = req.params.idFrecuencia;
+        Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
+            //res.send({boletos: boletos});
+            res.render('fragmentos/vistaUsuario/frmCompra',
+                    {titulo: 'Compra de Boletos',
+                        frecuencias: frecuenciasA,
+                        boletos: boletos,
+                        session: req.isAuthenticated(),
+                        usuario: req.user.nombre,
+                        info: req.flash("info")
+                                // info: req.flash("info_editar")
+                                //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                //error: (req.flash('error') != '') ? req.flash('error') : ''
+                    });
+            //console.log(boletos);
         });
-      }
+    }
+
+    mostrarPago(req, res) {
+        var frecuencia = req.params.idFrecuencia;
+
+        Frecuencia.findAll({
+            include: [
+                {model: Ruta},
+                {model: Bus}
+            ], where: {id: frecuencia}}).then(function (frecuencias) {
+
+            Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
+                // res.send({boletos: boletos});
+                res.render('fragmentos/vistaUsuario/frmPago',
+                        {titulo: 'Pago del boleto',
+                            frecuencias: frecuencias,
+                            boletos: boletos,
+                            session: req.isAuthenticated(),
+                            usuario: req.user.nombre,
+                            info: req.flash("info")
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+            });
+
+
+        }).catch(function (err) {
+            console.log("Error:", err);
+            //req.flash('error', 'Hubo un error');
+            res.redirect('/destinos');
+        });
+
+
+
+
+
+
+    }
 }
 
 
