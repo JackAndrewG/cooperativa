@@ -217,14 +217,16 @@
                             <td>{{i}}</td>
                             <td>{{ frecuencia.rutum.origen }}</td>
                             <td>{{ frecuencia.rutum.destino }}</td>
-                            <td name="f{{i}}">{{ frecuencia.fecha }}</td>
+                            <td>{{ frecuencia.fecha }}</td>
                             <td>{{ frecuencia.horario }}</td>
                             <td>${{ frecuencia.rutum.valor }}</td>
                             <td>{{ frecuencia.bus.numeroBus }}</td>
                             <td>
-                                  <a href="/boletos" id="bComprar{{i}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Comprar</a>
-                            </td>
-                    <script>
+                              <a href="/boleto/{{frecuencia.id}}" id="bComprobar{{i}}" type="button" class="btn btn-warning">Comprobar Disponibilidad</a>
+                              <a href="#" id="bComprar{{i}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Comprar</a>
+                              </td>
+                        <script>
+
                         $("#bComprar{{i}}").click(function () {
                             $("#external").val('{{frecuencia.external_id}}');
                             $("#id_frecuencia").val('{{frecuencia.id}}');
@@ -251,7 +253,11 @@
                     {{/each}}
                     </tbody>
                 </table>
-                  <a href='/boleto' type="button">Activar</a>
+                {{#if boletos}}
+                <p>Si hay boletos disponibles!</p>
+                {{else}}
+                <p>No hay boletos disponibles ;(</p>
+                {{/if}}
             </div>
         </div>
     </div>

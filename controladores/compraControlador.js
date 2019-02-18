@@ -201,7 +201,8 @@ class compraControlador {
     }
 
     buscarBoleto(req, res){
-      Boleto.findAll({where: {id_frecuencia: /*req.body.id_frecuencia*/ "4"}}).then(function (boletos) {
+      var frecuencia = req.params.idFrecuencia;
+      Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
           //res.send({boletos: boletos});
           res.render('fragmentos/vistaUsuario/frmCompra',
                   {titulo: 'Compra de Boletos',
