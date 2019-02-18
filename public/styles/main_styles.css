@@ -53,6 +53,7 @@
 /*********************************
 2. Body and some general stuff
 *********************************/
+
 #espacioAsientos div ul li a b{
 	color: white;
   position: absolute;
@@ -62,7 +63,6 @@
   transform: translate(-50%, -50%);
 	/* IMPORTANTE */
 	text-align: center;
-
 }
 
 #espacioAsientos div ul li a b:active{
@@ -70,37 +70,24 @@ color: black;
 }
 
 #espacioAsientos div ul li a{
-position: relative;
-display: block;
 transform: scale(2);
-/* IMPORTANTE */
-text-align: center;
 }
-#espacioAsientos div ul li a:active{
-color: yellow;
-}
-
 
 #espacioAsientos{
-	margin: 1rem;
-	padding: 1rem;
-	/* IMPORTANTE */
-	text-align: center;
+	margin: 3rem;
+	padding: 3rem;
 }
 #espacioAsientos div{
-	margin: 1rem;
-	padding: 1rem;
-	/* IMPORTANTE */
-	text-align: center;
+  padding: 0 1rem;
+  margin: 1rem;
 }
 
 #espacioAsientos div ul li{
 	background-color: #fafafa;
 	margin: 0.5rem;
 	padding: 0.5rem;
-	/* IMPORTANTE */
-	text-align: center;
 }
+
 *
 {
 	margin: 0;

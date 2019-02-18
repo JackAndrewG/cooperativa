@@ -105,7 +105,6 @@ router.post('/contactenos', EnviarCorreo.sendEmail);
 router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
 router.post('/comprar/:idFrecuencia', compraControlador.comprar);
-router.get('/boleto/:idFrecuencia', auth, compraControlador.buscarBoleto);
 router.get('/frecuencia/:idFrecuencia', auth, compraControlador.mostrarPago);
 /*RUTAS ADMINISTRADOR*/
 /*router.get('/destinos', auth, function(req, res, next) {

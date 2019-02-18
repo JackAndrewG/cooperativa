@@ -199,24 +199,6 @@ class compraControlador {
 
     }
 
-    buscarBoleto(req, res) {
-        var frecuencia = req.params.idFrecuencia;
-        Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
-            //res.send({boletos: boletos});
-            res.render('fragmentos/vistaUsuario/frmCompra',
-                    {titulo: 'Compra de Boletos',
-                        frecuencias: frecuenciasA,
-                        boletos: boletos,
-                        session: req.isAuthenticated(),
-                        usuario: req.user.nombre,
-                        info: req.flash("info")
-                                // info: req.flash("info_editar")
-                                //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                //error: (req.flash('error') != '') ? req.flash('error') : ''
-                    });
-            //console.log(boletos);
-        });
-    }
 
     mostrarPago(req, res) {
         var frecuencia = req.params.idFrecuencia;
