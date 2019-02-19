@@ -56,7 +56,7 @@
       </div>
       <div class="form-group">
         <small> Cantidad de Asientos: </small>
-        <input class="form-control" type="number" name="cantidad_asientos" id="cantidad_asientos" placeholder="00" required min="1" max="40">
+        <input class="form-control" type="number" name="cantidad_asientos" id="cantidad_asientos" placeholder="00" required min="1" max="40" readonly>
       </div>
 
       <div class="form-group text-right">
@@ -84,6 +84,8 @@
         $(document).ready(function () {
           $('#formPago').attr('action', '/comprar/{{frecuencia.id}}');
         });
+        var asientosBus={{ frecuencia.bus.numeroAsientos }};
+
       </script>
 
       {{/each}}
@@ -104,11 +106,12 @@
 
 <script>
     function crearAsientos() {
+      console.log(asientosBus);
       var html = "";
       var n = 1; //n es el valor de cada asiento
       for (var h = 0; h < 4; h++) {
         html += '<ul style="float:left;">';
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 13; i++) {
           if (h > 0) {
             n = 2;
             if (h > 1) {
@@ -120,6 +123,9 @@
           }
           if (i > 0) {
             n = i * 4 + n;
+          }
+          if (n>asientosBus) {
+            break;
           }
           html += '<li>';
           html += '<a class="btn btn-secondary fa fa-stop" id="bt' + n + '" onclick="seleccion(' + n + ')">';
