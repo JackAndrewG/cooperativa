@@ -68,7 +68,10 @@
         <a href="/comprar" type="button" class="btn btn-secondary">Regresar</a>
         <button type="submit" class="btn btn-success" id="btn">Pagar</button>
       </div>
-
+      <div class="ui center aligned header">
+        <button class="ui red button" id="btn_pdf" onclick="window.open('/pdf', '_blank')">
+          <i class="file text outline icon"></i> Generar PDF</button>
+      </div>
       <script>
         var cantidad = 0;
         var suma = 0;

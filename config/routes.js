@@ -7,6 +7,8 @@ var unidad = require('../controladores/unidadesControlador');
 var unidadesControlador = new unidad();
 var compra = require('../controladores/compraControlador');
 var compraControlador = new compra();
+var controller = require('../controladores/ReporteController');
+var pdf = new controller();
 /*PAGINA PRINCIPAL*/
 // presenta plantilla segun esta iniciada la sesion o no
 router.get('/', function (req, res, next) {
@@ -87,25 +89,32 @@ router.post('/editarDestino', auth, rutaControlador.editar);
 
 /* BUSES */
 router.get('/buses', auth, unidadesControlador.verBuses);
-
 router.get('/busesActivos', auth, unidadesControlador.verBusesActivos);
-
 router.post('/guardar_bus', auth, unidadesControlador.guardar);
 router.post('/editarBus', auth, unidadesControlador.editar);
+
+
+/* COMPRAS */
+router.get('/comprar', auth, compraControlador.verRutas);
+router.post('/compra_buscar', auth, compraControlador.buscar);
+router.post('/comprar/:idFrecuencia', compraControlador.comprar);
+router.get('/frecuencia/:idFrecuencia', auth, compraControlador.mostrarPago);
+
+
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {
     res.render('fragmentos/vistaUsuario/frmContactenos', {titulo: 'Contactenos',
         session: req.isAuthenticated(), info: req.flash('info_correcta')});
 });
 var EnviarCorreo = require('../controladores/enviarCorreo');
-//email route
+//ENVIAR EMAIL
 router.post('/contactenos', EnviarCorreo.sendEmail);
 
-/* Obtener Compra */
-router.get('/comprar', auth, compraControlador.verRutas);
-router.post('/compra_buscar', auth, compraControlador.buscar);
-router.post('/comprar/:idFrecuencia', compraControlador.comprar);
-router.get('/frecuencia/:idFrecuencia', auth, compraControlador.mostrarPago);
+/* IMPRIMIR BOLETO*/
+//router.get('/imprimirBoleto', ReporteController.imprimirBoleto);
+router.get('/pdf', pdf.imprimir)
+// // router.get('/leer', ReporteController.leer);
+
 /*RUTAS ADMINISTRADOR*/
 /*router.get('/destinos', auth, function(req, res, next) {
  //if (req.user.rol === "administrador") {} <- utilizar
