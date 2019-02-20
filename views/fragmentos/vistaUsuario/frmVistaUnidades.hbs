@@ -1,32 +1,58 @@
 <title>{{titulo}}</title>
 
-
-
 <div class="gallery" >
     <div class="jumbotron">
         <h1  class="display-4">Buses</h1>
         <p class="lead">Aqui podrá revisar todas las Unidades que posee la cooperativa <br></p>
     </div>
-    <figure>
-    <div class="gallery">
-    <div class="gallery_image" style="background-image:url(/images/gallery.jpg)"></div>
-    <div class="gallery_slider_container">
-      <!-- Gallery Slider -->
-      <div class="owl-carousel owl-theme gallery_slider">
-          {{#each buses as |bus i|}}
-        <!-- Gallery Item -->
-        <div class="owl-item gallery_item">
-          <h5 style="color:white">
-            NRO BUS: <b>{{ bus.numeroBus }}</b>
-          </h5>
-          <img src="\images\bus.jpg" alt="">
-          <h4 style="color:white">
-            PLACA: <b>{{ bus.placa }}</b>
-          </h4>
-        </div>
-        {{/each}}
-        </figure>
-      </div>
-    </div>
-    </div>
-</div>
+    
+     <div class="gallery" >
+        <figure>
+            <div class="gallery_image" style="background-image:url(/images/gallery.jpg)"></div>
+            <div class="gallery_slider_container">
+                <!-- Gallery Slider -->
+                <div class="owl-carousel owl-theme gallery_slider">
+                    {{#each buses as |bus i|}}
+                    <!-- Gallery Item -->
+                    <div class="owl-item gallery_item">
+                        <h5 style="color:white">
+                            NRO BUS: <b>{{ bus.numeroBus }}</b>
+                        </h5>
+                        <img src="\images\bus.jpg" alt="">
+                        <h4 style="color:white">
+                            PLACA: <b>{{ bus.placa }}</b>
+                        </h4>
+                    </div>
+                    {{/each}}
+                    </figure>
+                </div>
+
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th><th scope="col">Nro Bus</th><th scope="col">Placa</th>
+                <th scope="col">Propietario</th><th scope="col">Nro Asientos</th><!--<th scope="col">Bus</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            {{#each buses as |bus i| }}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{ bus.numeroBus }}</td>
+                <td>{{ bus.placa }}</td>
+                <td>{{ bus.propietario }}</td>
+                <td>{{ bus.numeroAsientos }}</td>
+                <!--    <td>{{ frecuencia.bus.numeroBus }}</td> -->
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+
+
+
+   
+
+
+
+            </div>
