@@ -56,6 +56,7 @@ class unidadesControlador {
                 res.render('fragmentos/vistaAdmin/frmBus',
                         {titulo: 'Administrar Unidades de Transporte',
                             buses: buses,
+                            roles: "admin",
                             session: req.isAuthenticated(),
                             mensaje: req.flash("alerta"),
                             exito: req.flash("exito")
@@ -90,6 +91,7 @@ class unidadesControlador {
             res.render('fragmentos/vistaAdmin/frmBus',
                     {titulo: 'Administrar Unidades de Transporte',
                         buses: buses,
+                        roles: "admin",
                         session: req.isAuthenticated(),
                         mensaje: req.flash("alerta"),
                         exito: req.flash("exito")

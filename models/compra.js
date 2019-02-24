@@ -31,7 +31,7 @@ module.exports = function (sequelize, Sequelize) {
         foreingkey: 'id_boleto',
         constraints: false
     }); */
-    Compra.associate= function (models){
+    Compra.associate= function (models){ //una compra tiene un boleto
         models.compra.hasMany(models.boleto, {
             foreignKey: 'id_compra'});
     };

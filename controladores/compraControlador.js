@@ -16,42 +16,89 @@ var boletoID;
 var compraID;
 var pago=false;
 class compraControlador {
-    verRutas(req, res) {
+  verRutas(req, res) {
 
-        Bus.findAll({where: {estado: true}}).then(function (buses) {
-            Frecuencia.findAll({
+      Bus.findAll({where: {estado: true}}).then(function (buses) {
+          Frecuencia.findAll({
+              include: [
+                  {model: Ruta},
+                  {model: Bus}
+              ], where: {estado: true}}).then(function (frecuencias) {
+              frecuenciasA = frecuencias;
+              /*   frecuencias.forEach(element =>{
+               console.log(element);
+               }); */
+              //console.log(frecuencias.ruta)
+              //  var origen_actual = frecuencias.rutum.origen;
+              // console.log(origen_actual);
+
+              console.log(frecuencias.id)
+
+              // res.send({frecuencias: frecuencias});
+              var roles = req.user.rol;
+              if (roles === "administrador") {
+                  res.render('fragmentos/vistaUsuario/frmCompra',
+                          {titulo: 'Compra de Boletos',
+                              frecuencias: frecuencias,
+                              //  buses: buses,
+                              session: req.isAuthenticated(),
+                              roles: roles,
+                              usuario: req.user.nombre,
+                              info: req.flash("info")
+                                      // info: req.flash("info_editar")
+                                      //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                      //error: (req.flash('error') != '') ? req.flash('error') : ''
+                          });
+              } else {
+                  res.render('fragmentos/vistaUsuario/frmCompra',
+                          {titulo: 'Compra de Boletos',
+                              frecuencias: frecuencias,
+                              //  buses: buses,
+                              session: req.isAuthenticated(),
+                              usuario: req.user.nombre,
+                              info: req.flash("info")
+                                      // info: req.flash("info_editar")
+                                      //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                      //error: (req.flash('error') != '') ? req.flash('error') : ''
+                          });
+              }
+
+          }).catch(function (err) {
+              console.log("Error:", err);
+              //req.flash('error', 'Hubo un error');
+              res.redirect('/error');
+          });
+
+      });
+
+  }
+
+    buscar(req, res) {
+
+        if (req.body.fecha_buscar !== '' && req.body.origen_buscar === '' && req.body.origen_buscar === '') {
+
+            Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
                 include: [
                     {model: Ruta},
                     {model: Bus}
-                ], where: {estado: true}}).then(function (frecuencias) {
-                /*   frecuencias.forEach(element =>{
-                 console.log(element);
-                 }); */
-                //console.log(frecuencias.ruta)
+                ]}).then(function (busqueda) {
+                // res.send({busqueda});
+                //res.send({frecuencias: req.body.fecha_buscar})
                 res.render('fragmentos/vistaUsuario/frmCompra',
                         {titulo: 'Compra de Boletos',
-                            frecuencias: frecuencias,
-                            //  buses: buses,
-                            session: req.isAuthenticated(),
-                            usuario: req.user.nombre,
-                            info: req.flash("info")
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
                                     // info: req.flash("info_editar")
                                     //info: (req.flash('info') != '') ? req.flash('info') : '',
                                     //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
+                //2019 02 24
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
-                res.redirect('/destinos');
+                res.redirect('/error');
             });
-
-        });
-
-    }
-
-    buscar(req, res) {
-
-        if (req.body.origen_buscar === '' || req.body.destino_buscar === '') {
+        } else if (req.body.origen_buscar === '' || req.body.destino_buscar === '' && req.body.fecha_buscar === '') {
             Frecuencia.findAll({
                 include: [
                     {model: Ruta, where: {
@@ -75,8 +122,54 @@ class compraControlador {
                 //req.flash('error', 'Hubo un error');
                 res.redirect('/comprar');
             });
-        } else {
+        } else if (req.body.origen_buscar !== '' && req.body.destino_buscar !== '' && req.body.fecha_buscar === '') {
             Frecuencia.findAll({
+                include: [
+                    {model: Ruta, where: {
+                            $and: {
+                                origen: req.body.origen_buscar, destino: req.body.destino_buscar
+                            }
+                        }},
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmCompra',
+                        {titulo: 'Compra de Boletos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+                //      res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/comprar');
+            });
+        } else if (req.body.origen_buscar !== '' && req.body.destino_buscar === '' && req.body.fecha_buscar !== '') {
+            Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
+                include: [
+                    {model: Ruta, where: {
+                                origen: req.body.origen_buscar
+                        }},
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmCompra',
+                        {titulo: 'Compra de Boletos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+                //      res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/comprar');
+            });
+        } else {
+            Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
                 include: [
                     {model: Ruta, where: {
                             $and: {

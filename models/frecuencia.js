@@ -16,7 +16,7 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.STRING(10)
         },
         fecha: {
-            type: Sequelize.DATE //se crea como datetime, cambiar en la base de datos por date
+            type: Sequelize.DATEONLY //se crea como datetime, cambiar en la base de datos por date
         },
         asientosDisponibles: {
             type: Sequelize.INTEGER

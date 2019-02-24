@@ -82,6 +82,7 @@ class rutaControlador {
                             {titulo: 'Administrar Destinos',
                                 frecuencias: frecuencias,
                                 buses: buses,
+                                roles: "admin",
                                 session: req.isAuthenticated(),
                                 info: req.flash("info_correcto")
                                         //info: (req.flash('info') != '') ? req.flash('info') : '',
@@ -102,7 +103,7 @@ class rutaControlador {
 
     }
 
-    verRutasActivas(req, res) {
+     verRutasActivas(req, res) {
 
         if (req.user.rol === "administrador") {
             Bus.findAll({where: {estado: true}}).then(function (buses) {
@@ -119,6 +120,7 @@ class rutaControlador {
                             {titulo: 'Administrar Destinos',
                                 frecuencias: frecuencias,
                                 buses: buses,
+                                roles: "admin",
                                 session: req.isAuthenticated(),
                                 info: req.flash("info_correcto")
                                         //info: (req.flash('info') != '') ? req.flash('info') : '',

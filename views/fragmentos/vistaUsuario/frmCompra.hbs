@@ -66,7 +66,6 @@
                                 </select>
                                 <span class="error-msg"></span>
                             </div>
-                            
                             <div class="input-group" >
                                 <div class="input-group-addon">Destino</div>
                                 <select name="destino_buscar" id="destino_buscar">
@@ -109,6 +108,17 @@
                                 </select>
                                 <span class="error-msg"></span>
                             </div>
+                            
+                            
+                               <div class="input-group" >
+                                <div class="input-group-addon">Fecha de viaje</div>
+                               
+                                   <input name="fecha_buscar" type="date">
+                                    
+                         
+                                <span class="error-msg"></span>
+                            </div>
+
                         </div>
 
                         <div class="col-lg-12 col-md-12 ">
@@ -122,7 +132,7 @@
             </div>
         </div>
 
-<!-- CARD TABLA -->
+        <!-- CARD TABLA -->
         <div class="card" style="width: 50rem;">
             <div class="card-header"> <b>    Viajes Disponibles!</b> </div>
             <div class="card-body">
@@ -151,19 +161,19 @@
                             <td>${{ frecuencia.rutum.valor }}</td>
                             <td>{{ frecuencia.bus.numeroBus }}</td>
                             <td>
-                              <a href="/frecuencia/{{frecuencia.id}}" id="bComprar{{i}}" class="btn btn-success" type="button">Comprar</a>
+                                <a href="/frecuencia/{{frecuencia.id}}" id="bComprar{{i}}" class="btn btn-success" type="button">Comprar</a>
                             </td>
-                        <script>
+                    <script>
 
                         $("#bComprar{{i}}").click(function () {
-                            $("#external").val('{{frecuencia.external_id}}');
-                            $("#id_frecuencia").val('{{frecuencia.id}}');
-                            $("#origen").val('{{ frecuencia.rutum.origen }}');
-                            $("#destino").val('{{ frecuencia.rutum.destino }}');
-                            $("#fecha").val('{{ frecuencia.fecha }}');
-                            $("#hora").val('{{ frecuencia.horario }}');
-                            $("#numeroBus").val('{{ frecuencia.bus.numeroBus }}');
-                            $("#total").val('{{ frecuencia.rutum.valor }}');
+                        $("#external").val('{{frecuencia.external_id}}');
+                        $("#id_frecuencia").val('{{frecuencia.id}}');
+                        $("#origen").val('{{ frecuencia.rutum.origen }}');
+                        $("#destino").val('{{ frecuencia.rutum.destino }}');
+                        $("#fecha").val('{{ frecuencia.fecha }}');
+                        $("#hora").val('{{ frecuencia.horario }}');
+                        $("#numeroBus").val('{{ frecuencia.bus.numeroBus }}');
+                        $("#total").val('{{ frecuencia.rutum.valor }}');
                         });
                     </script>
                     </tr>
@@ -173,4 +183,4 @@
             </div>
         </div>
     </div>
-  </div>
+</div>
