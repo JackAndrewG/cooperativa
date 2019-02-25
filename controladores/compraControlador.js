@@ -208,9 +208,7 @@ class compraControlador {
     mostrarPago(req, res) {
         var frecuencia = req.params.idFrecuencia;
 
-
-
-        Frecuencia.findAll({
+        Frecuencia.findOne({
             include: [
                 {model: Ruta},
                 {model: Bus}
