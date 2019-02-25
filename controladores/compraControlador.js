@@ -7,8 +7,14 @@ var Boleto = models.boleto;
 var Compra = models.compra;
 var Persona = models.persona;
 const uuidv4 = require('uuid/v4');
+var https = require('https');
+var querystring = require('querystring');
 var frecuenciasA;
-
+var idPago;
+var frecID;
+var boletoID;
+var compraID;
+var pago=false;
 class compraControlador {
     verRutas(req, res) {
 
@@ -18,7 +24,6 @@ class compraControlador {
                     {model: Ruta},
                     {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
-                frecuenciasA = frecuencias;
                 /*   frecuencias.forEach(element =>{
                  console.log(element);
                  }); */
@@ -97,9 +102,42 @@ class compraControlador {
         }
     }
 
+
+
+        mostrarPago(req, res) {
+            var frecuencia = req.params.idFrecuencia;
+            Frecuencia.findAll({
+                include: [
+                    {model: Ruta},
+                    {model: Bus}
+                ], where: {id: frecuencia}}).then(function (frecuencias) {
+                  frecuenciasA=frecuencias;
+                Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
+                    // res.send({boletos: boletos});
+                            res.render('fragmentos/vistaUsuario/frmPago',
+                                    {titulo: 'Pago del boleto',
+                                        frecuencias: frecuencias,
+                                        boletos: boletos,
+                                        session: req.isAuthenticated(),
+                                        usuario: req.user.nombre,
+                                        info: req.flash("info"),
+                                    });
+                });
+
+
+            }).catch(function (err) {
+                console.log("Error:", err);
+                req.flash('error', 'Hubo un error');
+                res.redirect('/destinos');
+            });
+
+        }
+
+
     comprar(req, res) {
 
         var frecuencia_id = req.params.idFrecuencia;
+            frecID = req.params.idFrecuencia;
         console.log(frecuencia_id);
 
         Frecuencia.findOne({
@@ -145,7 +183,7 @@ class compraControlador {
                                 };
                                 Compra.create(compra).then(function (newCompra, created) {
                                     if (newCompra) {
-                                        //    var detalle = [];
+                                        compraID =newCompra.id;
                                         if (persona) {
                                             console.log("Nueva compra creada, listo para asignar boleto");
                                             Boleto.create({
@@ -158,20 +196,10 @@ class compraControlador {
                                                 id_frecuencia: frecuencia_id
                                             }).then(function (newBoleto, err) {
                                                 if (newBoleto) {
+                                                  boletoID = newBoleto.id;
+                                                  var total = newBoleto.valorTotal;
                                                     console.log("Nuevo boleto creado");
-                                                    //req.flash('exito', 'DATOS GUARDADOS CORRECTAMENTE');
-                                                    Frecuencia.findOne({
-                                                        where: {id: frecuencia_id}}).then(function (frecuenciaEncontrada) {
-                                                        if (frecuenciaEncontrada) {
-
-                                                            console.log('Frecuencia encontrada');
-                                                            Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (req.body.cantidad_asientos)},
-                                                                    {where: {id: frecuencia_id}});
-                                                            console.log('Frecuencia actualizada');
-                                                            req.flash('info', 'La compra se ha realizado con éxito');
-                                                            res.redirect('/comprar');
-                                                        }
-                                                    });
+                                                    res.redirect('/pago/tarjeta/'+total);
                                                 }
                                             });
                                         }
@@ -200,47 +228,128 @@ class compraControlador {
     }
 
 
-    mostrarPago(req, res) {
-        var frecuencia = req.params.idFrecuencia;
-
-        Frecuencia.findAll({
-            include: [
-                {model: Ruta},
-                {model: Bus}
-            ], where: {id: frecuencia}}).then(function (frecuencias) {
-
-            Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
-                // res.send({boletos: boletos});
-                res.render('fragmentos/vistaUsuario/frmPago',
-                        {titulo: 'Pago del boleto',
-                            frecuencias: frecuencias,
-                            boletos: boletos,
-                            session: req.isAuthenticated(),
-                            usuario: req.user.nombre,
-                            info: req.flash("info")
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
-                        });
-            });
-
-
-        }).catch(function (err) {
-            console.log("Error:", err);
-            //req.flash('error', 'Hubo un error');
-            res.redirect('/destinos');
+    tarjeta(req,res){
+                var total = req.params.total;
+                function request(callback) {
+        var path='/v1/checkouts';
+        var data = querystring.stringify( {
+          'authentication.userId':'8a8294175d602369015d73bf00e5180c',
+          'authentication.password':'dMq5MaTD5r',
+          'authentication.entityId':'8a8294175d602369015d73bf009f1808',
+          'amount': total,
+          'currency':'USD',
+          'paymentType':'DB'
         });
-
-
-
-
-
-
+        var options = {
+          port: 443,
+          host: 'test.oppwa.com',
+          path: path,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': data.length
+          }
+        };
+        var postRequest = https.request(options, function(res) {
+          res.setEncoding('utf8');
+          res.on('data', function (chunk) {
+            var jsonRes = JSON.parse(chunk);
+            return callback(jsonRes);
+          });
+        });
+        postRequest.write(data);
+        postRequest.end();
+      }
+      request(function(responseData) {
+        console.log(responseData);
+        idPago=responseData.id;
+        res.render('fragmentos/vistaUsuario/frmTarjeta',
+                {titulo: 'Pago con Tarjeta',
+                    session: req.isAuthenticated(),
+                    idPagoTarjeta: responseData.id
+                });
+        console.log(responseData.id);
+      });
     }
+
+
+    comprobarPago(req, res) {
+
+     function request(callback) {
+       var path = '/v1/checkouts/' + idPago + '/payment';
+       path += '?authentication.userId=8a8294175d602369015d73bf00e5180c';
+       path += '&authentication.password=dMq5MaTD5r';
+       path += '&authentication.entityId=8a8294175d602369015d73bf009f1808';
+       var options = {
+         port: 443,
+         host: 'test.oppwa.com',
+         path: path,
+         method: 'GET',
+       };
+       var postRequest = https.request(options, function(res) {
+         res.setEncoding('utf8');
+         res.on('data', function(chunk) {
+           var jsonRes = JSON.parse(chunk);
+           return callback(jsonRes);
+         });
+       });
+       postRequest.end();
+     }
+
+       request(function(responseData) {
+         console.log(responseData);
+         if (responseData.result.code === "000.100.110") {
+            return pago=true;
+            //compraControlador.respuestaComprobacion(pago);
+            req.flash('correcto', 'La compra se ha realizado con éxito');
+         }
+       });
+       if (pago) {
+         Frecuencia.findOne({
+             where: {id: frecID}}).then(function (frecuenciaEncontrada) {
+             if (frecuenciaEncontrada) {
+
+                 console.log('Frecuencia encontrada');
+                 Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (req.body.cantidad_asientos)},
+                         {where: {id: frecID}});
+                 console.log('Frecuencia actualizada');
+                  res.redirect('/reporte');
+             }
+         });
+
+       }else {
+       Boleto.destroy({where: {id: boletoID}});
+       Compra.destroy({where: {id: compraID}});
+       req.flash('info', 'No se ha completado el pago exitosamente');
+       res.redirect('/comprar');
+     }
+
+   }
+
+
+
+
+    verBoleto(req, res) {
+
+      Boleto.findAll({
+        where: {
+          id: boletoID
+        }
+      }).then(function(boleto) {
+        res.render('fragmentos/vistaUsuario/reporte', {
+          titulo: 'Boleto',
+          frecuencias: frecuenciasA,
+          boleto: boleto,
+          session: req.isAuthenticated(),
+          cliente: req.user.nombre,
+          info: req.flash("correcto")
+        });
+        boletoID=0;
+        frecuenciasA='';
+        pago=false;
+      });
+
 }
 
-
-
-
-
+}
 module.exports = compraControlador;

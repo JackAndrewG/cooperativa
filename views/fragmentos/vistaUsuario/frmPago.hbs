@@ -1,18 +1,8 @@
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/minicart/3.0.5/minicart.min.js"></script>-->
-<!--<script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId=E541A0846631E1BCCEBFCCA07F7E4FC2.uat01-vm-tx01"></script>-->
-
-<!--  este form de aqui sirve para realizar el pago con tarjeta, es un servicio web lo pueden consultar desde el script que se encuentra al princiopio de esta vista-->
-<!--
-        <div class="modal fade" id="ModalPago" tabindex="-1" role="dialog" aria-labelledby="ModalPagoTitle" aria-hidden="true" tyle="overflow-y: scroll;">
-          <form style="background-color:#f6f6f5;" action="http://localhost:3000/pagar" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
-        </div>
-  -->
-
 
 <div class="gallery">
 
 <!-- Card Comprar -->
-  <form id="formPago" method="post" >
+  <form id="formPago"  method="post" >
 
     <input type="hidden" name="external" value="0" id="external">
     <input type="hidden" name="asientos" id="asientos">
@@ -66,12 +56,12 @@
       </div>
       <div class="form-group text-center">
         <a href="/comprar" type="button" class="btn btn-secondary">Regresar</a>
-        <button type="submit" class="btn btn-success" id="btn">Pagar</button>
+        <button type="submit" class="btn btn-success" id="btn">Proceder a Pagar</button>
       </div>
-      <div class="ui center aligned header">
+      <!-- <div class="ui center aligned header">
         <button class="ui red button" id="btn_pdf" onclick="window.open('/pdf', '_blank')">
           <i class="file text outline icon"></i> Generar PDF</button>
-      </div>
+      </div> -->
       <script>
         var cantidad = 0;
         var suma = 0;
@@ -172,4 +162,5 @@
       }
       {{/if}}
     });
+
 </script>

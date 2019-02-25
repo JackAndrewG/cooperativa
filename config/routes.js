@@ -7,8 +7,6 @@ var unidad = require('../controladores/unidadesControlador');
 var unidadesControlador = new unidad();
 var compra = require('../controladores/compraControlador');
 var compraControlador = new compra();
-var controller = require('../controladores/ReporteController');
-var pdf = new controller();
 /*PAGINA PRINCIPAL*/
 // presenta plantilla segun esta iniciada la sesion o no
 router.get('/', function (req, res, next) {
@@ -99,7 +97,12 @@ router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
 router.post('/comprar/:idFrecuencia', compraControlador.comprar);
 router.get('/frecuencia/:idFrecuencia', auth, compraControlador.mostrarPago);
+router.get('/pago/tarjeta/:total', auth, compraControlador.tarjeta);
+router.get('/pago/comprobar', auth, compraControlador.comprobarPago);
 
+
+/* IMPRIMIR BOLETO*/
+router.get('/reporte', auth, compraControlador.verBoleto);
 
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {
@@ -110,9 +113,7 @@ var EnviarCorreo = require('../controladores/enviarCorreo');
 //ENVIAR EMAIL
 router.post('/contactenos', EnviarCorreo.sendEmail);
 
-/* IMPRIMIR BOLETO*/
-//router.get('/imprimirBoleto', ReporteController.imprimirBoleto);
-router.get('/pdf', pdf.imprimir)
+
 // // router.get('/leer', ReporteController.leer);
 
 /*RUTAS ADMINISTRADOR*/
