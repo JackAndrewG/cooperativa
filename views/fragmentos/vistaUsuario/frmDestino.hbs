@@ -3,16 +3,169 @@
 <div class="gallery">
     <div class="jumbotron">
         <h1 class="display-4">Frecuencias y Rutas</h1>
-        <p class="lead">Aqui podrá revisar todas las Rutas y Horarios que posee nuestra cooperativa <br>
-            Podrá consultar por rutas, horarios y el costo que tiene cada Destino</p>
+        <p class="lead">Aqui podrá revisar todas las Rutas con sus respectivos horarios y precios, que posee nuestra cooperativa <br>
+            Podrá consultar por su ciudad de origen o destino</p>
+        
+         <figure>
+
+        <div class="gallery_slider_container">
+            <!-- Gallery Slider -->
+            <div class="owl-carousel owl-theme gallery_slider">
+                <!-- Gallery Item -->
+                <div class="owl-item gallery_item">
+                    <img src="\images\loja-ecuador.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Loja</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Quito.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Quito</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Guayaquil.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Guayaquil</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Cuenca.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Cuenca</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Ambato.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Ambato</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Riobamba.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Riobamba</b>
+                    </h4>
+                </div>
+                <div class="owl-item gallery_item">
+                    <img src="\images\Piñas.jpg" alt="">
+                    <h4 style="color:blue">
+                        <b>Piñas</b>
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+
+    </figure>
     </div>
 
     <div class="search">
-        <form>
-            <input type="search" class="search_input menu_mm" placeholder="Ingrese el destino" required="required">
-            <button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm" src="/images/magnifying-glass.svg" alt=""></button>
+        <form action="/buscarDestino" method="POST">
+            <br>
+            <div class="row text-left" style="margin-bottom:4px;">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 block-display">
+                    <div class="input-group" >
+                        <div class="input-group-addon">Origen</div>
+                        <select name="origen_buscar" id="origen_buscar">
+                            <option value="">Seleccione...</option>
+
+                            <script>
+                                var html = "";
+                                var seRepite = 0;
+                                var arregloOrigen = [];
+                                html = html + '<option id="opOrigen{{i}}" value="">Seleccione..</option>';
+                                {{#each frecuencias as | frecuencia i | }}
+
+
+
+                                arregloOrigen[{{i}}] = "{{frecuencia.rutum.origen}}";
+                                //html+=
+                                {{/each}}
+                                        console.log("Arreglo de origen: " + arregloOrigen)
+                                        for (var d = 0; d < arregloOrigen.length; d++) {
+                                // alert("luego del each " + arregloOrigen[d]);
+                                // alert("entrando al segundo")
+                                //alert("{{frecuencia.rutum.origen}}")
+                                seRepite = 0;
+                                for (var c = 0; c <= d; c++) {
+                                if (arregloOrigen[d] == arregloOrigen[c]){
+                                console.log("se repita una vez " + arregloOrigen[d]);
+                                seRepite = seRepite + 1;
+                                }
+
+                                }
+
+                                if (seRepite == 1){
+                                html = html + '<option id="opOrigen{{i}}" value=' + arregloOrigen[d] + '>' + arregloOrigen[d] + '</option>';
+                                //alert(arregloOrigen[d]);
+                                }
+                                console.log(arregloOrigen);
+                                console.log(html);
+                                }
+                                $('#origen_buscar').html(html);
+                            </script>
+
+                        </select>
+                        <span class="error-msg"></span>
+                    </div>
+                    <div class="input-group" >
+                        <div class="input-group-addon">Destino</div>
+                        <select name="destino_buscar" id="destino_buscar">
+                            <option value="">Seleccione...</option>
+
+                            <script>
+                                var htmld = "";
+                                var seRepite = 0;
+                                var arregloDestino = [];
+                                htmld = htmld + '<option id="opDestino{{i}}" value="">Seleccione..</option>';
+                                {{#each frecuencias as | frecuencia i | }}
+
+
+                                arregloDestino[{{i}}] = "{{frecuencia.rutum.destino}}";
+                                //html+=
+                                {{/each}}
+                                        console.log("Arreglo de destino " + arregloDestino)
+                                        for (var d = 0; d < arregloDestino.length; d++) {
+                                // alert("luego del each " + arregloOrigen[d]);
+                                // alert("entrando al segundo")
+                                //alert("{{frecuencia.rutum.origen}}")
+                                seRepite = 0;
+                                for (var c = 0; c <= d; c++) {
+                                if (arregloDestino[d] == arregloDestino[c]){
+                                console.log("se repita una vez " + arregloDestino[d]);
+                                seRepite = seRepite + 1;
+                                }
+
+                                }
+
+                                if (seRepite == 1){
+                                htmld = htmld + '<option id="opDestino{{i}}" value=' + arregloDestino[d] + '>' + arregloDestino[d] + '</option>';
+                                //alert(arregloOrigen[d]);
+                                }
+                                }
+                                $('#destino_buscar').html(htmld);
+
+
+                            </script>
+                        </select>
+                        <span class="error-msg"></span>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 col-md-12 ">
+                    <div class="input-group" >
+                        <button type="submit" class="btn btn-primary mb-2">Busca tu destino</button>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
+
+   
+
     <table data-aos='fade-down' class="table">
         <thead class="thead-dark">
             <tr>
@@ -28,9 +181,15 @@
                 <td>{{ frecuencia.rutum.destino }}</td>
                 <td>{{ frecuencia.horario }}</td>
                 <td>${{ frecuencia.rutum.valor }}</td>
-            <!--    <td>{{ frecuencia.bus.numeroBus }}</td> -->
+                <!--    <td>{{ frecuencia.bus.numeroBus }}</td> -->
             </tr>
             {{/each}}
         </tbody>
     </table>
+
+
+
+
+
+
 </div>

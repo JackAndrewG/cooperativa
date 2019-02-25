@@ -155,6 +155,59 @@ class rutaControlador {
             });
         }
     }
+    
+     buscar(req, res) {
+
+        if (req.body.origen_buscar === '' || req.body.destino_buscar === '') {
+            Frecuencia.findAll({
+                include: [
+                    {model: Ruta, where: {
+                            $or: {
+                                origen: req.body.origen_buscar, destino: req.body.destino_buscar
+                            }}
+                    },
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmDestino',
+                        {titulo: 'Busqueda de destinos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+                //  res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/error');
+            });
+        } else {
+            Frecuencia.findAll({
+                include: [
+                    {model: Ruta, where: {
+                            $and: {
+                                origen: req.body.origen_buscar, destino: req.body.destino_buscar
+                            }
+                        }},
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmDestino',
+                        {titulo: 'Búsqueda de destinos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                                    // info: req.flash("info_editar")
+                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
+                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
+                        });
+                //      res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/error');
+            });
+        }
+    }
 }
 
 module.exports = rutaControlador;

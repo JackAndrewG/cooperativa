@@ -26,28 +26,86 @@
                                 <div class="input-group-addon">Origen</div>
                                 <select name="origen_buscar" id="origen_buscar">
                                     <option value="">Seleccione...</option>
-                                    {{#each frecuencias as |frecuencia i| }}
-                                    <option id="opOrigen{{i}}" value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>
+
                                     <script>
                                         var html = "";
-                                        if ($('#opOrigen{{i}}').val("{{ frecuencia.rutum.origen }}") != "HOLA") {
+                                        var seRepite = 0;
+                                        var arregloOrigen = [];
+                                        html = html + '<option id="opOrigen{{i}}" value="">Seleccione..</option>';
+                                        {{#each frecuencias as | frecuencia i | }}
+                                        
+                                        
 
-                                            html = html + '<option id="opOrigen{{i}}" value="{{ frecuencia.rutum.origen }}">{{ frecuencia.rutum.origen }}</option>';
+                                        arregloOrigen[{{i}}] = "{{frecuencia.rutum.origen}}";
+                                        //html+=
+                                        {{/each}}
+                                                console.log("Arreglo de origen: " + arregloOrigen)
+                                                for (var d = 0; d < arregloOrigen.length; d++) {
+                                        // alert("luego del each " + arregloOrigen[d]);
+                                        // alert("entrando al segundo")
+                                        //alert("{{frecuencia.rutum.origen}}")
+                                        seRepite = 0;
+                                        for (var c = 0; c <= d; c++) {
+                                        if (arregloOrigen[d] == arregloOrigen[c]){
+                                        console.log("se repita una vez " + arregloOrigen[d]);
+                                        seRepite = seRepite + 1;
+                                        }
+                                        
+                                        }
 
+                                        if (seRepite == 1){
+                                        html = html + '<option id="opOrigen{{i}}" value=' + arregloOrigen[d] + '>' + arregloOrigen[d] + '</option>';
+                                        //alert(arregloOrigen[d]);
+                                        }
+                                        console.log(arregloOrigen);
+                                        console.log(html);
                                         }
                                         $('#origen_buscar').html(html);
                                     </script>
-                                    {{/each}}
+
                                 </select>
                                 <span class="error-msg"></span>
                             </div>
+                            
                             <div class="input-group" >
                                 <div class="input-group-addon">Destino</div>
                                 <select name="destino_buscar" id="destino_buscar">
                                     <option value="">Seleccione...</option>
-                                    {{#each frecuencias as |frecuencia i| }}
-                                    <option value="{{ frecuencia.rutum.destino }}">{{ frecuencia.rutum.destino }}</option>
-                                    {{/each}}
+                                        
+                                    <script>
+                                        var htmld = "";
+                                        var seRepite = 0;
+                                        var arregloDestino = [];
+                                        htmld = htmld + '<option id="opDestino{{i}}" value="">Seleccione..</option>';
+                                        {{#each frecuencias as | frecuencia i | }}
+                                        
+                                        
+                                        arregloDestino[{{i}}] = "{{frecuencia.rutum.destino}}";
+                                        //html+=
+                                        {{/each}}
+                                                console.log("Arreglo de destino " + arregloDestino)
+                                                for (var d = 0; d < arregloDestino.length; d++) {
+                                        // alert("luego del each " + arregloOrigen[d]);
+                                        // alert("entrando al segundo")
+                                        //alert("{{frecuencia.rutum.origen}}")
+                                        seRepite = 0;
+                                        for (var c = 0; c <= d; c++) {
+                                        if (arregloDestino[d] == arregloDestino[c]){
+                                        console.log("se repita una vez " + arregloDestino[d]);
+                                        seRepite = seRepite + 1;
+                                        }
+                                        
+                                        }
+
+                                        if (seRepite == 1){
+                                        htmld = htmld + '<option id="opDestino{{i}}" value=' + arregloDestino[d] + '>' + arregloDestino[d] + '</option>';
+                                        //alert(arregloOrigen[d]);
+                                        }
+                                        }
+                                        $('#destino_buscar').html(htmld);
+
+
+                                    </script>
                                 </select>
                                 <span class="error-msg"></span>
                             </div>

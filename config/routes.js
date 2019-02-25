@@ -84,6 +84,7 @@ router.get('/destinos', auth, rutaControlador.verRutas);
 router.get('/destinosActivos', auth, rutaControlador.verRutasActivas);
 router.post('/guardar_destino', auth, rutaControlador.guardar);
 router.post('/editarDestino', auth, rutaControlador.editar);
+router.post('/buscarDestino', auth, rutaControlador.buscar);
 
 /* BUSES */
 router.get('/buses', auth, unidadesControlador.verBuses);
