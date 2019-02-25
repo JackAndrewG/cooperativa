@@ -17,32 +17,32 @@
       <small> Nombre de Cliente :</small>
       <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombres Apellidos" required value="{{usuario}}" readonly><br>
     </div>
-      {{#each frecuencias as |frecuencia i| }}
+
           <h4 style="text-align: center;">Ruta</h4>
               <div class="input-group mb-3" >
                 <div class="input-group-prepend">
                   <span class="input-group-text">Origen</span>
                 </div>
-                  <input class="form-control" type="text" name="origen" id="origen" placeholder="Ciudad de Partida" required minlength="3" maxlength="50" value="{{frecuencia.rutum.origen}}" readonly>
+                  <input class="form-control" type="text" name="origen" id="origen" placeholder="Ciudad de Partida" required minlength="3" maxlength="50" value="{{frecuencias.rutum.origen}}" readonly>
                   <div class="input-group-prepend">
                     <span class="input-group-text">Destino</span>
                   </div>
-                    <input class="form-control" type="text" name="destino" id="destino" placeholder="Ciudad de Llegada" required minlength="3" maxlength="50" value="{{frecuencia.rutum.destino}}" readonly>
+                    <input class="form-control" type="text" name="destino" id="destino" placeholder="Ciudad de Llegada" required minlength="3" maxlength="50" value="{{frecuencias.rutum.destino}}" readonly>
               </div>
           <h4 style="text-align: center;">Fecha y Hora</h4>
               <div class="input-group" >
                 <div class="input-group-prepend">
                   <span class="input-group-text">Fecha</span>
                 </div>
-                  <input class="form-control" type="date" name="fecha" id="fecha" required value="{{frecuencia.fecha}}" readonly>
+                  <input class="form-control" type="date" name="fecha" id="fecha" required value="{{frecuencias.fecha}}" readonly>
                   <div class="input-group-prepend">
                     <span class="input-group-text">Hora</span>
                   </div>
-                    <input class="form-control" type="time" name="hora" id="hora" value="{{frecuencia.horario}}" required readonly>
+                    <input class="form-control" type="time" name="hora" id="hora" value="{{frecuencias.horario}}" required readonly>
               </div>
       <div class="form-group">
         <small> Unidad de transporte: </small>
-        <input class="form-control" type="number" name="numeroBus" id="numeroBus" placeholder="00" required min="1" max="999" value="{{frecuencia.bus.numeroBus}}" readonly>
+        <input class="form-control" type="number" name="numeroBus" id="numeroBus" placeholder="00" required min="1" max="999" value="{{frecuencias.bus.numeroBus}}" readonly>
       </div>
       <div class="form-group">
         <small> Cantidad de Asientos: </small>
@@ -65,7 +65,7 @@
       <script>
         var cantidad = 0;
         var suma = 0;
-        var tot = {{ frecuencia.rutum.valor }} * 1;
+        var tot = {{ frecuencias.rutum.valor }} * 1;
         $("#cantidad_asientos").change(function () { //hay que mejorar la manera de calcular el total, ya que no se actualiza el total automaticamente al ir seleccionando asientos
           calculos();
         });
@@ -75,13 +75,12 @@
           $('#total').val(suma.toFixed(2));
         }
         $(document).ready(function () {
-          $('#formPago').attr('action', '/comprar/{{frecuencia.id}}');
+          $('#formPago').attr('action', '/comprar/{{frecuencias.id}}');
         });
-        var asientosBus={{ frecuencia.bus.numeroAsientos }};
+        var asientosBus={{ frecuencias.bus.numeroAsientos }};
 
       </script>
 
-      {{/each}}
   </div>
 
 <!-- Card Asientos -->

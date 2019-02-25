@@ -10,6 +10,7 @@ const uuidv4 = require('uuid/v4');
 var https = require('https');
 var querystring = require('querystring');
 var frecuenciasA;
+var cantAsientos;
 var idPago;
 var frecID;
 var boletoID;
@@ -106,13 +107,17 @@ class compraControlador {
 
         mostrarPago(req, res) {
             var frecuencia = req.params.idFrecuencia;
-            Frecuencia.findAll({
+            Frecuencia.findOne({
                 include: [
                     {model: Ruta},
                     {model: Bus}
                 ], where: {id: frecuencia}}).then(function (frecuencias) {
                   frecuenciasA=frecuencias;
-                Boleto.findAll({where: {id_frecuencia: frecuencia}}).then(function (boletos) {
+                  console.log(frecuencias);
+                Boleto.findAll({where: {$and:
+                  {hora: frecuencias.horario, fechaViaje: frecuencias.fecha}
+                    }}).then(function (boletos) {
+                      console.log(boletos);
                     // res.send({boletos: boletos});
                             res.render('fragmentos/vistaUsuario/frmPago',
                                     {titulo: 'Pago del boleto',
@@ -128,7 +133,7 @@ class compraControlador {
             }).catch(function (err) {
                 console.log("Error:", err);
                 req.flash('error', 'Hubo un error');
-                res.redirect('/destinos');
+                res.redirect('/comprar');
             });
 
         }
@@ -188,6 +193,7 @@ class compraControlador {
                                             console.log("Nueva compra creada, listo para asignar boleto");
                                             Boleto.create({
                                                 external_id: uuidv4(),
+                                                hora: req.body.hora,
                                                 fechaViaje: req.body.fecha,
                                                 NumeroAsiento: req.body.asientos,
                                                 cantidadAsientos: req.body.cantidad_asientos,
@@ -196,6 +202,7 @@ class compraControlador {
                                                 id_frecuencia: frecuencia_id
                                             }).then(function (newBoleto, err) {
                                                 if (newBoleto) {
+                                                  cantAsientos=newBoleto.cantidadAsientos;
                                                   boletoID = newBoleto.id;
                                                   var total = newBoleto.valorTotal;
                                                     console.log("Nuevo boleto creado");
@@ -305,17 +312,25 @@ class compraControlador {
          }
        });
        if (pago) {
-         Frecuencia.findOne({
-             where: {id: frecID}}).then(function (frecuenciaEncontrada) {
-             if (frecuenciaEncontrada) {
 
-                 console.log('Frecuencia encontrada');
-                 Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (req.body.cantidad_asientos)},
-                         {where: {id: frecID}});
-                 console.log('Frecuencia actualizada');
-                  res.redirect('/reporte');
-             }
-         });
+           Frecuencia.findOne({
+               where: {id: frecID}}).then(function (frecuenciaEncontrada) {
+               if (frecuenciaEncontrada) {
+                   console.log('Frecuencia encontrada');
+                   Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - cantAsientos},
+                           {where: {
+                                   $and: {
+                                       horario: frecuenciaEncontrada.horario, fecha: frecuenciaEncontrada.fecha
+                                   }
+                               }}).spread(function (affectedCount, affectedRows){
+                             return Frecuencia.findAll();
+                           }).then(function(frecuencias){
+                             console.log(frecuencias);
+                             console.log('Frecuencia actualizada');
+                              res.redirect('/reporte');
+                           });
+               }
+           });
 
        }else {
        Boleto.destroy({where: {id: boletoID}});

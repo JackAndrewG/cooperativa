@@ -16,7 +16,7 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.STRING(10)
         },
         fecha: {
-            type: Sequelize.DATE //se crea como datetime, cambiar en la base de datos por date
+            type: Sequelize.DATEONLY
         },
         asientosDisponibles: {
             type: Sequelize.INTEGER
@@ -31,23 +31,23 @@ module.exports = function (sequelize, Sequelize) {
         updateAt: 'fecha_modificacion'
     });
 
-    
+
     Frecuencia.belongsTo(Ruta, {
         foreignKey: 'id_ruta',
         constraints: false
     });
-    
+
     Frecuencia.belongsTo(Bus, {
         foreignKey: 'id_bus',
         constraints: false
     });
-    
+
     Frecuencia.associate= function (models){
         models.frecuencia.hasMany(models.boleto, {
             foreignKey: 'id_frecuencia'
         });
     };
-    
+
 
     return Frecuencia;
 };

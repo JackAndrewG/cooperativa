@@ -73,3 +73,76 @@ $().ready(function () {
     </div>
   </div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+<script>
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyAfSwCY5PZAUhKQgJuTHZYqv_PSPwmMsDE",
+  authDomain: "cooperativa-transnic.firebaseapp.com",
+  databaseURL: "https://cooperativa-transnic.firebaseio.com",
+  projectId: "cooperativa-transnic",
+  storageBucket: "cooperativa-transnic.appspot.com",
+  messagingSenderId: "304857241691"
+};
+firebase.initializeApp(config);
+
+// fire base mensajes
+            var messaging= firebase.messaging();
+            messaging.usePublicVapidKey('BNSuAA4YXyRp6h2pt2jq8YFoXW-0Itss7hPBzOsVLBAELWk5g4KiK9y_4LCHn7Yh9v3n58oBYfypNHsTfFYghps');
+            messaging.requestPermission().then(function(){
+              console.log('se ha aceptado las notificaciones');
+              messaging.getToken().then(function(currentToken){
+                if (currentToken) {
+                  console.log(currentToken);
+                  //guardar token
+                }else {
+                  console.log('no existe token disponible Pida permisos para generar alguno');
+                }
+              }).catch(function(err){
+                console.log('ocurrio un error mientras se obtenia el token', err);
+                showToken('error al obtener la instancia id del token', err);
+                setTokenSentToServer(false);
+
+              });
+
+            }).catch(function(err){
+              mensajeFeedBack(err);
+              console.log('no se ha recibido permiso / token : ', err);
+            });
+            messaging.onMessage(function(payload){
+              appendMessage(payload);
+            });
+            function appendMessage(payload){
+              console.log(payload);
+              var notification = '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+              notification+='<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+              notification+='<span aria-hidden="true">&times;</span>';
+              notification+='</button>';
+              notification+='<img src="'+payload.notification.icon+'" width="25"/><strong>'+payload.notification.title+'</strong>'+
+              payload.notification.body+'.';
+              notification+='</div>';
+              $("#messages").html(notification);
+
+            }
+
+function getAccessToken() {
+ return new Promise(function(resolve, reject) {
+   var key = require('./cooperativa-transnic-firebase-adminsdk-4rohl-5b66601233.json');
+   var jwtClient = new google.auth.JWT(
+     key.client_email,
+     null,
+     key.private_key,
+     SCOPES,
+     null
+   );
+   jwtClient.authorize(function(err, tokens) {
+     if (err) {
+       reject(err);
+       return;
+     }
+     resolve(tokens.access_token);
+   });
+ });
+}
+</script>

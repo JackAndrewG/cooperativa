@@ -30,7 +30,6 @@
             <div class="card-body">
               <h5 class="card-title text-right"> <i>BOLETO ELECTRONICO</i> </h5>
               <p class="card-text">
-                {{#each frecuencias as |frecuencia i|}}
                 <table class="table">
                   <thead>
                     <tr>
@@ -47,15 +46,15 @@
                     </tr>
                     <tr>
                       <th scope="row">Origen: </th>
-                      <td>{{frecuencia.rutum.origen}}</td>
+                      <td>{{frecuencias.rutum.origen}}</td>
                       <td> <b>Destino: </b> </td>
-                      <td>{{frecuencia.rutum.destino}}</td>
+                      <td>{{frecuencias.rutum.destino}}</td>
                     </tr>
                     <tr>
                       <th scope="row">Fecha: </th>
-                      <td>{{frecuencia.fecha}}</td>
+                      <td>{{frecuencias.fecha}}</td>
                       <td> <b>Hora: </b> </td>
-                      <td>{{frecuencia.horario}}</td>
+                      <td>{{frecuencias.horario}}</td>
                     </tr>
 
                     <tr>
@@ -64,31 +63,13 @@
                     </tr>
                     <tr>
                       <th scope="row" >Unidad: </th>
-                      <td>{{frecuencia.bus.numeroBus}}</td>
+                      <td>{{frecuencias.bus.numeroBus}}</td>
                       <th scope="row">Valor: </th>
                       <td id="total"></td>
                     </tr>
                   </tbody>
                 </table>
-                <script>
-                  var frecuencia= '{{frecuencia.id}}';
-                  function consulta(frecuencia) {
-                    console.log('di hola si estas aqui');
-                    var url = 'http://localhost:3000/frecuencia/' + frecuencia;
-                    $.ajax({
-                      url: url,
-                      type: 'GET',
-                      dataType: 'json',
-                      success: function(data, textStatus, jqXHR) {
-                        console.log(data);
-                      },
-                      error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                      }
-                    });
-                  }
-                </script>
-                {{/each}}
+
                 <img src="/images/qr.jpg" alt="qr" width="100">
                 <div class="extra_1_text text-center">Boleto Especial <br> Todos los derechos reservados a la cooperativa TransNIC</div>
               </p>

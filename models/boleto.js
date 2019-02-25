@@ -19,8 +19,11 @@ module.exports = function (sequelize, Sequelize) {
             allowNull: false,
             unique: true
         }, */
+        hora: {
+            type: Sequelize.TIME
+        },
         fechaViaje: {
-            type: Sequelize.DATE //se crea como datetime, cambiar en la base de datos por date, posiblemente borrar por que en frecuencia ya esta 
+            type: Sequelize.DATEONLY
         },
         NumeroAsiento: {
             type: Sequelize.STRING(80)

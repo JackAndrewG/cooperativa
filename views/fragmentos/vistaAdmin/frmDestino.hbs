@@ -124,7 +124,7 @@
                     {{ info }}
                 </div>
                 {{/if}}
-            
+
             <div class="col-12">
                 <div class="container">
                     <div class="row justify-content-md-center">
@@ -166,7 +166,9 @@
             <td>${{ frecuencia.rutum.valor }}</td>
             <td>{{ frecuencia.bus.numeroBus }}</td>
             <td>{{ frecuencia.estado }}</td>
-            <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a> </td>
+            <td> <a id='bEditar{{i}}' class="btn btn-warning" href="#texto">Seleccionar</a>
+                 <a id='bSubRuta{{i}}' class="btn btn-info" href="#texto">Añadir Subruta</a>
+             </td>
     <script>
         $("#bEditar{{i}}").click(function () {
             $("#external").val('{{frecuencia.rutum.external_id}}');
@@ -178,6 +180,14 @@
             $("#valor").val('{{ frecuencia.rutum.valor }}');
             $("#bus").val('{{ frecuencia.bus.id }}');
             $("#divBaja").attr('style', 'visibility:visible;');
+        });
+        $("#bSubRuta{{i}}").click(function () {
+            $("#fecha").attr('readonly','true');
+            $("#horaS").attr('readonly','true');
+            $("#bus").attr('style','visibility:hidden');
+            $("#fecha").val('{{ frecuencia.fecha }}');
+            $("#horaS").val('{{ frecuencia.horario }}');
+            $("#bus").val('{{ frecuencia.bus.id }}');
         });
     </script>
 </tr>
