@@ -1,0 +1,151 @@
+<title>{{titulo}}</title>
+
+<div class="gallery">
+    <div class="jumbotron">
+        <h1  class="display-4">Control de roles</h1>
+        <p class="lead" id="texto">Aqui se podrá cambiar la informacion de los usuarios <br></p>
+    </div>
+
+    {{#if exito }}
+    <div class="alert alert-success">
+        {{ exito }}
+    </div>
+    {{/if}}
+
+    <form id="formUsuario" method="post" action="/editarUsuario">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="external" value="0" id="external">
+                        <h3 class="bg-light" id="tituloFormulario">Formulario de Registro</h3>
+                        <div class="form-group">
+                            <small> Numero de cédula:</small>
+                            <input class="form-control" type="number" name="cedula" id="cedula"><br>
+                        </div>
+                        <div class="form-group">
+                            <small> Apellido: </small>
+                            <input class="form-control" type="text" name="apellido" id="apellido" placeholder="Ingrese su apellido" required><br>
+                        </div>
+                        <div class="form-group">
+                            <small> Nombre: </small>
+                            <input class="form-control" type="text" name="nombre" id="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <small> Dirección: </small>
+                            <input class="form-control" type="text" name="direccion" id="direccion" required>
+                        </div>
+                        <div class="form-group">
+                            <small> Telefono: </small>
+                            <input class="form-control" type="text" name="telefono" id="telefono" required minlength="7" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <small> Rol: </small>
+                            <select required name="rol" id="rol">
+                                <option name="rol" id="rol" value="1">Usuario</option>
+                                <option name="rol" id="rol" value="2">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="divBaja" style="visibility: hidden;">
+                            <label for="estado">Activar / Dar Baja</label>
+                            <input  type="checkbox" name="estado" id="estado" value="1" onclick="clicEliminar"/><br>
+                            <small> Seleccione unicamente si desea Dar de Baja, caso contrario deje desmarcado </small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="btn">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+
+        $("#estado").on('change', function () {
+            if ($(this).is(':checked')) {
+                $('#btn').html('Dar de Baja');
+                $(this).attr('value', '0');
+            } else {
+                $('#btn').html('Editar');
+                $(this).attr('value', '1');
+            }
+            $('#estado').text($('#estado').val());
+        });
+
+        $().ready(function () {
+            $("#cancelar").click(function () {
+                $("#tituloFormulario").html('Formulario de Registro');
+                $("#external").val('0');
+                $("#numeroBus").val('');
+                $("#placa").val('');
+                $("#propietario").val('');
+                $("#numeroAsientos").val('');
+                $("#estado").val('');
+                $("#divBaja").attr('style', 'visibility:hidden;');
+            });
+        });
+
+
+    </script>
+
+
+
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th><th scope="col">Cedula</th><th scope="col">Apellido</th>
+                <th scope="col">Nombre</th><th scope="col">Direccion</th><th scope="col">Telefono</th>
+                <th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each personas as |persona i| }}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{ persona.cedula }}</td>
+                <td>{{ persona.apellido }}</td>
+                <td>{{ persona.nombre }}</td>
+                <td>{{ persona.direccion }}</td>
+                <td>{{ persona.telefono }}</td>
+                <td>{{ persona.rol.nombre }}</td>
+                <td>{{ persona.estado }}</td>
+                <td>
+                    <!-- Modal Editar -->
+                    <button type="button" id="bEditar{{i}}" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+                        Editar
+                    </button>
+                </td>
+        <script>
+            $("#bEditar{{i}}").click(function () {
+                $("#tituloFormulario").html('Formulario de Modificación');
+                $("#external").val('{{persona.external_id}}');
+                $("#cedula").val('{{ persona.cedula }}');
+                $("#apellido").val('{{ persona.apellido }}');
+                $("#nombre").val('{{ persona.nombre }}');
+                $("#direccion").val('{{ persona.direccion }}');
+                $("#telefono").val('{{ persona.telefono }}');
+                $("#rol").val('{{ persona.rol.id }}');
+                $("#estado").val('{{ persona.estado }}');
+                $("#divBaja").attr('style', 'visibility:visible;');
+            });
+        </script>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+
+
+
+</div>
+
+
+

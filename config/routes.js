@@ -7,6 +7,8 @@ var unidad = require('../controladores/unidadesControlador');
 var unidadesControlador = new unidad();
 var compra = require('../controladores/compraControlador');
 var compraControlador = new compra();
+var usuario = require('../controladores/usuariosControlador');
+var usuariosControlador = new usuario();
 /*PAGINA PRINCIPAL*/
 // presenta plantilla segun esta iniciada la sesion o no
 router.get('/', function (req, res, next) {
@@ -67,11 +69,23 @@ router.post('/inicio_sesion/iniciar',
         ));
 //en caso de que ya haya iniciado sesion presentará una nueva vista
 router.get('/inicio', auth, function (req, res, next) {
-    res.render('fragmentos/plantilla_sesion_iniciada', {
-        titulo: 'Bienvenido',
-        usuario: req.user.nombre,
-        session: req.isAuthenticated()
-    });
+    var roles = req.user.rol;
+
+    if (roles === "administrador") {
+        res.render('fragmentos/plantilla_sesion_iniciada', {
+            titulo: 'Bienvenido',
+            roles: req.user.rol,
+            usuario: req.user.nombre,
+            session: req.isAuthenticated()
+        });
+    } else {
+        res.render('fragmentos/plantilla_sesion_iniciada', {
+            titulo: 'Bienvenido',
+            usuario: req.user.nombre,
+            session: req.isAuthenticated()
+        });
+    }
+
 });
 //cerrar sesion
 router.get('/cerrar_sesion', function (req, res, next) {
@@ -107,13 +121,24 @@ router.get('/reporte', auth, compraControlador.verBoleto);
 
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {
-    res.render('fragmentos/vistaUsuario/frmContactenos', {titulo: 'Contactenos',
-        session: req.isAuthenticated(), info: req.flash('info_correcta')});
+    var roles = req.user.rol;
+    if (roles === "administrador") {
+        res.render('fragmentos/vistaUsuario/frmContactenos', {titulo: 'Contactenos',
+            session: req.isAuthenticated(), info: req.flash('info_correcta'), roles: roles});
+    } else {
+        res.render('fragmentos/vistaUsuario/frmContactenos', {titulo: 'Contactenos',
+            session: req.isAuthenticated(), info: req.flash('info_correcta')});
+    }
 });
 var EnviarCorreo = require('../controladores/enviarCorreo');
 //ENVIAR EMAIL
 router.post('/contactenos', EnviarCorreo.sendEmail);
 
+/* Administrar usuario */
+router.get('/administrarUsuarios', auth, usuariosControlador.verUsuarios);
+router.post('/editarUsuario', auth, usuariosControlador.editar);
+router.get('/modificarPerfil', auth, usuariosControlador.verPerfil);
+router.post('/modificarPerfil', usuariosControlador.modificarPerfil);
 
 // // router.get('/leer', ReporteController.leer);
 

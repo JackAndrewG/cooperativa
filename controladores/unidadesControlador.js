@@ -1,6 +1,8 @@
 'use strict';
 var models = require('../models');
 var Bus = models.bus;
+var Compra = models.compra;
+var Boleto = models.boleto;
 const uuidv4 = require('uuid/v4');
 class unidadesControlador {
 
@@ -51,11 +53,14 @@ class unidadesControlador {
 
     verBusesActivos(req, res) {
 
+        
+
         if (req.user.rol === "administrador") {
             Bus.findAll({where: {estado: true}}).then(function (buses) {
                 res.render('fragmentos/vistaAdmin/frmBus',
                         {titulo: 'Administrar Unidades de Transporte',
                             buses: buses,
+                            roles: "admin",
                             session: req.isAuthenticated(),
                             mensaje: req.flash("alerta"),
                             exito: req.flash("exito")
@@ -84,26 +89,27 @@ class unidadesControlador {
     }
 
     verBuses(req, res) {
-        
+
         if (req.user.rol === "administrador") {
             Bus.findAll({}).then(function (buses) {
-            res.render('fragmentos/vistaAdmin/frmBus',
-                    {titulo: 'Administrar Unidades de Transporte',
-                        buses: buses,
-                        session: req.isAuthenticated(),
-                        mensaje: req.flash("alerta"),
-                        exito: req.flash("exito")
-                    });
-        }).catch(function (err) {
-            console.log("Error:", err);
-            //req.flash('error', 'Hubo un error');
-            res.redirect('/busesActivos');
-        });
+                res.render('fragmentos/vistaAdmin/frmBus',
+                        {titulo: 'Administrar Unidades de Transporte',
+                            buses: buses,
+                            roles: "admin",
+                            session: req.isAuthenticated(),
+                            mensaje: req.flash("alerta"),
+                            exito: req.flash("exito")
+                        });
+            }).catch(function (err) {
+                console.log("Error:", err);
+                //req.flash('error', 'Hubo un error');
+                res.redirect('/busesActivos');
+            });
         } else {
             res.redirect('/busesActivos');
         }
-        
-        
+
+
     }
 }
 

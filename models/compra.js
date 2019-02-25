@@ -10,9 +10,6 @@ module.exports = function (sequelize, Sequelize) {
         external_id: {
             type: Sequelize.UUID
         },
-        pagoTarjeta: {
-            type: Sequelize.STRING(10)
-        },
         total: {
             type: Sequelize.DOUBLE(10,2)
         },
@@ -31,8 +28,8 @@ module.exports = function (sequelize, Sequelize) {
         foreingkey: 'id_boleto',
         constraints: false
     }); */
-    Compra.associate= function (models){
-        models.compra.hasMany(models.boleto, {
+    Compra.associate= function (models){ //una compra tiene un boleto
+        models.compra.hasOne(models.boleto, {
             foreignKey: 'id_compra'});
     };
     

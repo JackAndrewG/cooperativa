@@ -1,14 +1,19 @@
 
 <div class="gallery">
 
-<!-- Card Comprar -->
-  <form id="formPago"  method="post" >
+    <!-- Card Comprar -->
+    <form id="formPago"  method="post" >
 
-    <input type="hidden" name="external" value="0" id="external">
-    <input type="hidden" name="asientos" id="asientos">
+        <input type="hidden" name="external" value="0" id="external">
+        <input type="hidden" name="asientos" id="asientos">
 
     <h3 class="bg-dark" id="tituloFormulario" style="color: white;">COMPRA DE BOLETOS</h3>
     <p class="bg-warning">Información detallada de su boleto de viaje</p>
+    {{#if info }}
+    <div class="alert alert-success">
+        {{ info }}
+    </div>
+    {{/if}}
     <div class="card-columns" style="display:flex;">
     <div class="card" id="espacioAsientos" style="width: 50rem;">
         <div class="card-header"> <b>Información del Cliente</b> </div>
@@ -78,88 +83,86 @@
           $('#formPago').attr('action', '/comprar/{{frecuencias.id}}');
         });
         var asientosBus={{ frecuencias.bus.numeroAsientos }};
-
-      </script>
+        </script>
 
   </div>
 
-<!-- Card Asientos -->
-      <center>
-      <div class="card" id="espacioAsientos" style="width: 25rem;">
-          <div class="card-header"> <b>Asientos Disponibles</b> </div>
-          <div class="card-body" id="contenedorAsientos"></div>
-      </div>
-          <div class="card-footer"> <p>Seleccione los asientos deseados</p> </div>
-      </center>
-  </form>
-
- </div>
+            <!-- Card Asientos -->
+            <center>
+                <div class="card" id="espacioAsientos" style="width: 25rem;">
+                    <div class="card-header"> <b>Asientos Disponibles</b> </div>
+                    <div class="card-body" id="contenedorAsientos"></div>
+                </div>
+                <div class="card-footer"> <p>Seleccione los asientos deseados</p> </div>
+            </center>
+    </form>
+  </div>
 </div>
 
 <script>
     function crearAsientos() {
-      console.log(asientosBus);
-      var html = "";
-      var n = 1; //n es el valor de cada asiento
-      for (var h = 0; h < 4; h++) {
-        html += '<ul style="float:left;">';
-        for (var i = 0; i < 13; i++) {
-          if (h > 0) {
-            n = 2;
-            if (h > 1) {
-              n = 3;
-              if (h > 2) {
-                n = 4;
-              }
-            }
-          }
-          if (i > 0) {
-            n = i * 4 + n;
-          }
-          if (n>asientosBus) {
-            break;
-          }
-          html += '<li>';
-          html += '<a class="btn btn-secondary fa fa-stop" id="bt' + n + '" onclick="seleccion(' + n + ')">';
-          html += '<b>' + n + '</b>';
-          html += '</a>';
-          html += '</li>';
-          n = 1;
-        }
-        html += '</ul>';
-      }
-      $("#contenedorAsientos").html(html);
+    console.log(asientosBus);
+    var html = "";
+    var n = 1; //n es el valor de cada asiento
+    for (var h = 0; h < 4; h++) {
+    html += '<ul style="float:left;">';
+    for (var i = 0; i < 13; i++) {
+    if (h > 0) {
+    n = 2;
+    if (h > 1) {
+    n = 3;
+    if (h > 2) {
+    n = 4;
+    }
+    }
+    }
+    if (i > 0) {
+    n = i * 4 + n;
+    }
+    if (n > asientosBus) {
+    break;
+    }
+    html += '<li>';
+    html += '<a class="btn btn-secondary fa fa-stop" id="bt' + n + '" onclick="seleccion(' + n + ')">';
+    html += '<b>' + n + '</b>';
+    html += '</a>';
+    html += '</li>';
+    n = 1;
+    }
+    html += '</ul>';
+    }
+    $("#contenedorAsientos").html(html);
     }
     var arregloAsientos = [];
     //funcion que permite ir almacenando en el arregloAsientos cada asiento seleccionado
     function seleccion(numeroAsiento){
-      arregloAsientos.push(numeroAsiento);
-      $('#bt' + numeroAsiento).attr('style', 'visibility: hidden;');
-      $("#cantidad_asientos").val(arregloAsientos.length);
-      calculos();
-      var aux = '';
-      //esta parte sirve para almacenar cada elemento del arreglo en un input hidden para su guardado
-      for (var i = 0; i < arregloAsientos.length; i++) {
-        aux = aux + arregloAsientos[i] + ',';
-        $("#asientos").val(aux);
-      }
-      console.log(arregloAsientos);
+    arregloAsientos.push(numeroAsiento);
+    $('#bt' + numeroAsiento).attr('style', 'visibility: hidden;');
+    $("#cantidad_asientos").val(arregloAsientos.length);
+    calculos();
+    var aux = '';
+    //esta parte sirve para almacenar cada elemento del arreglo en un input hidden para su guardado
+    for (var i = 0; i < arregloAsientos.length; i++) {
+    aux = aux + arregloAsientos[i] + ',';
+    $("#asientos").val(aux);
+    }
+    console.log(arregloAsientos);
     };
     $(document).ready(function () {
-      var asientosOcupados = [];
-      //para cada string de numeroAsiento lo almacena en un arreglo asientosOcupados
-      {{#each boletos as | boleto i | }}
-      asientosOcupados = asientosOcupados + "{{boleto.NumeroAsiento}}".split(",");
-      {{/each}}
-      //almacena tambien las comas por eso hay que hacer otro split para obtener un arreglo limpio *SE PUEDE MEJORAR ESTO
-              //console.log(asientosOcupados.split(','));
-      crearAsientos();
-      //para cada elemento del arreglo va poniendo la propiedad hidden a los asientos
-      {{#if boletos}}
-      for (var i = 0; i < asientosOcupados.split(',').length; i++) {
-        $('#bt' + (asientosOcupados.split(',')[i])).attr('style', 'visibility: hidden;');
-      }
-      {{/if}}
+    var asientosOcupados = [];
+    //para cada string de numeroAsiento lo almacena en un arreglo asientosOcupados
+    {{#each boletos as | boleto i | }}
+    asientosOcupados = asientosOcupados + "{{boleto.NumeroAsiento}}".split(",");
+    {{/each}}
+            //almacena tambien las comas por eso hay que hacer otro split para obtener un arreglo limpio *SE PUEDE MEJORAR ESTO
+            //console.log(asientosOcupados.split(','));
+            crearAsientos();
+    //para cada elemento del arreglo va poniendo la propiedad hidden a los asientos
+    {{#if boletos}}
+    for (var i = 0; i < asientosOcupados.split(',').length; i++) {
+    $('#bt' + (asientosOcupados.split(',')[i])).attr('style', 'visibility: hidden;');
+    }
+    {{/if}}
     });
 
 </script>
