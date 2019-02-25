@@ -9,6 +9,7 @@ class usuariosControlador {
 
     verUsuarios(req, res) {
 
+        //Presentar en la vista todos las personas almacendas en el modelo Persona
         if (req.user.rol === "administrador") {
             Persona.findAll({include: [
                     {model: Rol}
@@ -33,6 +34,7 @@ class usuariosControlador {
 
     editar(req, res) {
 
+        //Actualizar el modelo Persona con la informacion eviada desde el formulario, tomando en cuenta el external_id
         Persona.update({
             cedula: req.body.cedula,
             apellido: req.body.apellido,
@@ -52,7 +54,7 @@ class usuariosControlador {
 
     verPerfil(req, res) {
 
-
+        //Presentar los datos del modelo Persona donde el external_id sea igual al external_id de la persona que haya iniciado sesión
         var external = req.user.id_persona;
         if (req.user.rol === "usuario") {
             Persona.findAll({include: [
@@ -66,8 +68,6 @@ class usuariosControlador {
                             exito: req.flash("exito")
                         });
             });
-
-
         } else {
             Persona.findAll({include: [
                     {model: Cuenta}
@@ -86,13 +86,12 @@ class usuariosControlador {
     }
 
     modificarPerfil(req, res) {
-
-
-
+        //Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario, 
+        //tomando en cuenta el external_id de ambos modelos
         Persona.update({
             cedula: req.body.cedula,
-            apellido: req.body.apellido,
-            nombre: req.body.nombre,
+            apellido: req.body.apellidos,
+            nombre: req.body.nombres,
             direccion: req.body.direccion,
             telefono: req.body.telefono
         }, {where: {external_id: req.body.externalPersona}}).then(function (actualizadaPersona, err) {
@@ -111,26 +110,18 @@ class usuariosControlador {
                             usuario: req.body.correo,
                             clave: clave
                         }, {where: {external_id: req.body.externalCuenta}}).then(function (actualizadaCuenta, err) {
-
-
                             if (actualizadaCuenta) {
                                 req.flash('exito', 'DATOS MODIFICADOS CORRECTAMENTE');
                                 res.redirect('/modificarPerfil');
                             }
                         });
                     }
-
                 });
-
-
-
-
             }
         });
-
-
     }
-
+    
+    
 }
 
 

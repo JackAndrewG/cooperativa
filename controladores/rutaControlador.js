@@ -1,13 +1,14 @@
 'use strict';
-var models = require('../models');
+var models = require('../models'); //importación de modelos
 var Ruta = models.ruta;
 var Frecuencia = models.frecuencia;
 var Bus = models.bus;
 const uuidv4 = require('uuid/v4');
 
 class rutaControlador {
-    guardar(req, res) {
 
+    guardar(req, res) {
+        //guardado en la base de datos de la informacion ingresada en los formularios para los modelos de Ruta y Frecuencia  
         Ruta.create({
             external_id: uuidv4(),
             origen: req.body.origen,
@@ -26,8 +27,6 @@ class rutaControlador {
                         id_bus: req.body.bus
                     }).then(function (newFrecuencia, created) {
                         if (newFrecuencia) {
-                            //req.flash('info', 'Se ha creado correctamente');
-
                             console.log("Se ha creado correctamente");
                             res.redirect('/destinosActivos');
                         }
@@ -43,8 +42,7 @@ class rutaControlador {
 
     editar(req, res) {
 
-        //crear boletos vendidos en frecuencia para poder modificar los asientos disponibles en caso de que se cambie el bus
-    
+        //Actualizar los modelos de Ruta y Frecuencia con la información ingresada en los formularios según el external_id correspondiente
         Ruta.update({
             valor: req.body.valor
         }, {where: {external_id: req.body.external}}).then(function (newRuta, created) {
@@ -67,55 +65,45 @@ class rutaControlador {
 
     verRutas(req, res) {
 
-        if (req.user.rol === "administrador") {
-            Bus.findAll().then(function (buses) {
-                Frecuencia.findAll({
+        //mostar las Frecuencias existentes en la Base de Datos 
+        if (req.user.rol === "administrador") { //en el caso de ser administrador
+            Bus.findAll().then(function (buses) { //buscar todos los buses
+                Frecuencia.findAll({//buscar todas las frecuencias
                     include: [
                         {model: Ruta},
                         {model: Bus}
                     ]}).then(function (frecuencias) {
-                    /*   frecuencias.forEach(element =>{
-                     console.log(element);
-                     }); */
-                    //console.log(frecuencias.ruta)
-                    res.render('fragmentos/vistaAdmin/frmDestino',
+                    res.render('fragmentos/vistaAdmin/frmDestino', //renderizar la vista 
                             {titulo: 'Administrar Destinos',
-                                frecuencias: frecuencias,
-                                buses: buses,
-                                roles: "admin",
-                                session: req.isAuthenticated(),
-                                info: req.flash("info_correcto")
-                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
+                                frecuencias: frecuencias, //enviar frecuencias 
+                                buses: buses, //y buses con el resultado de las consultas anteriores
+                                roles: "admin", //identifiación del administrador
+                                session: req.isAuthenticated(), //permite verificar si ha iniciado sesión
+                                info: req.flash("info_correcto") //mensaje de información
                             });
-                }).catch(function (err) {
+                }).catch(function (err) { //en caso de error redireccionar a otra ruta
                     console.log("Error:", err);
                     //req.flash('error', 'Hubo un error');
                     res.redirect('/destinos');
                 });
             });
         } else {
+            //en caso de que el usuario haga uso de esta ruta será redireccionado
             res.redirect('/destinosActivos');
         }
-
-
-
-
     }
 
-     verRutasActivas(req, res) {
+    verRutasActivas(req, res) {
 
+        //mostar las Frecuencias existentes en la Base de Datos
+        //en caso de ser administrador presentará una vista diferente a la del usuario
         if (req.user.rol === "administrador") {
-            Bus.findAll({where: {estado: true}}).then(function (buses) {
+            Bus.findAll({where: {estado: true}}).then(function (buses) { //buscar toda la información del modelo Bus donde el estado sea true
                 Frecuencia.findAll({
                     include: [
                         {model: Ruta},
                         {model: Bus}
-                    ], where: {estado: true}}).then(function (frecuencias) {
-                    /*   frecuencias.forEach(element =>{
-                     console.log(element);
-                     }); */
-                    //console.log(frecuencias.ruta)
+                    ], where: {estado: true}}).then(function (frecuencias) { //buscar frecuencias donde el estado sea true
                     res.render('fragmentos/vistaAdmin/frmDestino',
                             {titulo: 'Administrar Destinos',
                                 frecuencias: frecuencias,
@@ -123,33 +111,22 @@ class rutaControlador {
                                 roles: "admin",
                                 session: req.isAuthenticated(),
                                 info: req.flash("info_correcto")
-                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
                             });
                 }).catch(function (err) {
                     console.log("Error:", err);
-                    //req.flash('error', 'Hubo un error');
                     res.redirect('/destinosActivos');
                 });
             });
         } else {
-
             Frecuencia.findAll({
                 include: [
                     {model: Ruta},
                     {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
-                /*   frecuencias.forEach(element =>{
-                 console.log(element);
-                 }); */
-                //console.log(frecuencias.ruta)
                 res.render('fragmentos/vistaUsuario/frmDestino',
                         {titulo: 'Destinos',
                             frecuencias: frecuencias,
                             session: req.isAuthenticated()
-                                    //info: req.flash("info_correcto")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
             }).catch(function (err) {
                 console.log("Error:", err);
@@ -157,10 +134,11 @@ class rutaControlador {
             });
         }
     }
-    
-     buscar(req, res) {
 
-        if (req.body.origen_buscar === '' || req.body.destino_buscar === '') {
+    buscar(req, res) {
+
+        //buscar segun los campos ingresados en el formulario
+        if (req.body.origen_buscar === '' || req.body.destino_buscar === '') { //si el origen o el destino es nulo
             Frecuencia.findAll({
                 include: [
                     {model: Ruta, where: {
@@ -172,19 +150,14 @@ class rutaControlador {
                 ]}).then(function (busqueda) {
                 res.render('fragmentos/vistaUsuario/frmDestino',
                         {titulo: 'Busqueda de destinos',
-                            frecuencias: busqueda,
+                            frecuencias: busqueda, //presentar el resultado de la búsqueda
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //  res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
                 res.redirect('/error');
             });
-        } else {
+        } else { //si se ingresa tanto origen como destino en el formulario de búsqueda
             Frecuencia.findAll({
                 include: [
                     {model: Ruta, where: {
@@ -198,15 +171,10 @@ class rutaControlador {
                         {titulo: 'Búsqueda de destinos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //      res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
-                res.redirect('/error');
+                res.redirect('/destinos');
             });
         }
     }

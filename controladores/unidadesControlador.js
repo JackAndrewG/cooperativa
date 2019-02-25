@@ -7,6 +7,8 @@ const uuidv4 = require('uuid/v4');
 class unidadesControlador {
 
     guardar(req, res, message) {
+        //Almacenar en el modelo Bus la información enviada através del formulario, 
+        //verificando que numero y placa sean diferentes a los ya almacenados
         Bus.findOne({where: {numeroBus: req.body.numerobus}}).then(function (existeN, placa) {
             if (existeN) {
                 req.flash('alerta', 'ERROR AL GUARDAR, EL NUMERO DE BUS YA EXISTE');
@@ -37,6 +39,7 @@ class unidadesControlador {
 
     editar(req, res, done) {
 
+        //Actualizar el modelo Bus con la informacion enviada desde el formulario de edición segun el external_id correspondiente
         Bus.update({
             numeroBus: req.body.numerobus,
             placa: req.body.placa,
@@ -53,8 +56,7 @@ class unidadesControlador {
 
     verBusesActivos(req, res) {
 
-        
-
+        //Presentar en la vista frmBus los Buses existentes en el modelo Bus donde el estado sea true
         if (req.user.rol === "administrador") {
             Bus.findAll({where: {estado: true}}).then(function (buses) {
                 res.render('fragmentos/vistaAdmin/frmBus',
@@ -67,7 +69,6 @@ class unidadesControlador {
                         });
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
                 res.redirect('/busesActivos');
             });
         } else {
@@ -90,6 +91,7 @@ class unidadesControlador {
 
     verBuses(req, res) {
 
+    //Presentar en la vista frmBus todos los Buses existentes en el modelo Bus
         if (req.user.rol === "administrador") {
             Bus.findAll({}).then(function (buses) {
                 res.render('fragmentos/vistaAdmin/frmBus',
@@ -102,14 +104,11 @@ class unidadesControlador {
                         });
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
                 res.redirect('/busesActivos');
             });
         } else {
             res.redirect('/busesActivos');
         }
-
-
     }
 }
 

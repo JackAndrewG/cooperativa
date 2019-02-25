@@ -18,9 +18,12 @@ var compraID;
 var pago = false;
 var asientos_solicitados;
 class compraControlador {
-    verRutas(req, res) {
 
+    //Presentar todas las frecuencias disponibles en la Base de Datos
+    verRutas(req, res) {
         Compra.findOne({
+            //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso 
+            //de que el pago no se haya completado exitosamente
             where: {estado: false}}).then(function (compra) {
             if (compra) {
                 Compra.destroy({where: {id: compra.id}});
@@ -28,6 +31,7 @@ class compraControlador {
             }
         });
 
+        //buscar las Frecuencias donde su estado se verdadero y presentar los resultados en la vista de Compra
         Bus.findAll({where: {estado: true}}).then(function (buses) {
             Frecuencia.findAll({
                 include: [
@@ -35,48 +39,29 @@ class compraControlador {
                     {model: Bus}
                 ], where: {estado: true}}).then(function (frecuencias) {
                 frecuenciasA = frecuencias;
-                /*   frecuencias.forEach(element =>{
-                 console.log(element);
-                 }); */
-                //console.log(frecuencias.ruta)
-                //  var origen_actual = frecuencias.rutum.origen;
-                // console.log(origen_actual);
-
-                console.log(frecuencias.id)
-
-                // res.send({frecuencias: frecuencias});
+                console.log(frecuencias.id);
                 var roles = req.user.rol;
                 if (roles === "administrador") {
                     res.render('fragmentos/vistaUsuario/frmCompra',
                             {titulo: 'Compra de Boletos',
                                 frecuencias: frecuencias,
-                                //  buses: buses,
                                 session: req.isAuthenticated(),
                                 roles: roles,
                                 usuario: req.user.nombre,
                                 info: req.flash("info")
-                                        // info: req.flash("info_editar")
-                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
                             });
                 } else {
                     res.render('fragmentos/vistaUsuario/frmCompra',
                             {titulo: 'Compra de Boletos',
                                 frecuencias: frecuencias,
-                                //  buses: buses,
                                 session: req.isAuthenticated(),
                                 usuario: req.user.nombre,
                                 info: req.flash("info")
-                                        // info: req.flash("info_editar")
-                                        //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                        //error: (req.flash('error') != '') ? req.flash('error') : ''
                             });
                 }
-
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
-                res.redirect('/error');
+                res.redirect('/inicio');
             });
 
         });
@@ -85,30 +70,25 @@ class compraControlador {
 
     buscar(req, res) {
 
-        if (req.body.fecha_buscar !== '' && req.body.origen_buscar === '' && req.body.origen_buscar === '') {
-
+        //Buscar las Frecuencias segun la información enviada en el formulario de búsqueda
+        if (req.body.fecha_buscar !== '' && req.body.origen_buscar === '' && req.body.destino_buscar === '') {
+            //si se ingresa fecha pero no origen ni destino
             Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
                 include: [
                     {model: Ruta},
                     {model: Bus}
                 ]}).then(function (busqueda) {
-                // res.send({busqueda});
-                //res.send({frecuencias: req.body.fecha_buscar})
                 res.render('fragmentos/vistaUsuario/frmCompra',
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //2019 02 24
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
-                res.redirect('/error');
+                res.redirect('/comprar');
             });
         } else if (req.body.origen_buscar === '' || req.body.destino_buscar === '' && req.body.fecha_buscar === '') {
+            //si se ingresa origen o destino y no la fecha
             Frecuencia.findAll({
                 include: [
                     {model: Ruta, where: {
@@ -122,17 +102,13 @@ class compraControlador {
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //  res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
                 res.redirect('/comprar');
             });
         } else if (req.body.origen_buscar !== '' && req.body.destino_buscar !== '' && req.body.fecha_buscar === '') {
+            //si se ingresa origen y destino pero no la fecha
             Frecuencia.findAll({
                 include: [
                     {model: Ruta, where: {
@@ -146,17 +122,13 @@ class compraControlador {
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //      res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
-                //req.flash('error', 'Hubo un error');
                 res.redirect('/comprar');
             });
         } else if (req.body.origen_buscar !== '' && req.body.destino_buscar === '' && req.body.fecha_buscar !== '') {
+            //si se ingresa el origen y la fecha pero no el destino
             Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
                 include: [
                     {model: Ruta, where: {
@@ -168,17 +140,29 @@ class compraControlador {
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //      res.redirect('/comprar');
+            }).catch(function (err) {
+                console.log("Error:", err);
+                res.redirect('/comprar');
+            });
+        } else if (req.body.origen_buscar === '' && req.body.destino_buscar !== '' && req.body.fecha_buscar !== '') {
+            Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
+                include: [
+                    {model: Ruta, where: {destino: req.body.destino_buscar}},
+                    {model: Bus}
+                ]}).then(function (busqueda) {
+                res.render('fragmentos/vistaUsuario/frmCompra',
+                        {titulo: 'Compra de Boletos',
+                            frecuencias: busqueda,
+                            session: req.isAuthenticated()
+                        });
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
                 res.redirect('/comprar');
             });
         } else {
+            //en caso de ninguna de las condiciones anteriores se cumpla, buscar por fecha, origen, y destino
             Frecuencia.findAll({where: {fecha: req.body.fecha_buscar},
                 include: [
                     {model: Ruta, where: {
@@ -192,11 +176,7 @@ class compraControlador {
                         {titulo: 'Compra de Boletos',
                             frecuencias: busqueda,
                             session: req.isAuthenticated()
-                                    // info: req.flash("info_editar")
-                                    //info: (req.flash('info') != '') ? req.flash('info') : '',
-                                    //error: (req.flash('error') != '') ? req.flash('error') : ''
                         });
-                //      res.redirect('/comprar');
             }).catch(function (err) {
                 console.log("Error:", err);
                 //req.flash('error', 'Hubo un error');
@@ -206,7 +186,20 @@ class compraControlador {
     }
 
     mostrarPago(req, res) {
+
+        //Presentar el formulario de pago de acuerdo al id de la frecuencia enviada en la url
         var frecuencia = req.params.idFrecuencia;
+        //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso 
+        //de que el pago no se haya completado exitosamente
+        Compra.findOne({
+            where: {estado: false}}).then(function (compra) {
+            if (compra) {
+                Compra.destroy({where: {id: compra.id}});
+                Boleto.destroy({where: {id_compra: compra.id}});
+                res.redirect('/frecuencia/:idFrecuencia');
+            }
+        });
+
 
         Frecuencia.findOne({
             include: [
@@ -215,9 +208,8 @@ class compraControlador {
             ], where: {id: frecuencia}}).then(function (frecuencias) {
             frecuenciasA = frecuencias;
             Boleto.findAll({where: {$and:
-              {hora: frecuencias.horario, fechaViaje: frecuencias.fecha}
+                            {hora: frecuencias.horario, fechaViaje: frecuencias.fecha}
                 }}).then(function (boletos) {
-                // res.send({boletos: boletos});
                 Frecuencia.findOne({
                     include: [
                         {model: Ruta},
@@ -245,23 +237,22 @@ class compraControlador {
                 });
 
             });
-
-
         }).catch(function (err) {
             console.log("Error:", err);
             req.flash('error', 'Hubo un error');
-            res.redirect('/destinos');
+            res.redirect('/comprar');
         });
 
     }
 
     comprar(req, res) {
 
+        //Almacenar en los modelos de venta y boleto la información enviada mediante el fomrulario de Pago   
         var frecuencia_id = req.params.idFrecuencia;
         frecID = req.params.idFrecuencia;
         console.log(frecuencia_id);
-
         Frecuencia.findOne({
+            //Buscar mediante el id de la frecuencia solocitada para verificar si existen asientos disponibles
             where: {id: frecuencia_id}}).then(function (frecuencia) {
             if (frecuencia) {
                 asientos_solicitados = req.body.cantidad_asientos;
@@ -286,13 +277,6 @@ class compraControlador {
                             req.flash('info', 'El asiento está ocupado');
                             res.redirect('/comprar');
                         } else {
-
-                            console.log('Entrando al else ');
-                            //comparar los asientos
-
-                            //req.flash('alerta', 'ERROR AL GUARDAR, EL NUMERO DE BUS YA EXISTE');
-                            //res.redirect('/busesActivos');
-
                             var user = req.user.id_persona;
                             console.log(user);
                             Persona.findOne({where: {external_id: user}}).then(function (persona) {
@@ -334,20 +318,7 @@ class compraControlador {
                 }
 
             }
-
         });
-
-        //llenar modelo boleto
-        //cantidad: req.body.boleto;
-        //guardar la fecha del viaje en el boleto
-        //para comprobar q no sea el mismo asiento comparar con cada boleto segun la fecha y el numero de asiento q tiene buscando con boleto.findall
-        //para la capacidad ir restando segun la cantidad de boletos vendidos
-
-
-        //recorer todos los boletos con un select y solamente que se muestren los que estan disponibles
-        //ir creando mas inputs para poner ahi el nro de asiento en caso de que la cantidad de asientos sea mayor a uno
-        //el nro de asiento de cada input concatenarlo y guardarlo en la bd
-
     }
 
     tarjeta(req, res) {
@@ -383,7 +354,7 @@ class compraControlador {
             postRequest.end();
         }
         request(function (responseData) {
-            console.log(responseData);
+            //console.log(responseData);
             idPago = responseData.id;
             res.render('fragmentos/vistaUsuario/frmTarjeta',
                     {titulo: 'Pago con Tarjeta',
@@ -418,7 +389,7 @@ class compraControlador {
         }
 
         request(function (responseData) {
-            console.log(responseData);
+            // console.log(responseData);
             if (responseData.result.code === "000.100.110") {
                 return pago = true;
                 //compraControlador.respuestaComprobacion(pago);
@@ -432,20 +403,21 @@ class compraControlador {
 
                     console.log('Frecuencia encontrada');
                     Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (asientos_solicitados)},
-                        {where: {
-                               $and: {
-                                   horario: frecuenciaEncontrada.horario, fecha: frecuenciaEncontrada.fecha
-                               }
-                           }}).spread(function (affectedCount, affectedRows){
-                         return Frecuencia.findAll();
-                       }).then(function(frecuencias){
-                         console.log(frecuencias);
-                         console.log('Frecuencia actualizada');
-                          res.redirect('/reporte');
-                       });
+                            {where: {
+                                    $and: {
+                                        horario: frecuenciaEncontrada.horario, fecha: frecuenciaEncontrada.fecha
+                                    }
+                                }}).spread(function (affectedCount, affectedRows) {
+                        return Frecuencia.findAll();
+                    }).then(function (frecuencias) {
+                        //console.log(frecuencias);
+                        console.log('Frecuencia actualizada');
+                        res.redirect('/reporte');
+                    });
                 }
             });
             Compra.update({
+            //Actualizar el estado de la compra 
                 estado: true
             }, {where: {id: compraID}}).then(function (editado, err) {
                 if (editado) {
@@ -453,19 +425,12 @@ class compraControlador {
                 }
             });
         } else {
-
-
-
-            /*  Boleto.destroy({where: {id: boletoID}});
-             Compra.destroy({where: {id: compraID}});
-             req.flash('info', 'No se ha completado el pago exitosamente');
-             res.redirect('/comprar'); */
         }
 
     }
 
     verBoleto(req, res) {
-
+        //Presentar el reporte con la informacion recientemente creada del boleto
         Boleto.findAll({
             where: {
                 id: boletoID
