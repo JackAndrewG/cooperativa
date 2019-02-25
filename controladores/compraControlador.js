@@ -432,10 +432,17 @@ class compraControlador {
 
                     console.log('Frecuencia encontrada');
                     Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (asientos_solicitados)},
-                            {where: {id: frecID}});
-                    console.log('Frecuencia actualizada');
-                    req.flash('correcto', 'La compra se ha realizado con éxito');
-                    res.redirect('/reporte');
+                        {where: {
+                               $and: {
+                                   horario: frecuenciaEncontrada.horario, fecha: frecuenciaEncontrada.fecha
+                               }
+                           }}).spread(function (affectedCount, affectedRows){
+                         return Frecuencia.findAll();
+                       }).then(function(frecuencias){
+                         console.log(frecuencias);
+                         console.log('Frecuencia actualizada');
+                          res.redirect('/reporte');
+                       });
                 }
             });
             Compra.update({
