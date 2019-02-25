@@ -16,7 +16,9 @@ module.exports = function (sequelize, Sequelize) {
         clave: {
             type: Sequelize.STRING
         },
-
+        token: {
+            type: Sequelize.STRING
+        },
         estado: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
@@ -31,6 +33,6 @@ module.exports = function (sequelize, Sequelize) {
         foreignKey: 'id_persona',
         constraints: false
     });
-    
+
     return Cuenta;
 };

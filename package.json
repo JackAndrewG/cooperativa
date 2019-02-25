@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "api-doc-generator": "0.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "connect": "^3.6.6",

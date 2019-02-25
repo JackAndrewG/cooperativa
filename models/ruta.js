@@ -10,10 +10,10 @@ module.exports = function (sequelize, Sequelize) {
             type: Sequelize.UUID
         },
         origen: {
-            type: Sequelize.STRING(10)
+            type: Sequelize.STRING(60)
         },
          destino: {
-            type: Sequelize.STRING(50)
+            type: Sequelize.STRING(60)
         },
         valor: {
             type: Sequelize.DOUBLE(10,2)

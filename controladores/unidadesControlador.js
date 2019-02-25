@@ -5,7 +5,15 @@ var Compra = models.compra;
 var Boleto = models.boleto;
 const uuidv4 = require('uuid/v4');
 class unidadesControlador {
-
+/**
+ * Almacenar en el modelo Bus la información enviada através del formulario, 
+ * verificando que numero y placa sean diferentes a los ya almacenados
+ * @section Administrador 
+ *  @type  post
+ *  @param {solicitud} req 
+ * @url /guardar_destino
+ * @param {respuesta} res 
+ */
     guardar(req, res, message) {
         //Almacenar en el modelo Bus la información enviada através del formulario, 
         //verificando que numero y placa sean diferentes a los ya almacenados

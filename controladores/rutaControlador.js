@@ -6,7 +6,16 @@ var Bus = models.bus;
 const uuidv4 = require('uuid/v4');
 
 class rutaControlador {
-
+    /**
+ * guardado en la base de datos de la informacion ingresada en los formularios para los modelos de Ruta y Frecuencia
+ *
+ * @section Admin
+ *  @type  post
+ *  @param {solicitud} req  modelo Bus,Frecuencia
+ * @url /guardar_destino
+ * @param {respuesta} res.Crecion.Frecuencia
+ * @returns {object} Frcuencia creada
+ */
     guardar(req, res) {
         //guardado en la base de datos de la informacion ingresada en los formularios para los modelos de Ruta y Frecuencia  
         Ruta.create({
@@ -39,7 +48,15 @@ class rutaControlador {
 
 
     }
-
+/**
+ * Actualizar los modelos de Ruta y Frecuencia con la información ingresada en los formularios según el external_id correspondiente
+ *
+ * @section Admin
+ *  @type  post
+ *  @param {solicitud} req 
+ * @url /editarDestino
+ * @param {respuesta} res 
+ */
     editar(req, res) {
 
         //Actualizar los modelos de Ruta y Frecuencia con la información ingresada en los formularios según el external_id correspondiente
@@ -62,9 +79,17 @@ class rutaControlador {
 
         });
     }
-
+    /**
+ * Editar ruta mostar las Frecuencias existentes en la Base de Datos 
+ *
+ * @section Admin 
+ *  @type  get
+ *  @param {solicitud} req 
+ * @url /destinos
+ * @param {respuesta} es 
+ */
     verRutas(req, res) {
-
+        
         //mostar las Frecuencias existentes en la Base de Datos 
         if (req.user.rol === "administrador") { //en el caso de ser administrador
             Bus.findAll().then(function (buses) { //buscar todos los buses
@@ -92,7 +117,24 @@ class rutaControlador {
             res.redirect('/destinosActivos');
         }
     }
-
+ /**
+ * mostar las Frecuencias existentes en la Base de Datos, en caso de ser administrador presentará una vista diferente a la del usuario 
+ *
+ * @section Admin 
+ *  @type  get
+ *  @param {solicitud} req 
+ * @url /destinosActivos
+ * @param {respuesta} es 
+ */
+/**
+ * mostar las Frecuencias existentes en la Base de Datos, en caso de ser administrador presentará una vista diferente a la del usuario 
+ *
+ * @section Usuario 
+ *  @type  get
+ *  @param {solicitud} req 
+ * @url /destinosActivos
+ * @param {respuesta} es 
+ */
     verRutasActivas(req, res) {
 
         //mostar las Frecuencias existentes en la Base de Datos
@@ -134,7 +176,24 @@ class rutaControlador {
             });
         }
     }
-
+/**
+ * buscar segun los campos ingresados en el formulario
+ *
+ * @section Admin 
+ *  @type  get 
+*  @param {solicitud} req 
+ * @url /buscarDestino
+ * @param {respuesta} es 
+ */
+/**
+ * buscar segun los campos ingresados en el formulario
+ *
+ * @section Usuario 
+ *  @type  get 
+*  @param {solicitud} req 
+ * @url /buscarDestino
+ * @param {respuesta} es 
+ */
     buscar(req, res) {
 
         //buscar segun los campos ingresados en el formulario
