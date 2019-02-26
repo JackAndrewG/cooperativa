@@ -5,55 +5,21 @@
         <h1 class="display-4">Frecuencias y Rutas</h1>
         <p class="lead">Aqui podrá revisar todas las Rutas con sus respectivos horarios y precios, que posee nuestra cooperativa <br>
             Podrá consultar por su ciudad de origen o destino</p>
-        
+
          <figure>
 
         <div class="gallery_slider_container">
             <!-- Gallery Slider -->
             <div class="owl-carousel owl-theme gallery_slider">
                 <!-- Gallery Item -->
+                {{#each frecuencias as |frecuencia i|}}
                 <div class="owl-item gallery_item">
-                    <img src="\images\loja-ecuador.jpg" alt="">
+                    <img src="/images/destinos/{{frecuencia.rutum.destino}}.jpg" alt="">
                     <h4 style="color:blue">
-                        <b>Loja</b>
+                        <b>{{frecuencia.rutum.destino}}</b>
                     </h4>
                 </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Quito.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Quito</b>
-                    </h4>
-                </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Guayaquil.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Guayaquil</b>
-                    </h4>
-                </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Cuenca.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Cuenca</b>
-                    </h4>
-                </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Ambato.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Ambato</b>
-                    </h4>
-                </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Riobamba.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Riobamba</b>
-                    </h4>
-                </div>
-                <div class="owl-item gallery_item">
-                    <img src="\images\Piñas.jpg" alt="">
-                    <h4 style="color:blue">
-                        <b>Piñas</b>
-                    </h4>
-                </div>
+                {{/each}}
             </div>
         </div>
 
@@ -164,13 +130,13 @@
         </form>
     </div>
 
-   
+
 
     <table data-aos='fade-down' class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th><th scope="col">Origen</th><th scope="col">Destino</th>
-                <th scope="col">Salida</th><th scope="col">Valor</th><!--<th scope="col">Bus</th>-->
+                <th scope="col">Fecha</th><th scope="col">Hora</th><th scope="col">Valor</th><!--<th scope="col">Bus</th>-->
             </tr>
         </thead>
         <tbody>
@@ -179,6 +145,7 @@
                 <td>{{i}}</td>
                 <td>{{ frecuencia.rutum.origen }}</td>
                 <td>{{ frecuencia.rutum.destino }}</td>
+                <td>{{ frecuencia.fecha }}</td>
                 <td>{{ frecuencia.horario }}</td>
                 <td>${{ frecuencia.rutum.valor }}</td>
                 <!--    <td>{{ frecuencia.bus.numeroBus }}</td> -->

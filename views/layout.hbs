@@ -7,7 +7,7 @@
         <meta name="description" content="Wish shop project">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
-        <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
         <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
         <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/animate.css">
@@ -33,21 +33,20 @@
 
                             <li><a href="/">Inicio</a></li>
                             <li><a href="/destinosActivos">Destinos</a></li>
-
                             <li><a href="/busesActivos">Unidades</a></li>
-                            <li><a href="/contactenos">Contactenos</a></li>
                             {{#if roles}}
                             <li><a href="/administrarUsuarios">Usuarios</a></li>
                             {{/if}}
+                            <li><a href="/contactenos">Contactenos</a></li>
                         </ul>
                     </nav>
-                    <div class="header_content ml-auto">
-                        <div class="search header_search">
+                     <div class="header_content ml-auto">
+                        <!-- <div class="search header_search">
                             <form>
                                 <input type="search" class="search_input" required="required">
                                 <button type="submit" id="search_button" class="search_button"><img src="images/magnifying-glass.svg" alt=""></button>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="shopping">
@@ -63,7 +62,7 @@
                             </div>
                         </a>
                         <!-- Star -->
-                        <a href="/temp">
+                        <!-- <a href="/temp">
                             <div class="star">
                                 <img src="/images/star.svg" alt="">
                                 <div class="star_num_container">
@@ -72,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </a> -->
                         <!-- Avatar -->
                         <ul class="navbar-nav">
 
@@ -114,18 +113,19 @@
                     </div>
                 </div>
                 <div class="logo menu_mm"><a href="#">Menú</a></div>
-                <div class="search">
+                <!-- <div class="search">
                     <form>
                         <input type="search" class="search_input menu_mm" required="required">
                         <button type="submit" id="search_button_menu" class="search_button menu_mm"><img class="menu_mm" src="images/magnifying-glass.svg" alt=""></button>
                     </form>
-                </div>
+                </div> -->
                 <nav class="menu_nav">
                     <ul class="menu_mm">
                         <li><a href="/">Inicio</a></li>
                         <!--<li><a href="/administrador/destinos">Destinos</a></li> -->
                         <li><a href="/destinosActivos">Destinos</a></li>
                         <li><a href="/busesActivos">Unidades</a></li>
+                        <li><a href="/administrarUsuarios">Administrar Usuarios</a></li>
                         <li><a href="/contactenos">Contactenos</a></li>
                     </ul>
                 </nav>

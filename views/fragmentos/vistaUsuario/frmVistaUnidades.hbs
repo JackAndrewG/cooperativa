@@ -5,8 +5,44 @@
         <h1  class="display-4">Buses</h1>
         <p class="lead">Aqui podrá revisar todas las Unidades que posee la cooperativa <br></p>
     </div>
-    
-     <div class="gallery" >
+</div>
+<div class="gallery">
+    <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 class="bg-light" id="tituloFormulario">INFORMACION DE LA UNIDAD</h3>
+                        <div class="form-group">
+                            <small> Numero de bus :</small>
+                            <p id="nBus"></p>
+                        </div>
+                        <div class="form-group">
+                            <small> Placa: </small>
+                            <p id="placa"></p>
+                        </div>
+                        <div class="form-group">
+                            <small> Propietario: </small>
+                            <p id="propietario"></p>
+                        </div>
+                        <div class="form-group">
+                            <small> Estado: </small>
+                            <p id="estado"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <figure>
             <div class="gallery_image" style="background-image:url(/images/gallery.jpg)"></div>
             <div class="gallery_slider_container">
@@ -19,6 +55,7 @@
                             NRO BUS: <b>{{ bus.numeroBus }}</b>
                         </h5>
                         <img src="\images\bus.jpg" alt="">
+                          <a class="btn btn-light" id="bus{{i}}"  data-toggle="modal" data-target="#exampleModalCenter">Consultar</a>
                         <h4 style="color:white">
                             PLACA: <b>{{ bus.placa }}</b>
                         </h4>
@@ -26,33 +63,17 @@
                     {{/each}}
                     </figure>
                 </div>
-
-    <table data-aos='fade-down' class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th><th scope="col">Nro Bus</th><th scope="col">Placa</th>
-                <th scope="col">Propietario</th><th scope="col">Nro Asientos</th><!--<th scope="col">Bus</th>-->
-            </tr>
-        </thead>
-        <tbody>
-            {{#each buses as |bus i| }}
-            <tr>
-                <td>{{i}}</td>
-                <td>{{ bus.numeroBus }}</td>
-                <td>{{ bus.placa }}</td>
-                <td>{{ bus.propietario }}</td>
-                <td>{{ bus.numeroAsientos }}</td>
-                <!--    <td>{{ frecuencia.bus.numeroBus }}</td> -->
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-
-
-
-   
-
-
-
+              </div>
             </div>
+            {{#each buses as |bus i| }}
+            <script>
+            $("#bus{{i}}").click(function() {
+                $("#nBus").html('{{ bus.numeroBus }}');
+                $("#placa").html('{{ bus.placa }}');
+                $("#propietario").html('{{ bus.propietario }}');
+                $("#estado").html('{{ bus.estado }}');
+            });
+            </script>
+            {{/each}}
+
+  </div>

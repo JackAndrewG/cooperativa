@@ -47,32 +47,32 @@
                 </span>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese una cedula valida" >
-                    <input class="input100" type="text" name="cedula">
+                    <input class="input100" type="text" name="cedula" required minlength='10' maxlength="10">
                     <span class="focus-input100" data-placeholder="Cedula"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus nombres">
-                    <input class="input100" type="text" name="nombres">
+                    <input class="input100" type="text" name="nombres" required minlength="3" maxlength="50">
                     <span class="focus-input100" data-placeholder="Nombres"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese sus apellidos">
-                    <input class="input100" type="text" name="apellidos">
+                    <input class="input100" type="text" name="apellidos" required minlength="3" maxlength="50">
                     <span class="focus-input100" data-placeholder="Apellidos"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su direccion">
-                    <textarea class="input100" type="text" name="direccion"></textarea>
+                    <textarea class="input100" type="text" name="direccion" required minlength="3" maxlength="255" placeholder="Ciudad-Sector-Calle Principal-Calle Secundaria-Nro Casa/Dep"></textarea>
                     <span class="focus-input100" data-placeholder="Direccion"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese su telefono">
-                    <input class="input100" type="text" name="telefono">
+                    <input class="input100" type="text" name="telefono" required minlength="7" maxlength="15">
                     <span class="focus-input100" data-placeholder="Telefono"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Ingrese un correo valido">
-                    <input class="input100" type="email" name="correo">
+                    <input class="input100" type="email" name="correo" required minlength="3" maxlength="50">
                     <span class="focus-input100" data-placeholder="Correo"></span>
                 </div>
 
