@@ -391,7 +391,7 @@ class compraControlador {
         }
 //LA SIGUIENTE FUNCION DEVUELVE LA DATA DE LA TRANSACCION
         request(function (responseData) {
-             console.log(responseData);
+            console.log(responseData);
             if (responseData.result.code === "000.100.110") { //si se cumple la condicion la transaccion fue exitosa
                 return pago = true; //asignamos verdadero a una variable si el pago es correcto
             }
@@ -419,20 +419,16 @@ class compraControlador {
                 }
             });
             Compra.update({
-            //Actualizar el estado de la compra
+                //Actualizar el estado de la compra
                 estado: true
             }, {where: {id: compraID}}).then(function (editado, err) {
                 if (editado) {
                     console.log("La compra ha sido completada");
                 }
             });
-        } else {
-          req.flash('info', 'No se pudo completar la compra, por favor intente de nuevo');
-          res.redirect('/comprar');
         }
 
     }
-
 
 //MUESTRA EL REPORTE DEL BOLETO QUE SE ACABA DE COMPRAR
     verBoleto(req, res) {
@@ -461,6 +457,7 @@ class compraControlador {
     }
 
     // //MUESTRA EL REPORTE DEL BOLETO QUE SE ACABA DE COMPRAR
+<<<<<<< HEAD
          // verReporte(req, res) {
          //
          //
@@ -484,7 +481,45 @@ class compraControlador {
 
         //
         // }
+=======
+    verReporte(req, res) {
 
+
+
+        var usuario_id = req.user.id;
+        // res.send({compras: compras});
+        Boleto.findAll({
+            include: [
+                {model: Compra, where: {id_persona: usuario_id}},
+                {model: Frecuencia, include: [
+                        {model: Ruta},
+                        {model: Bus}
+                    ]
+                }
+            ]
+        }).then(function (boletos) {
+           // res.send({boleto: boletos});
+            res.render('fragmentos/vistaUsuario/frmReportes', {
+                titulo: 'Boletos',
+                boletos: boletos,
+                session: req.isAuthenticated(),
+                cliente: req.user.nombre,
+                info: req.flash("correcto")
+            });
+            //asignamos las variables a sus estados por defecto
+            //por seguridad con las URLS
+            boletoID = 0;
+            frecuenciasA = '';
+            pago = false;
+        });
+
+
+
+
+
+>>>>>>> 40ce63ef6017319fdbb002d7ffa604d9a9d0ceb2
+
+    }
 
 }
 module.exports = compraControlador;
