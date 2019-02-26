@@ -97,7 +97,8 @@ router.get('/cerrar_sesion', function (req, res, next) {
 });
 
 /*RUTAS ADMINISTRADORES Y USUARIOS*/
-
+/* TOKEN */
+router.get('/guardarToken/:token', usuariosControlador.guardarToken);
 /* DESTINOS */
 router.get('/destinos', auth, rutaControlador.verRutas);
 router.get('/destinosActivos', auth, rutaControlador.verRutasActivas);
@@ -121,7 +122,7 @@ router.get('/pago/comprobar', auth, compraControlador.comprobarPago);
 
 /* IMPRIMIR BOLETO*/
 router.get('/reporte', auth, compraControlador.verBoleto);
-router.get('/reportes', auth, compraControlador.verReporte);
+//router.get('/reportes', auth, compraControlador.verReporte);
 
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {

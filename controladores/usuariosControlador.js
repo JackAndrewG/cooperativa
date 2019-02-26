@@ -86,7 +86,7 @@ class usuariosControlador {
     }
 
     modificarPerfil(req, res) {
-        //Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario, 
+        //Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario,
         //tomando en cuenta el external_id de ambos modelos
         Persona.update({
             cedula: req.body.cedula,
@@ -120,16 +120,20 @@ class usuariosControlador {
             }
         });
     }
-    
-    
+
+
+    guardarToken(req, res) {
+            var token = req.params.token;
+            Cuenta.update({
+                token: token
+            }, {where: {external_id: req.user.id_cuenta}}).then(function (updatedToken, created) {
+                if (updatedToken) {
+                  console.log(updatedToken);
+                }
+            });
+        }
+
 }
 
 
 module.exports = usuariosControlador;
-
-
-
-
-
-
-

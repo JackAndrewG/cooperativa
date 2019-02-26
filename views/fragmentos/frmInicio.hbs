@@ -74,6 +74,10 @@ $().ready(function () {
     </div>
   </div>
 </div>
+<div class="gallery">
+<iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d4082863.6261521378!2d-81.47105517769513!3d-2.0871155826846675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x91cb480661b91d2d%3A0x8e12137cdc1eee09!2sLoja!3m2!1d-4.0078909!2d-79.2112769!4m5!1s0x91d59a4002427c9f%3A0x44b991e158ef5572!2sQuito!3m2!1d-0.18065319999999999!2d-78.4678382!5e0!3m2!1ses-419!2sec!4v1551203581538" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d1019539.6207358004!2d-79.71127108636894!3d-3.4526006730038845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x91cb480661b91d2d%3A0x8e12137cdc1eee09!2sLoja!3m2!1d-4.0078909!2d-79.2112769!4m5!1s0x91cd18095fc7e881%3A0xafd08fd090de6ff7!2sCuenca!3m2!1d-2.9001284999999997!2d-79.00589649999999!5e0!3m2!1ses-419!2sec!4v1551203792079" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
 <script>
@@ -97,6 +101,16 @@ firebase.initializeApp(config);
                 if (currentToken) {
                   console.log(currentToken);
                   //guardar token
+                  $.ajax({
+                            url: '/guardarToken/' + currentToken,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data, textStatus, jqXHR) {
+
+                            }, error: function (jqXHR, textStatus, errorThrown) {
+
+                            }
+                        });
                 }else {
                   console.log('no existe token disponible Pida permisos para generar alguno');
                 }
@@ -112,7 +126,18 @@ firebase.initializeApp(config);
               console.log('no se ha recibido permiso / token : ', err);
             });
             messaging.onMessage(function(payload){
-              appendMessage(payload);
+              //script para lanzar notificaciones HTML5
+              var title = payload.notification.title
+              var extra = {
+              icon: payload.notification.icon,
+              body: payload.notification.body
+              }
+              // Lanzamos la notificación
+              var noti = new Notification( title, extra)
+              setTimeout( function() { noti.close() }, 5000)
+              noti.onclick = function() {
+              window.location.assign(payload.notification.click_action)
+              }
             });
             function appendMessage(payload){
               console.log(payload);
@@ -127,23 +152,9 @@ firebase.initializeApp(config);
 
             }
 
-function getAccessToken() {
- return new Promise(function(resolve, reject) {
-   var key = require('./cooperativa-transnic-firebase-adminsdk-4rohl-5b66601233.json');
-   var jwtClient = new google.auth.JWT(
-     key.client_email,
-     null,
-     key.private_key,
-     SCOPES,
-     null
-   );
-   jwtClient.authorize(function(err, tokens) {
-     if (err) {
-       reject(err);
-       return;
-     }
-     resolve(tokens.access_token);
-   });
- });
-}
+// messaging.onMessage(function(payload) {
+//
+//
+//
+// });
 </script>
