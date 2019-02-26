@@ -64,7 +64,7 @@
 
 <script>
 
-$("#estado").on('change', function () {
+$("#estado").on('change', function () { //sirve para asignar un valor al checkbox entre seleccionado para dar de baja y deseleccionado para Activar
     if ($(this).is(':checked')) {
         $('#btn').html('Dar de Baja');
         $(this).attr('value', '0');
@@ -76,7 +76,7 @@ $("#estado").on('change', function () {
 });
 
 $().ready(function () {
-    $("#btn").click(function () {
+    $("#btn").click(function () { //comprueba si existe un external para en base a eso editar o guardar
         var external = $("#external").val();
         if (external == "0") {
             $('#formBus').attr("action", "/guardar_bus");
@@ -84,7 +84,7 @@ $().ready(function () {
             $('#formBus').attr("action", "/editarBus");
         }
     });
-    $("#cancelar").click(function () {
+    $("#cancelar").click(function () {  //funcionalidad de borrado para el boton cancelar
         $("#tituloFormulario").html('Formulario de Registro');
         $("#external").val('0');
         $("#numeroBus").val('');
@@ -106,7 +106,9 @@ $().ready(function () {
 {{/if}}
 
 {{#if exito }}
+
 <script>
+//script para lanzar notificaciones HTML5
 var title = "Administración Buses"
 var extra = {
 icon: "/images/icons/logo.png",

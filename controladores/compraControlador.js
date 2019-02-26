@@ -10,8 +10,8 @@ const uuidv4 = require('uuid/v4');
 var https = require('https');
 var querystring = require('querystring');
 var frecuenciasA;
-var cantAsientos;
 var idPago;
+var total;
 var frecID;
 var boletoID;
 var compraID;
@@ -22,7 +22,7 @@ class compraControlador {
     //Presentar todas las frecuencias disponibles en la Base de Datos
     verRutas(req, res) {
         Compra.findOne({
-            //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso 
+            //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso
             //de que el pago no se haya completado exitosamente
             where: {estado: false}}).then(function (compra) {
             if (compra) {
@@ -189,7 +189,7 @@ class compraControlador {
 
         //Presentar el formulario de pago de acuerdo al id de la frecuencia enviada en la url
         var frecuencia = req.params.idFrecuencia;
-        //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso 
+        //buscar en el modelo Compra donde el estado sea falso, con el objetivo de eliminar la compra del boleto en el caso
         //de que el pago no se haya completado exitosamente
         Compra.findOne({
             where: {estado: false}}).then(function (compra) {
@@ -209,7 +209,7 @@ class compraControlador {
             frecuenciasA = frecuencias;
             Boleto.findAll({where: {$and:
                             {hora: frecuencias.horario, fechaViaje: frecuencias.fecha}
-                }}).then(function (boletos) {
+                }}).then(function (boletos) { //devuelve la busqueda de todos los boletos con la misma hora y fecha
                 Frecuencia.findOne({
                     include: [
                         {model: Ruta},
@@ -247,7 +247,7 @@ class compraControlador {
 
     comprar(req, res) {
 
-        //Almacenar en los modelos de venta y boleto la información enviada mediante el fomrulario de Pago   
+        //Almacenar en los modelos de venta y boleto la información enviada mediante el fomrulario de Pago
         var frecuencia_id = req.params.idFrecuencia;
         frecID = req.params.idFrecuencia;
         console.log(frecuencia_id);
@@ -290,6 +290,7 @@ class compraControlador {
                                 Compra.create(compra).then(function (newCompra, created) {
                                     if (newCompra) {
                                         compraID = newCompra.id;
+
                                         if (persona) {
                                             console.log("Nueva compra creada, listo para asignar boleto");
                                             Boleto.create({
@@ -304,9 +305,9 @@ class compraControlador {
                                             }).then(function (newBoleto, err) {
                                                 if (newBoleto) {
                                                     boletoID = newBoleto.id;
-                                                    var total = newBoleto.valorTotal;
+                                                    total = newBoleto.valorTotal;
                                                     console.log("Nuevo boleto creado");
-                                                    res.redirect('/pago/tarjeta/' + total);
+                                                    res.redirect('/pago/tarjeta');
                                                 }
                                             });
                                         }
@@ -320,16 +321,15 @@ class compraControlador {
             }
         });
     }
-
+// METODO QUE NOS PERMITE MOSTRAR EL FORMULARIO DE TARJETA
     tarjeta(req, res) {
-        var total = req.params.total;
         function request(callback) {
             var path = '/v1/checkouts';
             var data = querystring.stringify({
                 'authentication.userId': '8a8294175d602369015d73bf00e5180c',
                 'authentication.password': 'dMq5MaTD5r',
                 'authentication.entityId': '8a8294175d602369015d73bf009f1808',
-                'amount': total,
+                'amount': total, //le pasamos el total a traves de una variable global al mon=mento de guardar el boleto
                 'currency': 'USD',
                 'paymentType': 'DB'
             });
@@ -353,6 +353,7 @@ class compraControlador {
             postRequest.write(data);
             postRequest.end();
         }
+        //EL SIGUIENTE METODO CONSULTA LA ID PARA EL PAGO UNICO
         request(function (responseData) {
             //console.log(responseData);
             idPago = responseData.id;
@@ -365,10 +366,11 @@ class compraControlador {
         });
     }
 
+//COMPRUEBA QUE LA INFORMACION Y EL PAGO SEAN CORRECTOS
     comprobarPago(req, res) {
 
         function request(callback) {
-            var path = '/v1/checkouts/' + idPago + '/payment';
+            var path = '/v1/checkouts/' + idPago + '/payment'; //enviamos el  idPago a traves de una variable global
             path += '?authentication.userId=8a8294175d602369015d73bf00e5180c';
             path += '&authentication.password=dMq5MaTD5r';
             path += '&authentication.entityId=8a8294175d602369015d73bf009f1808';
@@ -387,21 +389,20 @@ class compraControlador {
             });
             postRequest.end();
         }
-
+//LA SIGUIENTE FUNCION DEVUELVE LA DATA DE LA TRANSACCION
         request(function (responseData) {
-            // console.log(responseData);
-            if (responseData.result.code === "000.100.110") {
-                return pago = true;
-                //compraControlador.respuestaComprobacion(pago);
-                req.flash('correcto', 'La compra se ha realizado con éxito');
+             console.log(responseData);
+            if (responseData.result.code === "000.100.110") { //si se cumple la condicion la transaccion fue exitosa
+                return pago = true; //asignamos verdadero a una variable si el pago es correcto
             }
         });
-        if (pago) {
+        if (pago) { //si pago verdadero
             Frecuencia.findOne({
                 where: {id: frecID}}).then(function (frecuenciaEncontrada) {
                 if (frecuenciaEncontrada) {
 
                     console.log('Frecuencia encontrada');
+                    //lo siguiente actualiza todas las frecuencias donde la hora y fecha sean las indicadas en la peticion siguiente
                     Frecuencia.update({asientosDisponibles: frecuenciaEncontrada.asientosDisponibles - (asientos_solicitados)},
                             {where: {
                                     $and: {
@@ -412,12 +413,13 @@ class compraControlador {
                     }).then(function (frecuencias) {
                         //console.log(frecuencias);
                         console.log('Frecuencia actualizada');
+                        req.flash('correcto', 'La compra se ha realizado con éxito');
                         res.redirect('/reporte');
                     });
                 }
             });
             Compra.update({
-            //Actualizar el estado de la compra 
+            //Actualizar el estado de la compra
                 estado: true
             }, {where: {id: compraID}}).then(function (editado, err) {
                 if (editado) {
@@ -425,10 +427,14 @@ class compraControlador {
                 }
             });
         } else {
+          req.flash('info', 'No se pudo completar la compra, por favor intente de nuevo');
+          res.redirect('/comprar');
         }
 
     }
 
+
+//MUESTRA EL REPORTE DEL BOLETO QUE SE ACABA DE COMPRAR
     verBoleto(req, res) {
         //Presentar el reporte con la informacion recientemente creada del boleto
         Boleto.findAll({
@@ -445,6 +451,8 @@ class compraControlador {
                 cliente: req.user.nombre,
                 info: req.flash("correcto")
             });
+            //asignamos las variables a sus estados por defecto
+            //por seguridad con las URLS
             boletoID = 0;
             frecuenciasA = '';
             pago = false;

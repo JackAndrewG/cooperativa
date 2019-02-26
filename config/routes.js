@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+
 var ruta = require('../controladores/rutaControlador');
 var rutaControlador = new ruta();
 var unidad = require('../controladores/unidadesControlador');
@@ -9,6 +10,8 @@ var compra = require('../controladores/compraControlador');
 var compraControlador = new compra();
 var usuario = require('../controladores/usuariosControlador');
 var usuariosControlador = new usuario();
+var EnviarCorreo = require('../controladores/enviarCorreo');
+
 /*PAGINA PRINCIPAL*/
 // presenta plantilla segun esta iniciada la sesion o no
 router.get('/', function (req, res, next) {
@@ -92,7 +95,9 @@ router.get('/cerrar_sesion', function (req, res, next) {
     req.session.destroy();
     res.redirect('/');
 });
-/*RUTAS ADMINISTRADOR*/
+
+/*RUTAS ADMINISTRADORES Y USUARIOS*/
+
 /* DESTINOS */
 router.get('/destinos', auth, rutaControlador.verRutas);
 router.get('/destinosActivos', auth, rutaControlador.verRutasActivas);
@@ -106,15 +111,13 @@ router.get('/busesActivos', auth, unidadesControlador.verBusesActivos);
 router.post('/guardar_bus', auth, unidadesControlador.guardar);
 router.post('/editarBus', auth, unidadesControlador.editar);
 
-
 /* COMPRAS */
 router.get('/comprar', auth, compraControlador.verRutas);
 router.post('/compra_buscar', auth, compraControlador.buscar);
 router.post('/comprar/:idFrecuencia', compraControlador.comprar);
 router.get('/frecuencia/:idFrecuencia', auth, compraControlador.mostrarPago);
-router.get('/pago/tarjeta/:total', auth, compraControlador.tarjeta);
+router.get('/pago/tarjeta', auth, compraControlador.tarjeta);
 router.get('/pago/comprobar', auth, compraControlador.comprobarPago);
-
 
 /* IMPRIMIR BOLETO*/
 router.get('/reporte', auth, compraControlador.verBoleto);
@@ -130,8 +133,8 @@ router.get('/contactenos', auth, function (req, res, next) {
             session: req.isAuthenticated(), info: req.flash('info_correcta')});
     }
 });
-var EnviarCorreo = require('../controladores/enviarCorreo');
-//ENVIAR EMAIL
+
+/*ENVIAR CORREO ELECTRONICO*/
 router.post('/contactenos', EnviarCorreo.sendEmail);
 
 /* Administrar usuario */
@@ -139,32 +142,6 @@ router.get('/administrarUsuarios', auth, usuariosControlador.verUsuarios);
 router.post('/editarUsuario', auth, usuariosControlador.editar);
 router.get('/modificarPerfil', auth, usuariosControlador.verPerfil);
 router.post('/modificarPerfil', usuariosControlador.modificarPerfil);
-
-// // router.get('/leer', ReporteController.leer);
-
-/*RUTAS ADMINISTRADOR*/
-/*router.get('/destinos', auth, function(req, res, next) {
- //if (req.user.rol === "administrador") {} <- utilizar
- res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
- session: req.isAuthenticated()});
- }); */
-
-/*router.get('/destinos', auth, function(req, res, next) {
- //if (req.user.rol === "administrador") {} <- utilizar
-
-
- res.render('fragmentos/vistaAdmin/frmDestino', { titulo: 'Administrar Destinos',
- session: req.isAuthenticated()});
- }); */
-
-/*RUTAS USUARIO*/
-
-/* Obtener Destinos */
-/*
- router.get('/destinos', auth, function(req, res, next) {
- res.render('fragmentos/vistaUsuario/frmDestino', { titulo: 'Destinos de Viaje'});
- }); */
-
 
 
 module.exports = router;

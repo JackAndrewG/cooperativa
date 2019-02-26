@@ -87,7 +87,7 @@
                         $('#btn').html('Eliminar');
                     }
                     ;
-                    $("#estado").on('change', function () {
+                    $("#estado").on('change', function () { //sirve para asignar un valor al checkbox entre seleccionado para dar de baja y deseleccionado para Activar
                         if ($(this).is(':checked')) {
                             $('#btn').html('Dar de Baja');
                             $(this).attr('value', '0');
