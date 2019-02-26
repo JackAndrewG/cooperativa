@@ -460,5 +460,31 @@ class compraControlador {
 
     }
 
+    // //MUESTRA EL REPORTE DEL BOLETO QUE SE ACABA DE COMPRAR
+         verReporte(req, res) {
+
+
+               Boleto.findAll(include:{model: Compra, {where: {id: }},
+              }).then(function (boletos) {
+                	res.send({boleto: boletos });
+                  res.render('fragmentos/vistaUsuario/frmReportes', {
+                      titulo: 'Boletos',
+                      boleto: boletos,
+                      session: req.isAuthenticated(),
+                      cliente: req.user.nombre,
+                      info: req.flash("correcto")
+                  });
+                  //asignamos las variables a sus estados por defecto
+                  //por seguridad con las URLS
+                  boletoID = 0;
+                  frecuenciasA = '';
+                  pago = false;
+              });
+
+
+
+        }
+
+
 }
 module.exports = compraControlador;

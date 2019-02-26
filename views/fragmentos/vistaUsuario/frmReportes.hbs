@@ -1,0 +1,154 @@
+<title>{{titulo}}</title>
+
+<div class="gallery" >
+    <div class="jumbotron">
+        <h1  class="display-4">BOLETOS ADQUIRIDOS</h1>
+        <p class="lead">Aqui podrá ver y descargar todos sus boletos vigentes</p>
+    </div>
+</div>
+
+<div class="container">
+
+{{#if mensaje }}
+<div class="alert alert-warning">
+    {{ mensaje }}
+</div>
+{{/if}}
+
+{{#if exito }}
+
+<script>
+//script para lanzar notificaciones HTML5
+var title = "REPORTE DE BOLETOS"
+var extra = {
+icon: "/images/icons/logo.png",
+body: "{{ exito }}"
+}
+// Lanzamos la notificación
+var noti = new Notification( title, extra)
+setTimeout( function() { noti.close() }, 5000)
+</script>
+{{/if}}
+
+
+<!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">{{titulo}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                  <div class="extra clearfix" id="boleto">
+                    <div class="extra_promo extra_promo_1">
+                      <div class="card bg-light mb-6" style="max-width: 50rem;">
+                         <div class="card-header text-center"> <img src="\images\icons\logo.png" alt="" width='100'> COOPERATIVA TRANSNIC</div>
+                          <div class="card-body">
+                            <h5 class="card-title text-right"> <i>BOLETO ELECTRONICO</i> </h5>
+                            <p class="card-text">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">BOLETO</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">NRO</th>
+                                    <th scope="col"> <b>000</b><b id="nro"></b> </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Nombre: </th>
+                                    <td colspan="3" id="cliente"></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Origen: </th>
+                                    <td>{{frecuencias.rutum.origen}}</td>
+                                    <td> <b>Destino: </b> </td>
+                                    <td>{{frecuencias.rutum.destino}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Fecha: </th>
+                                    <td>{{frecuencias.fecha}}</td>
+                                    <td> <b>Hora: </b> </td>
+                                    <td>{{frecuencias.horario}}</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td> <b>Asiento(s): </b> </td>
+                                    <td id="asientos"></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row" >Unidad: </th>
+                                    <td>{{frecuencias.bus.numeroBus}}</td>
+                                    <th scope="row">Valor: </th>
+                                    <td id="total"></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                              <img src="/images/qr.jpg" alt="qr" width="100">
+                              <div class="extra_1_text text-center">Boleto Especial <br> Todos los derechos reservados a la cooperativa TransNIC</div>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelar">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="btn">Descargar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <table data-aos='fade-down' class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Numero Boleto</th>
+                <th scope="col">Origen</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Asientos</th>
+                <th scope="col">Unidad</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+             {{#each boletos as |boleto i|}}
+          <tr>
+              <th scope="row">{{ i }}</th>
+              <td>{{ boleto.id }}</td>
+              <td>{{ frecuencia.rutum.origen }}</td>
+              <td>{{ frecuencia.rutum.destino }}</td>
+              <td>{{ frecuencia.fecha }}</td>
+              <td>{{ frecuencia.hora }}</td>
+              <td>{{ boleto.NumeroAsiento }}</td>
+              <td>{{ frecuencia.bus.numeroBus}}</td>
+              <td>{{ boleto.valorTotal }}</td>
+              <script>
+              $("#bVer{{i}}").click(function() {
+                  $("#numeroboleto").val('{{ boleto.numeroboleto }}');
+                  $("#placa").val('{{ boleto.placa }}');
+                  $("#propietario").val('{{ boleto.propietario }}');
+                  $("#numeroAsientos").val('{{ boleto.numeroAsientos }}');
+
+                  $('#asientos').html('{{bol.NumeroAsiento}}');
+                  $('#total').html('${{bol.valorTotal}}');
+                  $('#nro').html('{{bol.id}}');
+              });
+              </script>
+          </tr>
+           {{/each}}
+        </tbody>
+    </table>
+
+</div>
