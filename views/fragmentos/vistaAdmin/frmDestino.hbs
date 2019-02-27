@@ -70,7 +70,7 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-block" id="btn">Guardar</button>
+                    <button type="submit" onclick="llamarFirebase()" class="btn btn-success btn-block" id="btn">Guardar</button>
                     <div id="divBaja" style='visibility:hidden;'>
                         <input type="checkbox" value='true' id="estado" name="estado" onclick="clicBaja()">
                         <label for="estado">Reactivar / Dar de Baja</label>
@@ -98,11 +98,49 @@
                         $('#estado').text($('#estado').val());
                     });
 
-                    /* function clicEditar() {
-                        $('#btn').html('Editar');
-                        $('#external').val('1');
+                    function llamarFirebase(){
+                      $.ajax({
+                                url: '/consultarCuentas',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function (data, textStatus, jqXHR) {
+                                  var cuenta=[];
+                                  for (var i = 0; i < data.length; i++) {
+                                      cuenta[i]=data[i];
+                                      console.log(cuenta[i].token);
+                                  $.ajax({
+                                                    type: 'POST',
+                                                    url: "https://fcm.googleapis.com/fcm/send",
+                                                    headers: {
+                                                        Authorization: 'key=' + 'AAAARvroWFs:APA91bFunI7m1GoDeAsgBS4S4dGhZcIHjwNzwXDkXs8IrWT45BaH0xVEqzYJHE84KhnrwXGEv-ZiR-KUZRIIUaCQG8rCE_21xwtI511uCFxbyv-1dQrwo-fApLtTz0vXw28Z5eid7A2y'
+                                                    },
+                                                    contentType: 'application/json',
+                                                    dataType: 'json',
+                                                    collapse_key: "new_messages",
+                                                    data: JSON.stringify({
+                                                        "to": data[i].token,
+                                                        "notification": {
+                                                            "title": "Nuevas Rutas",
+                                                            "body": "Hola "+data[i].persona.nombre+" Hemos añadido nuevas rutas para ti! Ve a verlas antes que agoten sus boletos",
+                                                            "icon": "/images/icons/logo.png",
+                                                            "click_action": "http://localhost:3000/comprar"
+                                                        }
+                                                    }),
+                                                    success: function (response) {
+                                                        console.log(response);
+                                                        console.log(notification);
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.log(xhr.error);
+                                                    }
+                                                });
+                                      }
+                                }, error: function (jqXHR, textStatus, errorThrown) {
+
+                                }
+                            });
+
                     }
-                    ; */
 
                     $().ready(function () {
                         $("#btn").click(function () {

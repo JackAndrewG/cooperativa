@@ -7,13 +7,13 @@ const uuidv4 = require('uuid/v4');
 var bCrypt = require('bcrypt-nodejs');
 class usuariosControlador {
     /**
- * Presentar en la vista todos las personas almacendas en el modelo Persona 
+ * Presentar en la vista todos las personas almacendas en el modelo Persona
  *
- * @section Admin 
+ * @section Admin
  *  @type  get
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /administrarUsuarios
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
     verUsuarios(req, res) {
 
@@ -42,11 +42,11 @@ class usuariosControlador {
 /**
  * Actualizar el modelo Persona con la informacion eviada desde el formulario, tomando en cuenta el external_id
  *
- * @section Admin 
+ * @section Admin
  *  @type  post
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /editarUsuario
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
     editar(req, res) {
 
@@ -70,20 +70,20 @@ class usuariosControlador {
 /**
  * Presentar los datos del modelo Persona donde el external_id sea igual al external_id de la persona que haya iniciado sesión
  *
- * @section Admin 
+ * @section Admin
  *  @type  get
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /modificarPerfil
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
 /**
  * Presentar los datos del modelo Persona donde el external_id sea igual al external_id de la persona que haya iniciado sesión
  *
- * @section Usuario 
+ * @section Usuario
  *  @type  get
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /modificarPerfil
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
     verPerfil(req, res) {
 
@@ -118,22 +118,22 @@ class usuariosControlador {
 
     }
 /**
- * Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario, 
+ * Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario,
  *tomando en cuenta el external_id de ambos modelos
- * @section Usuario 
+ * @section Usuario
  *  @type  post
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /modificarPerfil
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
 /**
- * Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario, 
+ * Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario,
  *tomando en cuenta el external_id de ambos modelos
- * @section Usuario 
+ * @section Usuario
  *  @type  post
- *  @param {solicitud} req 
+ *  @param {solicitud} req
  * @url /modificarPerfil
- * @param {respuesta} res 
+ * @param {respuesta} res
  */
     modificarPerfil(req, res) {
         //Actualizar el modelo Persona y el modelo Cuenta con la informacion eviada desde el formulario,
@@ -182,6 +182,19 @@ class usuariosControlador {
                 }
             });
         }
+
+        listaCuenta(req, res) {
+                Cuenta.findAll({
+                    include: [
+                        {model: Persona, where: {id_rol: 2}}
+                    ]
+                }).then(function (cuentas, created) {
+                    if (cuentas) {
+                      //res.send({cuentas: cuentas});
+                      res.status(200).json(cuentas);
+                    }
+                });
+            }
 
 }
 

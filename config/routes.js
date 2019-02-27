@@ -99,6 +99,8 @@ router.get('/cerrar_sesion', function (req, res, next) {
 /*RUTAS ADMINISTRADORES Y USUARIOS*/
 /* TOKEN */
 router.get('/guardarToken/:token', usuariosControlador.guardarToken);
+router.get('/consultarCuentas', usuariosControlador.listaCuenta);
+
 /* DESTINOS */
 router.get('/destinos', auth, rutaControlador.verRutas);
 router.get('/destinosActivos', auth, rutaControlador.verRutasActivas);

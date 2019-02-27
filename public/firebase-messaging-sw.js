@@ -9,6 +9,3 @@ const messaging=firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload){
 
 });
-// messaging.onMessage(function(payload) {
-//   console.log('Message received. ', payload);
-// });
