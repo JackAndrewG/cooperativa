@@ -124,7 +124,7 @@ router.get('/pago/comprobar', auth, compraControlador.comprobarPago);
 
 /* IMPRIMIR BOLETO*/
 router.get('/reporte', auth, compraControlador.verBoleto);
-//router.get('/reportes', auth, compraControlador.verReporte);
+router.get('/reportes', auth, compraControlador.verReporte);
 
 /* Obtener Contactenos */
 router.get('/contactenos', auth, function (req, res, next) {
