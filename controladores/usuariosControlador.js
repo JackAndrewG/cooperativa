@@ -171,7 +171,7 @@ class usuariosControlador {
         });
     }
 
-
+//METODO QUE GUARDA EL TOKEN UNA VES INICIADO SESION
     guardarToken(req, res) {
             var token = req.params.token;
             Cuenta.update({
@@ -182,7 +182,7 @@ class usuariosControlador {
                 }
             });
         }
-
+//METODO QUE BUSCA EL TOKEN DE CADA USUARIO
         listaCuenta(req, res) {
                 Cuenta.findAll({
                     include: [

@@ -97,8 +97,9 @@
                         }
                         $('#estado').text($('#estado').val());
                     });
-
+                    //FUNCION PARA ENVIAR EL MENSAJE A CADA USUARIO
                     function llamarFirebase(){
+                      //AJAX QUE CONSULTA LA CUENTA PARA OBTENER EL TOKEN
                       $.ajax({
                                 url: '/consultarCuentas',
                                 type: 'GET',
@@ -108,6 +109,7 @@
                                   for (var i = 0; i < data.length; i++) {
                                       cuenta[i]=data[i];
                                       console.log(cuenta[i].token);
+                                  //AJAX QUE ENVIA EL MENSAJE A CADA USUARIO A TRAVES DE FIREBASE 
                                   $.ajax({
                                                     type: 'POST',
                                                     url: "https://fcm.googleapis.com/fcm/send",

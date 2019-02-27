@@ -124,6 +124,7 @@ firebase.initializeApp(config);
               mensajeFeedBack(err);
               console.log('no se ha recibido permiso / token : ', err);
             });
+            //FUNCION QUE PERMITE OBTENER MENSAJES FIREBASE
             messaging.onMessage(function(payload){
               //script para lanzar notificaciones HTML5
               var title = payload.notification.title
