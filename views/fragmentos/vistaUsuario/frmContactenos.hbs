@@ -1,83 +1,179 @@
-<div class="gallery">
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="well well-sm">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Wish shop project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/styles/contact.css">
+<link rel="stylesheet" type="text/css" href="/styles/contact_responsive.css">
 
-                <form class="form-horizontal" action="/contactenos" method="post">
-                    <fieldset>
-                        <legend class="text-center ">Contactenos</legend>
+<div class="super_container">
 
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-12">
-                                <input id="fname" name="name" type="text" placeholder="Ingrese su Nombre" class="form-control">
-                            </div>
-                        </div>
-                        {{#if info }}
-                        <div class="alert alert-success">
-                            {{ info }}
-                        </div>
-                        {{/if}}
+	<!-- Home -->
 
-                        <div class="form-group" hidden>
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                            <div class="col-md-12">
-                                <input id="email" name="email" type="text" placeholder="Email Address" class="form-control" value="carlos97cc123@gmail.com">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                            <div class="col-md-12">
-                                <input id="email" name="remitente" type="email" placeholder="Ingrese su correo> correo@gmail.com" class="form-control" value>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                            <div class="col-md-12">
-                                <input id="email" name="clave" type="password" placeholder="Clave" class="form-control" >
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                            <div class="col-md-12">
-                                <input id="asunto" name="asunto" type="text" placeholder="Asunto" class="form-control">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
-                            <div class="col-md-12">
-                               <textarea class="form-control" id="message" name="message" placeholder="Que opina de nuetro servicio." rows="7"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <a  class="col-md-12" href="https://myaccount.google.com/u/1/lesssecureapps?pageId=none" target="_blank" >valide su cuenta</a>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary btn btn-block">Enviar</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-6 text-center">
-          <legend class="text-center ">Siganos en FACEBOOK!</legend>
-          <p>Enterese de las ultimas novedades de nuestra empresa a traves de facebook</p>
-          <div class="banner">
-            <div class="well well-sm">
-              <div class="fb-page" data-href="https://www.facebook.com/Trans-NIC-358548688260924/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Trans-NIC-358548688260924/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Trans-NIC-358548688260924/">Trans NIC</a></blockquote></div>
-            </div>
-        </div>
+	<div class="home">
+		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="/images/contact.jpg" data-speed="0.8">
+      <img src="/images/contact.jpg" alt="">
     </div>
-    </div>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="home_container">
+						<div class="home_content">
+							<div class="home_title">Contactenos</div>
+							<div class="breadcrumbs">
+								<ul>
+									<li><a href="/">Inicio</a></li>
+									<li>Contactenos</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Google Map -->
+
+	<div class="map">
+		<div id="google_map" class="google_map">
+			<div class="map_container">
+				<div id="map"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contact Form -->
+
+	<div class="contact">
+		<div class="container">
+      {{#if info }}
+        <div class="alert alert-success">
+          {{ info }}
+        </div>
+      {{/if}}
+			<div class="row">
+				<div class="col">
+					<div class="review_form_container">
+						<div class="review_form_title">Envianos tus Sugerencias</div>
+						<div class="review_form_content">
+							<form action="/contactenos" id="review_form" class="review_form" method="post">
+								<div class="d-flex flex-md-row flex-column align-items-start justify-content-between">
+									<input id="fname" name="name" type="text" placeholder="Ingrese su Nombre" class="review_form_input">
+									<input style="visibility: hidden" id="email" name="email" type="text" placeholder="Email Address" class="review_form_input" value="carlos97cc123@gmail.com">
+									<input id="email" name="remitente" type="email" placeholder="Ingrese su correo" class="review_form_input">
+									<input id="email" name="clave" type="password" placeholder="contraseña" class="review_form_input">
+								</div>
+								<textarea class="review_form_text" id="message" name="message" placeholder="Que opina de nuetro servicio." rows="7"></textarea>
+								<div class="form-group">
+									<a  class="col-md-12 btn btn-danger" href="https://myaccount.google.com/u/1/lesssecureapps?pageId=none" target="_blank" >valide su cuenta</a>
+								</div>
+								<button type="submit" class="review_form_button">Enviar</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contact Text -->
+
+	<div class="contact_text">
+		<div class="container">
+			<div class="row">
+
+				<!-- Contact Info -->
+				<div class="col-lg-5">
+
+					<div class="contact_info">
+						<div class="contact_title">Información de Contacto</div>
+						<div class="contact_info_content">
+							<ul>
+								<li>
+									<div class="contact_info_icon"><img src="images/contact_info_1.png" alt=""></div>
+									<div class="contact_info_text">Av. Miraflores, no67, Loja EC</div>
+								</li>
+								<li>
+									<div class="contact_info_icon"><img src="images/contact_info_2.png" alt=""></div>
+									<div class="contact_info_text">info@transnic.com</div>
+								</li>
+								<li>
+									<div class="contact_info_icon"><img src="images/contact_info_3.png" alt=""></div>
+									<div class="contact_info_text">+593 7949 2917</div>
+								</li>
+							</ul>
+						</div>
+						<div class="contact_info_social">
+							<ul>
+								<li><a href="https://www.facebook.com/Trans-NIC-358548688260924/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li><a href="https://github.com/JackAndrewG/cooperativa"><i class="fa fa-github" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+
+            <div class="col-md-6 text-center">
+              <legend class="text-center ">Siganos en FACEBOOK!</legend>
+              <p>Enterese de las ultimas novedades de nuestra empresa a traves de facebook</p>
+              <div class="banner">
+                <div class="well well-sm">
+                  <div class="fb-page" data-href="https://www.facebook.com/Trans-NIC-358548688260924/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <blockquote cite="https://www.facebook.com/Trans-NIC-358548688260924/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Trans-NIC-358548688260924/">Trans NIC</a></blockquote>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+					</div>
+				</div>
+
+				<!-- FAQ -->
+				<div class="col-lg-7">
+					<div class="faq">
+						<div class="contact_title">Conoce más...</div>
+						<div class="faq_content">
+
+							<!-- Accordions -->
+							<div class="accordions">
+
+								<div class="accordion_container">
+									<div class="accordion d-flex flex-row align-items-center"><div>¿Necesito tarjeta de credito/debito para realizar compras?</div></div>
+									<div class="accordion_panel">
+										<p>Si. Las compras unicamente las puede hacer a traves de pago por tarjeta, ya sea tarjeta de credito o debito. Las marcas de las tarjetas que admitimos son Visa, Mastercard y AMEX </p>
+									</div>
+								</div>
+
+								<div class="accordion_container">
+									<div class="accordion d-flex flex-row align-items-center"><div>¿Como se si mi boleto electronico es valido?</div></div>
+									<div class="accordion_panel">
+										<p>Nuestro sistema de venta aigna un codigo QR/BARRAS unico a cada boleto para que luego pueda ser leido y verificado en cualquier terminal terrestre del pais</p>
+									</div>
+								</div>
+
+								<div class="accordion_container">
+									<div class="accordion d-flex flex-row align-items-center active"><div>¿Cual es nuestro porposito?</div></div>
+									<div class="accordion_panel">
+										<p>Facilitar la compra de boletos desde cualquier lugar que ud se encuentre a traves de internet. Con el proposito de que ud se enfoque en lo importante y disfrute de cada viaje! :)</p>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-</div>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="/js/contact_custom.js"></script>
