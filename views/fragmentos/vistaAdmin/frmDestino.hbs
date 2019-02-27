@@ -109,7 +109,7 @@
                                   for (var i = 0; i < data.length; i++) {
                                       cuenta[i]=data[i];
                                       console.log(cuenta[i].token);
-                                  //AJAX QUE ENVIA EL MENSAJE A CADA USUARIO A TRAVES DE FIREBASE 
+                                  //AJAX QUE ENVIA EL MENSAJE A CADA USUARIO A TRAVES DE FIREBASE
                                   $.ajax({
                                                     type: 'POST',
                                                     url: "https://fcm.googleapis.com/fcm/send",
@@ -130,7 +130,6 @@
                                                     }),
                                                     success: function (response) {
                                                         console.log(response);
-                                                        console.log(notification);
                                                     },
                                                     error: function (xhr, status, error) {
                                                         console.log(xhr.error);

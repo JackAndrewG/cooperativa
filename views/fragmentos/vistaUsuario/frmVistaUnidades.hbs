@@ -44,6 +44,7 @@
         </div>
         <!-- carrucel de imagenes BOOTSTRAP -->
         <figure>
+          <div class="gallery">
             <div class="gallery_image" style="background-image:url(/images/gallery.jpg)"></div>
             <div class="gallery_slider_container">
                 <!-- Gallery Slider -->
@@ -65,6 +66,7 @@
                 </div>
               </div>
             </div>
+
             {{#each buses as |bus i| }}
             <script>
             $("#bus{{i}}").click(function() {
